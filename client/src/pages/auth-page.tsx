@@ -209,12 +209,10 @@ function LoginForm() {
   });
   
   function onSubmit(data: LoginFormValues) {
+    console.log("Login form submitted:", data);
     loginMutation.mutate(data, {
       onSuccess: () => {
-        toast({
-          title: "Login successful",
-          description: "Welcome back to eSchool.ai!",
-        });
+        console.log("Login successful, redirecting to /projects");
         navigate("/projects");
       }
     });
@@ -306,13 +304,14 @@ function RegisterForm() {
     // Remove confirmPassword as it's not part of the API
     const { confirmPassword, ...registrationData } = data;
     
+    console.log("Register form submitted:", registrationData);
     registerMutation.mutate(registrationData, {
       onSuccess: () => {
-        toast({
-          title: "Registration successful",
-          description: "Welcome to eSchool.ai!",
-        });
+        console.log("Registration successful, redirecting to /projects");
         navigate("/projects");
+      },
+      onError: (error) => {
+        console.error("Registration error:", error);
       }
     });
   }
