@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { 
   GitMerge, 
   Users, 
@@ -11,10 +12,86 @@ import {
   Rocket, 
   ArrowRight,
   Check,
-  Play,
   Star,
-  ChevronDown
+  ArrowDown,
+  ChevronRight,
+  ArrowUpRight,
+  Globe,
+  Code,
+  Briefcase,
+  User,
+  Shield
 } from "lucide-react";
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 20 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3
+    }
+  }
+};
+
+// Number counter animation component
+const CounterAnimation = ({ end, duration = 2 }: { end: number, duration?: number }) => {
+  const [count, setCount] = useState(0);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+  
+  useEffect(() => {
+    if (inView) {
+      let startTime: number;
+      let animationFrame: number;
+      
+      const step = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+        setCount(Math.floor(progress * end));
+        
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(step);
+        }
+      };
+      
+      animationFrame = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(animationFrame);
+    }
+  }, [inView, end, duration]);
+  
+  return <span ref={ref}>{count}</span>;
+};
 
 export default function LandingPage() {
   const { user } = useAuth();
@@ -27,461 +104,498 @@ export default function LandingPage() {
     }
   }, [user, navigate]);
 
-  // Animation variants for staggered animations
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { y: 20, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 300 } },
-  };
-
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
-  const [showVideo, setShowVideo] = useState(false);
-
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="bg-background">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-b from-background to-background/80 overflow-hidden">
-        {/* Animated background particles */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNi0yOHY2aDZ2LTZoLTZ6bTAgMTJoNnY2aC02di02em0tMTIgMGg2djZoLTZ2LTZ6bS02IDBoNnY2aC02di02em0xMiAwaC02djZoNnYtNnptLTEyIDBoLTZ2Nmg2di02em0tNiAwdi02aC02djZoNnptMTIgMHYtNmgtNnY2aDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-50"></div>
+      <section className="min-h-screen relative flex items-center overflow-hidden pt-20 pb-32">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 z-10"></div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] z-0"></div>
         
-        {/* Animated gradient orbs */}
-        <motion.div 
-          className="absolute top-20 -left-28 w-96 h-96 bg-primary/30 rounded-full blur-3xl opacity-30 mix-blend-multiply"
-          animate={{ 
-            x: [0, 30, 0],
-            y: [0, 40, 0], 
-          }}
-          transition={{ 
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-10 -right-28 w-72 h-72 bg-violet-600/20 rounded-full blur-3xl opacity-30 mix-blend-multiply"
-          animate={{ 
-            x: [0, -50, 0],
-            y: [0, 30, 0], 
-          }}
-          transition={{ 
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
+        <div className="absolute left-1/2 top-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[100px] z-0"></div>
+        <div className="absolute -top-10 -right-10 w-[500px] h-[500px] bg-violet-500/5 rounded-full blur-[80px] z-0"></div>
+        <div className="absolute -bottom-10 -left-10 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[80px] z-0"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="relative z-20 container mx-auto px-4 pt-10">
           <motion.div 
-            className="text-center"
+            className="max-w-4xl mx-auto text-center mb-16"
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={container}
+            animate="visible"
+            variants={staggerContainer}
           >
+            <motion.div variants={fadeIn} className="mb-6">
+              <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary mb-4">
+                The Future of Collaboration is Here
+              </span>
+            </motion.div>
+            
             <motion.h1 
-              className="text-4xl md:text-6xl font-extrabold mb-6"
-              variants={item}
+              variants={fadeIn}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80"
             >
-              <span className="text-primary">eSchool</span><span className="text-foreground">.ai</span>
+              Connect, Create &<br />
+              <span className="text-primary">Launch Your Ideas</span>
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-10"
-              variants={item}
+              variants={fadeIn}
+              className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
             >
-              Connect with innovative projects and learn from top tech schools in one platform
+              eSchool.ai brings together innovators, learners, and creators to build remarkable projects and acquire new skills in a collaborative environment.
             </motion.p>
             
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10"
-              variants={item}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button 
+                className="h-14 px-8 text-lg font-medium rounded-xl"
+                onClick={() => navigate("/auth")}
               >
-                <Button 
-                  className="px-8 py-6 text-lg group"
-                  onClick={() => navigate("/auth")}
-                >
-                  Get Started
-                  <motion.span
-                    className="ml-2 inline-block"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ 
-                      duration: 1.5, 
-                      repeat: Infinity,
-                      ease: "easeInOut" 
-                    }}
-                  >
-                    <ArrowRight className="h-5 w-5" />
-                  </motion.span>
-                </Button>
-              </motion.div>
-              
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                className="h-14 px-8 text-lg font-medium rounded-xl"
               >
-                <Button 
-                  variant="outline" 
-                  className="px-8 py-6 text-lg"
-                >
-                  Explore Projects
-                </Button>
-              </motion.div>
-            </motion.div>
-            
-            {/* Video Preview Button */}
-            <motion.div
-              variants={item}
-              className="mb-16"
-            >
-              <motion.button
-                className="flex items-center justify-center mx-auto space-x-3 group"
-                onClick={() => setShowVideo(!showVideo)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all">
-                  <Play className="h-5 w-5 text-white group-hover:scale-110 transition-transform" />
-                </div>
-                <span className="text-foreground font-medium">Watch how it works</span>
-              </motion.button>
-            </motion.div>
-            
-            {/* Collapsible video section */}
-            <motion.div
-              className={`${showVideo ? 'block' : 'hidden'} mb-16 rounded-lg overflow-hidden shadow-xl max-w-4xl mx-auto`}
-              initial="hidden"
-              animate={showVideo ? "visible" : "hidden"}
-              variants={fadeIn}
-            >
-              <div className="relative pb-[56.25%] h-0 bg-black/90 flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-white/60 text-lg">Demo video would appear here</p>
-                </div>
-              </div>
+                Explore Projects
+              </Button>
             </motion.div>
           </motion.div>
-          
-          {/* Animated Feature Cards */}
+
+          {/* Floating card-based mockup */}
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.2,
-                },
-              },
+            className="relative mx-auto max-w-5xl"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              delay: 0.5, 
+              duration: 0.8,
+              type: "spring",
+              stiffness: 50
             }}
           >
-            <motion.div 
-              className="bg-card rounded-lg p-6 shadow-lg border border-border group"
-              variants={fadeIn}
-              whileHover={{ 
-                y: -8,
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                borderColor: "rgba(139, 92, 246, 0.3)"
-              }}
-            >
-              <div className="bg-primary/20 p-3 rounded-full w-fit mb-4 group-hover:bg-primary/30 transition-colors">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                >
-                  <GitMerge className="h-6 w-6 text-primary" />
-                </motion.div>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background z-30 h-20 bottom-0 top-auto"></div>
+              
+              <div className="relative z-20 bg-card shadow-2xl rounded-3xl border border-border overflow-hidden">
+                <div className="p-2 border-b border-border bg-muted/30">
+                  <div className="flex items-center">
+                    <div className="flex space-x-2 ml-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div className="mx-auto text-xs font-medium">eSchool.ai Platform</div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-12 h-[380px] md:h-[420px] overflow-hidden">
+                  {/* Sidebar */}
+                  <div className="col-span-3 border-r border-border p-4 bg-muted/30">
+                    <div className="flex items-center gap-2 mb-5">
+                      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
+                        <User className="h-4 w-4" />
+                      </div>
+                      <div className="text-sm font-medium">Dylan Cooper</div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="p-2 rounded-md bg-primary/10 text-primary text-sm flex items-center">
+                        <Globe className="h-4 w-4 mr-2" />
+                        <span>Dashboard</span>
+                      </div>
+                      <div className="p-2 rounded-md text-sm flex items-center text-muted-foreground">
+                        <Code className="h-4 w-4 mr-2" />
+                        <span>Projects</span>
+                      </div>
+                      <div className="p-2 rounded-md text-sm flex items-center text-muted-foreground">
+                        <Briefcase className="h-4 w-4 mr-2" />
+                        <span>Applications</span>
+                      </div>
+                      <div className="p-2 rounded-md text-sm flex items-center text-muted-foreground">
+                        <GraduationCap className="h-4 w-4 mr-2" />
+                        <span>Learning</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Main content */}
+                  <div className="col-span-9 p-6 overflow-y-auto">
+                    <div className="mb-6">
+                      <h2 className="text-2xl font-bold mb-2">Featured Projects</h2>
+                      <p className="text-muted-foreground text-sm">Discover trending projects to join</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      {[
+                        {
+                          title: "AI-Powered Finance Assistant",
+                          category: "Artificial Intelligence",
+                          members: 8,
+                          max: 12,
+                          progress: 70
+                        },
+                        {
+                          title: "Sustainable Energy Tracker",
+                          category: "CleanTech",
+                          members: 5,
+                          max: 10,
+                          progress: 45
+                        },
+                        {
+                          title: "Mental Health Platform",
+                          category: "HealthTech",
+                          members: 9,
+                          max: 15,
+                          progress: 60
+                        },
+                        {
+                          title: "EdTech Learning System",
+                          category: "Education",
+                          members: 7,
+                          max: 12,
+                          progress: 80
+                        }
+                      ].map((project, index) => (
+                        <div key={index} className="bg-card border border-border rounded-lg p-4 hover:border-primary/50 hover:shadow-lg transition-all">
+                          <h3 className="font-medium mb-1 line-clamp-1">{project.title}</h3>
+                          <div className="text-xs text-muted-foreground mb-3">{project.category}</div>
+                          
+                          <div className="w-full h-1.5 bg-muted rounded-full mb-2">
+                            <div 
+                              className="h-full bg-primary rounded-full" 
+                              style={{ width: `${project.progress}%` }}
+                            ></div>
+                          </div>
+                          
+                          <div className="flex justify-between items-center text-xs">
+                            <span>{project.members}/{project.max} members</span>
+                            <span className="text-primary">{project.progress}% complete</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Collaborate</h3>
-              <p className="text-muted-foreground">Find projects and team up with talented individuals to build amazing products.</p>
-            </motion.div>
-            
-            <motion.div 
-              className="bg-card rounded-lg p-6 shadow-lg border border-border group transform md:translate-y-4"
-              variants={fadeIn}
-              whileHover={{ 
-                y: -8,
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                borderColor: "rgba(139, 92, 246, 0.3)"
-              }}
-            >
-              <div className="bg-primary/20 p-3 rounded-full w-fit mb-4 group-hover:bg-primary/30 transition-colors">
-                <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                >
-                  <GraduationCap className="h-6 w-6 text-primary" />
-                </motion.div>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Learn</h3>
-              <p className="text-muted-foreground">Access educational resources and schools to enhance your skills.</p>
-            </motion.div>
-            
-            <motion.div 
-              className="bg-card rounded-lg p-6 shadow-lg border border-border group"
-              variants={fadeIn}
-              whileHover={{ 
-                y: -8,
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                borderColor: "rgba(139, 92, 246, 0.3)"
-              }}
-            >
-              <div className="bg-primary/20 p-3 rounded-full w-fit mb-4 group-hover:bg-primary/30 transition-colors">
-                <motion.div
-                  animate={{ 
-                    y: [0, -5, 0],
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                >
-                  <Rocket className="h-6 w-6 text-primary" />
-                </motion.div>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Launch</h3>
-              <p className="text-muted-foreground">Showcase your ideas and turn them into successful startups.</p>
-            </motion.div>
+              
+              {/* Floating elements */}
+              <motion.div 
+                className="absolute -top-10 -right-10 bg-card shadow-xl rounded-xl border border-border p-4 w-52 z-30"
+                initial={{ opacity: 0, x: 20, y: 20 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ delay: 1, duration: 0.5 }}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Star className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium">New Project</div>
+                    <div className="text-xs text-muted-foreground">Just submitted</div>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  <p>AI-powered content creation platform looking for team members</p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="absolute -bottom-10 -left-10 bg-card shadow-xl rounded-xl border border-border p-4 w-52 z-30"
+                initial={{ opacity: 0, x: -20, y: -20 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <Check className="h-5 w-5 text-green-500" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium">Application</div>
+                    <div className="text-xs text-muted-foreground">Accepted</div>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  <p>You've been accepted to the Sustainable Energy project!</p>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
           
-          {/* Scroll down indicator */}
           <motion.div 
-            className="flex justify-center mt-16"
+            className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-muted-foreground"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
           >
-            <motion.button
-              className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "easeInOut" 
-              }}
-              onClick={() => {
-                window.scrollBy({
-                  top: window.innerHeight,
-                  behavior: 'smooth'
-                });
-              }}
-            >
-              <span className="text-sm mb-2">Scroll to learn more</span>
-              <ChevronDown className="h-5 w-5" />
-            </motion.button>
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => {
+              window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+              });
+            }}>
+              <span className="text-sm mb-2">Scroll to explore</span>
+              <motion.div
+                animate={{ 
+                  y: [0, 5, 0],
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <ArrowDown className="h-5 w-5" />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-muted/20 relative overflow-hidden">
-        {/* Background decoration */}
-        <motion.div 
-          className="absolute top-40 -right-28 w-96 h-96 bg-primary/10 rounded-full blur-3xl mix-blend-multiply"
-          animate={{ 
-            x: [0, -30, 0],
-            y: [0, -20, 0], 
-          }}
-          transition={{ 
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+      {/* Stats section */}
+      <section className="py-20 bg-muted/20 relative">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { 
+                label: "Active Projects", 
+                value: 1500, 
+                icon: <Rocket className="h-6 w-6 text-primary" /> 
+              },
+              { 
+                label: "Active Users", 
+                value: 12000, 
+                icon: <Users className="h-6 w-6 text-primary" /> 
+              },
+              { 
+                label: "Schools", 
+                value: 25, 
+                icon: <GraduationCap className="h-6 w-6 text-primary" /> 
+              },
+              { 
+                label: "Success Rate", 
+                value: 92, 
+                suffix: "%", 
+                icon: <Star className="h-6 w-6 text-primary" /> 
+              }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                className="bg-card border border-border p-6 rounded-2xl text-center hover:shadow-lg transition-all"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={fadeIn}
+                whileHover={{ y: -5, borderColor: "rgba(139, 92, 246, 0.5)" }}
+              >
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                  {stat.icon}
+                </div>
+                <div className="text-4xl font-bold mb-2">
+                  <CounterAnimation end={stat.value} />
+                  {stat.suffix}
+                </div>
+                <div className="text-muted-foreground">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center max-w-3xl mx-auto mb-20"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
           >
-            <h2 className="text-3xl font-bold text-center mb-16">How eSchool.ai Works</h2>
+            <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary mb-4">
+              Platform Features
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Everything You Need to Succeed
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              eSchool.ai provides all the tools necessary for successful collaboration and learning in one integrated platform.
+            </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <motion.div 
-              className="flex flex-col items-start bg-card/50 p-6 rounded-lg border border-border/50"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              whileHover={{ 
-                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
-                borderColor: "rgba(139, 92, 246, 0.2)"
-              }}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
+            <motion.div
+              initial="hidden"
+              whileInView="visible" 
+              viewport={{ once: true }}
+              variants={fadeInLeft}
             >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <h3 className="text-2xl font-bold mb-6 text-primary">For Project Creators</h3>
-              </motion.div>
-              
-              <ul className="space-y-4">
-                {[
-                  "Post your innovative startup ideas and projects",
-                  "Define the roles you need to fill in your team",
-                  "Review applications and build your dream team",
-                  "Track project progress and collaborate effectively"
-                ].map((item, index) => (
-                  <motion.li 
-                    key={index}
-                    className="flex items-start"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 * (index + 1), duration: 0.5 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.2, rotate: [0, 10, -10, 0] }}
-                      transition={{ duration: 0.3 }}
-                      className="mr-2 flex-shrink-0 mt-0.5 text-primary"
-                    >
-                      <Check className="h-6 w-6" />
-                    </motion.div>
-                    <p>{item}</p>
-                  </motion.li>
-                ))}
-              </ul>
-              
-              <motion.div
-                className="mt-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button onClick={() => navigate("/auth")}>
-                  Create a Project
-                </Button>
-              </motion.div>
+              <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-xl">
+                <div className="aspect-video bg-muted relative flex items-center justify-center">
+                  <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
+                  <div className="relative z-10 p-6 flex flex-col items-center justify-center text-center">
+                    <GraduationCap className="h-12 w-12 text-primary mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Advanced Learning Paths</h3>
+                    <p className="text-muted-foreground">Follow structured courses and learning paths to enhance your skills</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="space-y-4">
+                    {[
+                      "Personalized learning recommendations",
+                      "Progress tracking and certifications",
+                      "Expert-led courses in various domains",
+                      "Interactive learning materials and quizzes"
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="mr-3 mt-0.5 text-primary">
+                          <Check className="h-5 w-5" />
+                        </div>
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.div>
             
-            <motion.div 
-              className="flex flex-col items-start bg-card/50 p-6 rounded-lg border border-border/50"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              whileHover={{ 
-                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
-                borderColor: "rgba(139, 92, 246, 0.2)"
-              }}
+            <motion.div
+              initial="hidden"
+              whileInView="visible" 
+              viewport={{ once: true }}
+              variants={fadeInRight}
+              className="space-y-8"
             >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                <h3 className="text-2xl font-bold mb-6 text-primary">For Collaborators</h3>
-              </motion.div>
-              
-              <ul className="space-y-4">
-                {[
-                  "Discover interesting projects that match your skills",
-                  "Apply to join teams with your unique expertise",
-                  "Enhance your portfolio with real-world projects",
-                  "Learn new skills from online schools and workshops"
-                ].map((item, index) => (
-                  <motion.li 
-                    key={index}
-                    className="flex items-start"
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 * (index + 1), duration: 0.5 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.2, rotate: [0, 10, -10, 0] }}
-                      transition={{ duration: 0.3 }}
-                      className="mr-2 flex-shrink-0 mt-0.5 text-primary"
-                    >
-                      <Check className="h-6 w-6" />
-                    </motion.div>
-                    <p>{item}</p>
-                  </motion.li>
-                ))}
-              </ul>
-              
-              <motion.div
-                className="mt-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.7, duration: 0.5 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button onClick={() => navigate("/auth")}>
-                  Find Projects
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Learn from Industry Experts</h3>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Access curated content and courses designed by professionals to help you master the skills required in today's job market.
+                </p>
+                <div className="flex flex-wrap gap-3 mb-8">
+                  {["AI & Machine Learning", "Web Development", "UI/UX Design", "Product Management", "Data Science"].map((tag, i) => (
+                    <span key={i} className="px-3 py-1 text-sm rounded-full bg-primary/10 text-primary">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  className="rounded-xl"
+                  onClick={() => navigate("/auth")}
+                >
+                  Browse Courses
+                  <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
-              </motion.div>
+              </div>
+            </motion.div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <motion.div
+              initial="hidden"
+              whileInView="visible" 
+              viewport={{ once: true }}
+              variants={fadeInLeft}
+              className="space-y-8 order-2 md:order-1"
+            >
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Build Your Dream Team</h3>
+                <p className="text-lg text-muted-foreground mb-6">
+                  Find the perfect collaborators for your projects or join existing teams to work on innovative ideas together.
+                </p>
+                <div className="space-y-4 mb-8">
+                  {[
+                    "Skill-based matching algorithm",
+                    "Collaborative project management tools",
+                    "Team communication channels",
+                    "Progress tracking and milestone management"
+                  ].map((feature, i) => (
+                    <div key={i} className="flex items-start">
+                      <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <Check className="h-4 w-4 text-primary" />
+                      </div>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <Button 
+                  className="rounded-xl"
+                  onClick={() => navigate("/auth")}
+                >
+                  Start Collaborating
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial="hidden"
+              whileInView="visible" 
+              viewport={{ once: true }}
+              variants={fadeInRight}
+              className="order-1 md:order-2"
+            >
+              <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-xl">
+                <div className="aspect-video bg-muted relative flex items-center justify-center">
+                  <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
+                  <div className="relative z-10 p-6 flex flex-col items-center justify-center text-center">
+                    <Users className="h-12 w-12 text-primary mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Team Collaboration</h3>
+                    <p className="text-muted-foreground">Work together efficiently with powerful collaboration tools</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {["3 Active Projects", "12 Team Members", "4 Completed Milestones"].map((stat, i) => (
+                      <span key={i} className="px-3 py-1 text-xs rounded-full bg-muted">
+                        {stat}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {[
+                      { role: "UI Designer", filled: true },
+                      { role: "Backend Developer", filled: true },
+                      { role: "Marketing Specialist", filled: false },
+                      { role: "Data Scientist", filled: false }
+                    ].map((role, i) => (
+                      <div key={i} className="flex items-center justify-between py-2 px-3 rounded-lg bg-muted/50">
+                        <span>{role.role}</span>
+                        <span className={`text-xs ${role.filled ? 'text-green-500' : 'text-amber-500'}`}>
+                          {role.filled ? 'Filled' : 'Open Position'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Schools Section Preview */}
-      <section className="py-20 relative overflow-hidden">
-        {/* Background decoration */}
-        <motion.div 
-          className="absolute bottom-40 -left-28 w-96 h-96 bg-primary/10 rounded-full blur-3xl mix-blend-multiply"
-          animate={{ 
-            x: [0, 30, 0],
-            y: [0, -20, 0], 
-          }}
-          transition={{ 
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      {/* Schools/Partners Section */}
+      <section className="py-24 bg-muted/20 relative overflow-hidden">
+        <div className="container mx-auto px-4">
           <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
           >
-            <h2 className="text-3xl font-bold mb-4">Our Educational Partners</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Access high-quality educational content from leading schools in technology, business, design, and more.
+            <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary mb-4">
+              Educational Partners
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Learn from the Best Schools
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Our partner institutions provide world-class educational content to help you develop your skills and advance your career.
             </p>
           </motion.div>
           
@@ -489,280 +603,201 @@ export default function LandingPage() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.1,
-                },
-              },
-            }}
+            viewport={{ once: true }}
+            variants={staggerContainer}
           >
             {[
               {
-                icon: <Lightbulb className="h-6 w-6 text-primary" />,
+                icon: <Code className="h-6 w-6 text-primary" />,
                 title: "TechAcademy",
                 description: "Advanced courses in programming, AI, and machine learning",
-                courses: 24,
-                animate: { rotate: [0, 10, -10, 0] }
+                courses: 24
               },
               {
-                icon: <Users className="h-6 w-6 text-primary" />,
+                icon: <Briefcase className="h-6 w-6 text-primary" />,
                 title: "Business Hub",
                 description: "Startup fundamentals, marketing, and growth strategies",
-                courses: 18,
-                animate: { scale: [1, 1.1, 1] }
+                courses: 18
               },
               {
-                icon: <GitMerge className="h-6 w-6 text-primary" />,
+                icon: <Lightbulb className="h-6 w-6 text-primary" />,
                 title: "Design Master",
                 description: "UX/UI design principles and practical applications",
-                courses: 15,
-                animate: { rotate: [0, -10, 10, 0] }
+                courses: 15
               },
               {
-                icon: <Rocket className="h-6 w-6 text-primary" />,
+                icon: <Shield className="h-6 w-6 text-primary" />,
                 title: "Innovation Lab",
                 description: "Product development and innovation frameworks",
-                courses: 12,
-                animate: { y: [0, -5, 0] }
+                courses: 12
               }
             ].map((school, index) => (
               <motion.div 
                 key={index}
-                className="bg-card rounded-lg overflow-hidden shadow-md border border-border group"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { duration: 0.5 } 
-                  }
-                }}
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  borderColor: "rgba(139, 92, 246, 0.3)"
-                }}
+                className="group"
+                variants={fadeIn}
               >
-                <div className="bg-primary h-2 group-hover:h-3 transition-all"></div>
-                <div className="p-6">
-                  <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <motion.div
-                      animate={school.animate}
-                      transition={{ 
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut" 
-                      }}
-                    >
+                <div className="bg-card hover:bg-card/80 border border-border hover:border-primary/30 rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col shadow-md hover:shadow-xl">
+                  <div className="p-6 border-b border-border group-hover:border-primary/20 transition-colors">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors">
                       {school.icon}
-                    </motion.div>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">{school.title}</h3>
+                    <p className="text-muted-foreground mb-2">{school.description}</p>
                   </div>
-                  <motion.h3 
-                    className="font-bold text-xl mb-2"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    {school.title}
-                  </motion.h3>
-                  <p className="text-muted-foreground mb-4">{school.description}</p>
-                  <p className="text-sm text-primary">{school.courses} Courses Available</p>
+                  
+                  <div className="p-6 mt-auto">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-primary">{school.courses} Courses</span>
+                      <div className="rounded-full bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
+                        <ArrowUpRight className="h-4 w-4 text-primary" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
           
           <motion.div 
-            className="text-center mt-12"
+            className="mt-12 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            transition={{ delay: 0.6 }}
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="rounded-xl"
+              onClick={() => navigate("/auth")}
             >
-              <Button 
-                variant="outline" 
-                size="lg"
-                onClick={() => navigate("/auth")}
-              >
-                Explore All Schools
-                <motion.span
-                  className="ml-2 inline-block"
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ 
-                    duration: 1.5, 
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                >
-                  <ArrowRight className="h-5 w-5" />
-                </motion.span>
-              </Button>
-            </motion.div>
+              Browse All Schools
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary/10 relative overflow-hidden">
-        {/* Animated background elements */}
-        <motion.div 
-          className="absolute top-20 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl opacity-30"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.3, 0.2]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-10 left-20 w-48 h-48 bg-primary/20 rounded-full blur-3xl opacity-20"
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.3, 0.2]
-          }}
-          transition={{ 
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]"></div>
+        <div className="absolute left-1/2 top-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[100px] z-0"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div 
-            className="bg-card border border-border rounded-xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-lg relative overflow-hidden"
+            className="bg-gradient-to-r from-card to-card border border-border rounded-3xl p-8 md:p-14 max-w-5xl mx-auto shadow-xl relative overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            whileHover={{ 
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-              borderColor: "rgba(139, 92, 246, 0.3)"
-            }}
           >
-            {/* Decorative shapes */}
-            <motion.div 
-              className="absolute -top-10 -right-10 w-40 h-40 rounded-full border border-primary/20 opacity-50"
-              animate={{ rotate: 360 }}
-              transition={{ 
-                duration: 20, 
-                repeat: Infinity,
-                ease: "linear" 
-              }}
-            />
-            <motion.div 
-              className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full border border-primary/20 opacity-30"
-              animate={{ rotate: -360 }}
-              transition={{ 
-                duration: 30, 
-                repeat: Infinity,
-                ease: "linear" 
-              }}
-            />
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50"></div>
             
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              <motion.h2 
-                className="text-3xl md:text-4xl font-bold mb-6 relative"
-                initial={{ scale: 0.95 }}
-                whileInView={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200 }}
-              >
-                <motion.span
-                  className="inline-block"
-                  whileInView={{
-                    color: [
-                      "rgba(var(--foreground))",
-                      "rgba(var(--primary))",
-                      "rgba(var(--foreground))"
-                    ]
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+              <div>
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-bold mb-4"
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
                 >
                   Ready to Join Our Community?
-                </motion.span>
-              </motion.h2>
-            </motion.div>
-            
-            <motion.p 
-              className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              Create an account today to browse projects, join teams, and access educational content.
-            </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.7 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button 
-                  size="lg" 
-                  className="text-lg px-8"
-                  onClick={() => navigate("/auth")}
+                </motion.h2>
+                
+                <motion.p 
+                  className="text-lg text-muted-foreground mb-8"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
                 >
-                  <motion.span
-                    animate={{ 
-                      textShadow: [
-                        "0 0 0px rgba(255,255,255,0)", 
-                        "0 0 10px rgba(255,255,255,0.5)", 
-                        "0 0 0px rgba(255,255,255,0)"
-                      ] 
-                    }}
-                    transition={{ 
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
+                  Create an account today to browse projects, join teams, and access our educational content library.
+                </motion.p>
+                
+                <motion.div 
+                  className="space-y-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Button 
+                    size="lg" 
+                    className="w-full md:w-auto rounded-xl"
+                    onClick={() => navigate("/auth")}
                   >
                     Sign Up Now
-                  </motion.span>
-                </Button>
-              </motion.div>
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </motion.div>
+              </div>
               
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="text-lg px-8"
-                  onClick={() => navigate("/auth")}
+              <div className="relative">
+                <motion.div 
+                  className="bg-muted/30 border border-border rounded-2xl p-6 relative z-10"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
                 >
-                  Learn More
-                </Button>
-              </motion.div>
-            </motion.div>
+                  <div className="space-y-4 mb-6">
+                    {[
+                      "Access to 1,500+ projects and ideas",
+                      "Join a community of 12,000+ creators",
+                      "Learn from 25+ educational partners",
+                      "Build your portfolio with real projects",
+                      "Connect with industry professionals"
+                    ].map((benefit, i) => (
+                      <div key={i} className="flex items-start">
+                        <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center mr-3 mt-0.5">
+                          <Check className="h-3 w-3 text-primary" />
+                        </div>
+                        <span className="text-sm">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center justify-between border-t border-border pt-4">
+                    <div className="flex -space-x-2">
+                      {[...Array(4)].map((_, i) => (
+                        <div key={i} className="w-8 h-8 rounded-full bg-muted border-2 border-card overflow-hidden">
+                          <div className={`w-full h-full bg-primary/${30 + i * 15}`}></div>
+                        </div>
+                      ))}
+                    </div>
+                    <span className="text-sm text-muted-foreground">Join 500+ members this month</span>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/5 rounded-full blur-xl z-0"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.5, 0.7, 0.5]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                ></motion.div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
+      
+      {/* CSS for grid pattern */}
+      <style jsx global>{`
+        .bg-grid-pattern {
+          background-size: 40px 40px;
+          background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+      `}</style>
     </div>
   );
 }
