@@ -9,16 +9,7 @@ import {
   GraduationCap, 
   Rocket, 
   ArrowRight,
-  Check,
-  BrainCircuit,
-  Code,
-  LineChart,
-  Eye,
-  UserCircle,
-  Gift,
-  Trophy,
-  Heart,
-  Star
+  Check
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -33,315 +24,216 @@ export default function LandingPage() {
   }, [user, navigate]);
 
   return (
-    <div className="flex flex-col">
-      {/* Hero Section with animated background and floating avatars */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background/95 to-background/90 py-20">
-        {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-background"></div>
-
-        {/* Animated floating avatars */}
-        <div className="absolute top-1/4 left-1/5 w-14 h-14 rounded-full bg-primary/20 animate-float-slow">
-          <div className="absolute inset-1 rounded-full bg-card flex items-center justify-center text-primary">
-            <Code className="h-6 w-6" />
-          </div>
-        </div>
-        <div className="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-primary/20 animate-float-medium">
-          <div className="absolute inset-1 rounded-full bg-card flex items-center justify-center text-primary">
-            <BrainCircuit className="h-5 w-5" />
-          </div>
-        </div>
-        <div className="absolute bottom-1/4 left-1/3 w-16 h-16 rounded-full bg-primary/20 animate-float">
-          <div className="absolute inset-1 rounded-full bg-card flex items-center justify-center text-primary">
-            <LineChart className="h-7 w-7" />
-          </div>
-        </div>
-        <div className="absolute top-2/3 right-1/5 w-10 h-10 rounded-full bg-primary/20 animate-float-fast">
-          <div className="absolute inset-1 rounded-full bg-card flex items-center justify-center text-primary">
-            <Eye className="h-4 w-4" />
-          </div>
-        </div>
-        
-        {/* Main content */}
-        <div className="container px-4 md:px-6 relative z-10">
-          <div className="flex flex-col items-center text-center space-y-6 mb-8">
-            <div className="inline-block animate-bounce-slow mb-4">
-              <div className="bg-primary/20 text-primary p-2 rounded-full">
-                <Rocket className="h-6 w-6" />
-              </div>
-            </div>
-            <h1 className="font-bold tracking-tighter text-3xl md:text-5xl lg:text-6xl mb-4">
-              <span className="text-primary">WELCOME TO</span>
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative py-20 bg-gradient-to-b from-background to-background/80">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNi0yOHY2aDZ2LTZoLTZ6bTAgMTJoNnY2aC02di02em0tMTIgMGg2djZoLTZ2LTZ6bS02IDBoNnY2aC02di02em0xMiAwaC02djZoNnYtNnptLTEyIDBoLTZ2Nmg2di02em0tNiAwdi02aC02djZoNnptMTIgMHYtNmgtNnY2aDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-50"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-primary mb-6">
+              eSchool<span className="text-foreground">.ai</span>
             </h1>
-            <h1 className="font-extrabold tracking-tighter text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 animate-pulse-slow">
-              eSchool.ai
-            </h1>
-            <p className="max-w-[700px] text-muted-foreground md:text-xl lg:text-2xl mt-4">
-              Find your Team Members and Grow your Startup Idea
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-10">
+              Connect with innovative projects and learn from top tech schools in one platform
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Button className="h-12 px-8 text-lg" onClick={() => navigate("/auth")}>
-                Join eSchool.ai
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button 
+                className="px-8 py-6 text-lg"
+                onClick={() => navigate("/auth")}
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button variant="outline" className="px-8 py-6 text-lg">
+                Explore Projects
               </Button>
             </div>
-            
-            {/* User count animation */}
-            <div className="flex flex-col sm:flex-row items-center gap-6 mt-8 py-4">
-              <div className="flex -space-x-4">
-                {/* Floating avatars */}
-                <div className="w-12 h-12 rounded-full border-2 border-background bg-primary/20 flex items-center justify-center animate-float-slow">
-                  <UserCircle className="h-8 w-8 text-primary" />
-                </div>
-                <div className="w-12 h-12 rounded-full border-2 border-background bg-primary/20 flex items-center justify-center animate-float-medium">
-                  <UserCircle className="h-8 w-8 text-primary" />
-                </div>
-                <div className="w-12 h-12 rounded-full border-2 border-background bg-primary/20 flex items-center justify-center animate-float">
-                  <UserCircle className="h-8 w-8 text-primary" />
-                </div>
-                <div className="w-12 h-12 rounded-full border-2 border-background bg-primary/20 flex items-center justify-center animate-float-fast">
-                  <UserCircle className="h-8 w-8 text-primary" />
-                </div>
-              </div>
-              <div className="text-center sm:text-left">
-                <h4 className="text-xl font-bold text-primary">2,758</h4>
-                <p className="text-muted-foreground">action takers have joined eSchool.ai</p>
-              </div>
-            </div>
           </div>
           
-          {/* Feature highlight */}
-          <div className="max-w-3xl mx-auto mt-12 bg-card/40 backdrop-blur-sm border border-border p-6 rounded-xl">
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-6">
-              From Idea to Funded Startup 🚀 Build or Join Your Dream Team
-            </h2>
-            <p className="text-center text-muted-foreground mb-4">
-              Kickstart your journey with the right team, advice and investor exposure - All in one place.
-            </p>
-          </div>
-        </div>
-        
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ArrowRight className="h-6 w-6 rotate-90 text-muted-foreground" />
-        </div>
-      </section>
-
-      {/* Process Blocks */}
-      <section className="py-20 bg-muted/10">
-        <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            {/* I have an idea */}
-            <div className="bg-card border border-border rounded-xl p-8 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <h3 className="font-bold text-primary text-2xl mb-6">I have an idea</h3>
-              <ol className="space-y-6">
-                <li className="flex items-start">
-                  <div className="mr-4 bg-primary/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="font-bold text-primary">1</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Create a project card</h4>
-                    <p className="text-muted-foreground">Share your vision and outline the key details of your project</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="mr-4 bg-primary/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="font-bold text-primary">2</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Select team members with roles</h4>
-                    <p className="text-muted-foreground">Define the roles you need and review applications from talented individuals</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="mr-4 bg-primary/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="font-bold text-primary">3</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Turn vision into a funded startup together</h4>
-                    <p className="text-muted-foreground">Collaborate effectively and showcase your project to potential investors</p>
-                  </div>
-                </li>
-              </ol>
-              <div className="mt-8">
-                <Button 
-                  className="w-full"
-                  onClick={() => navigate("/auth")}
-                >
-                  Start Your Project
-                </Button>
+          {/* Animated Cards */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="bg-card rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-y-[-5px] border border-border">
+              <div className="bg-primary/20 p-3 rounded-full w-fit mb-4">
+                <GitMerge className="h-6 w-6 text-primary" />
               </div>
+              <h3 className="text-xl font-bold mb-2">Collaborate</h3>
+              <p className="text-muted-foreground">Find projects and team up with talented individuals to build amazing products.</p>
             </div>
-            
-            {/* I want to join a project */}
-            <div className="bg-card border border-border rounded-xl p-8 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-              <h3 className="font-bold text-primary text-2xl mb-6">I want to join a project</h3>
-              <ol className="space-y-6">
-                <li className="flex items-start">
-                  <div className="mr-4 bg-primary/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="font-bold text-primary">1</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Browse interesting projects</h4>
-                    <p className="text-muted-foreground">Find projects that match your skills, interests, and career goals</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="mr-4 bg-primary/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="font-bold text-primary">2</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Apply to your favorite team with skills</h4>
-                    <p className="text-muted-foreground">Showcase your expertise and demonstrate why you're a perfect fit</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="mr-4 bg-primary/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="font-bold text-primary">3</span>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-1">Make a difference in new team from day one</h4>
-                    <p className="text-muted-foreground">Contribute to projects that matter and build your portfolio</p>
-                  </div>
-                </li>
-              </ol>
-              <div className="mt-8">
-                <Button 
-                  className="w-full"
-                  onClick={() => navigate("/auth")}
-                >
-                  Find Projects
-                </Button>
+            <div className="bg-card rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-y-[-5px] border border-border transform md:translate-y-4">
+              <div className="bg-primary/20 p-3 rounded-full w-fit mb-4">
+                <GraduationCap className="h-6 w-6 text-primary" />
               </div>
+              <h3 className="text-xl font-bold mb-2">Learn</h3>
+              <p className="text-muted-foreground">Access educational resources and schools to enhance your skills.</p>
             </div>
-          </div>
-          
-          <div className="mt-12 text-center">
-            <p className="text-xl font-semibold text-primary mb-4">No more back-and-forth DM´s to team up!</p>
-            <p className="text-muted-foreground">Our platform streamlines the entire collaboration process</p>
+            <div className="bg-card rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-y-[-5px] border border-border">
+              <div className="bg-primary/20 p-3 rounded-full w-fit mb-4">
+                <Rocket className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Launch</h3>
+              <p className="text-muted-foreground">Showcase your ideas and turn them into successful startups.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-b from-background to-muted/10">
-        <div className="container px-4 md:px-6">
+      {/* Features Section */}
+      <section className="py-20 bg-muted/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-16">How eSchool.ai Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="flex flex-col items-start">
+              <h3 className="text-2xl font-bold mb-6 text-primary">For Project Creators</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Post your innovative startup ideas and projects</p>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Define the roles you need to fill in your team</p>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Review applications and build your dream team</p>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Track project progress and collaborate effectively</p>
+                </li>
+              </ul>
+              <Button className="mt-8" onClick={() => navigate("/auth")}>
+                Create a Project
+              </Button>
+            </div>
+            <div className="flex flex-col items-start">
+              <h3 className="text-2xl font-bold mb-6 text-primary">For Collaborators</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Discover interesting projects that match your skills</p>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Apply to join teams with your unique expertise</p>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Enhance your portfolio with real-world projects</p>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  <p>Learn new skills from online schools and workshops</p>
+                </li>
+              </ul>
+              <Button className="mt-8" onClick={() => navigate("/auth")}>
+                Find Projects
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Schools Section Preview */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">What you get access to when you join eSchool.ai:</h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-              You don't need any prior connections, the journey starts from here!
+            <h2 className="text-3xl font-bold mb-4">Our Educational Partners</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Access high-quality educational content from leading schools in technology, business, design, and more.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Benefit 1 */}
-            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.03]">
-              <div className="bg-primary/20 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Heart className="h-8 w-8 text-primary" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* School Card 1 */}
+            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
+              <div className="bg-primary h-2"></div>
+              <div className="p-6">
+                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
+                  <Lightbulb className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">TechAcademy</h3>
+                <p className="text-muted-foreground mb-4">Advanced courses in programming, AI, and machine learning</p>
+                <p className="text-sm text-primary">24 Courses Available</p>
               </div>
-              <h3 className="text-xl font-bold mb-3">Be Part of Meaningful Startups</h3>
-              <p className="text-muted-foreground">Build or join teams, transform ideas into reality, and achieve success with like-minded action-takers!</p>
             </div>
             
-            {/* Benefit 2 */}
-            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.03]">
-              <div className="bg-primary/20 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Trophy className="h-8 w-8 text-primary" />
+            {/* School Card 2 */}
+            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
+              <div className="bg-primary h-2"></div>
+              <div className="p-6">
+                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Business Hub</h3>
+                <p className="text-muted-foreground mb-4">Startup fundamentals, marketing, and growth strategies</p>
+                <p className="text-sm text-primary">18 Courses Available</p>
               </div>
-              <h3 className="text-xl font-bold mb-3">Monthly Hackathons</h3>
-              <p className="text-muted-foreground">Compete against other teams, secure top spots on the leaderboard, and win prizes together!</p>
             </div>
             
-            {/* Benefit 3 */}
-            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.03]">
-              <div className="bg-primary/20 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Star className="h-8 w-8 text-primary" />
+            {/* School Card 3 */}
+            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
+              <div className="bg-primary h-2"></div>
+              <div className="p-6">
+                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
+                  <GitMerge className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Design Master</h3>
+                <p className="text-muted-foreground mb-4">UX/UI design principles and practical applications</p>
+                <p className="text-sm text-primary">15 Courses Available</p>
               </div>
-              <h3 className="text-xl font-bold mb-3">STARTUP SPOTLIGHT</h3>
-              <p className="text-muted-foreground">Top teams each quarter get a chance to pitch to investors and receive valuable feedback!</p>
             </div>
             
-            {/* Benefit 4 */}
-            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.03]">
-              <div className="bg-primary/20 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                <Gift className="h-8 w-8 text-primary" />
+            {/* School Card 4 */}
+            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
+              <div className="bg-primary h-2"></div>
+              <div className="p-6">
+                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
+                  <Rocket className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-xl mb-2">Innovation Lab</h3>
+                <p className="text-muted-foreground mb-4">Product development and innovation frameworks</p>
+                <p className="text-sm text-primary">12 Courses Available</p>
               </div>
-              <h3 className="text-xl font-bold mb-3">Get Help Throughout the Project</h3>
-              <p className="text-muted-foreground">Coaches assist your team with getting started, completing the project, and bringing your startup to market!</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* How it works - Images */}
-      <section className="py-20 bg-card/30">
-        <div className="container px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-center mb-16">How does it work?</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Image 1 with text overlay */}
-            <div className="relative rounded-xl overflow-hidden bg-primary/5 aspect-[4/3] hover:shadow-xl transition-all duration-300 hover:scale-[1.03] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/70 to-transparent flex flex-col justify-end p-6">
-                <div className="mb-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  <div className="bg-primary/20 h-10 w-10 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-primary">1</span>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">Create your project</h3>
-                <p className="text-muted-foreground opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  Define your vision, set goals, and specify the team roles you need
-                </p>
-              </div>
-            </div>
-            
-            {/* Image 2 with text overlay */}
-            <div className="relative rounded-xl overflow-hidden bg-primary/5 aspect-[4/3] hover:shadow-xl transition-all duration-300 hover:scale-[1.03] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/70 to-transparent flex flex-col justify-end p-6">
-                <div className="mb-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  <div className="bg-primary/20 h-10 w-10 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-primary">2</span>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">Build your team</h3>
-                <p className="text-muted-foreground opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  Review applications and select the best talents to join your project
-                </p>
-              </div>
-            </div>
-            
-            {/* Image 3 with text overlay */}
-            <div className="relative rounded-xl overflow-hidden bg-primary/5 aspect-[4/3] hover:shadow-xl transition-all duration-300 hover:scale-[1.03] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/70 to-transparent flex flex-col justify-end p-6">
-                <div className="mb-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  <div className="bg-primary/20 h-10 w-10 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-primary">3</span>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">Launch your startup</h3>
-                <p className="text-muted-foreground opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                  Collaborate efficiently, showcase your progress, and attract investors
-                </p>
-              </div>
-            </div>
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => navigate("/auth")}
+            >
+              Explore All Schools
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary/5">
-        <div className="container px-4 md:px-6">
-          <div className="bg-card border border-border rounded-xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Join our community today!</h2>
+      <section className="py-20 bg-primary/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-card border border-border rounded-xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-lg">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Join Our Community?</h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Create an account now and start your journey to building or joining amazing projects
+              Create an account today to browse projects, join teams, and access educational content.
             </p>
-            <Button 
-              size="lg" 
-              className="text-lg px-10 py-6"
-              onClick={() => navigate("/auth")}
-            >
-              Get Started
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                className="text-lg px-8"
+                onClick={() => navigate("/auth")}
+              >
+                Sign Up Now
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-lg px-8"
+                onClick={() => navigate("/auth")}
+              >
+                Learn More
+              </Button>
+            </div>
           </div>
         </div>
       </section>
