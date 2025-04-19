@@ -44,8 +44,8 @@ export default function Navbar() {
                   <path d="M2 12l10 5 10-5"></path>
                 </svg>
               </div>
-              <Link href={user ? "/projects" : "/"}>
-                <a className="text-xl font-bold text-white">eSchool.ai</a>
+              <Link href={user ? "/projects" : "/"} className="text-xl font-bold text-white">
+                eSchool.ai
               </Link>
             </div>
             <div className="ml-6 hidden md:flex space-x-2">
@@ -55,15 +55,11 @@ export default function Navbar() {
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/faq">
-              <a className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium">
-                FAQs & Feedback
-              </a>
+            <Link href="/faq" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium">
+              FAQs & Feedback
             </Link>
-            <Link href="/blogs">
-              <a className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium">
-                Blogs
-              </a>
+            <Link href="/blogs" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium">
+              Blogs
             </Link>
             <div className="relative">
               <Search className="h-4 w-4 absolute right-3 top-2.5 text-muted-foreground" />
@@ -156,17 +152,17 @@ export default function Navbar() {
                     </div>
                   )}
                   
-                  <Link href={user ? "/projects" : "/"}>
-                    <a className="text-lg font-medium">Home</a>
+                  <Link href={user ? "/projects" : "/"} className="text-lg font-medium">
+                    Home
                   </Link>
-                  <Link href="/dashboard">
-                    <a className="text-lg font-medium">Dashboard</a>
+                  <Link href="/dashboard" className="text-lg font-medium">
+                    Dashboard
                   </Link>
-                  <Link href="/faq">
-                    <a className="text-lg font-medium">FAQs & Feedback</a>
+                  <Link href="/faq" className="text-lg font-medium">
+                    FAQs & Feedback
                   </Link>
-                  <Link href="/blogs">
-                    <a className="text-lg font-medium">Blogs</a>
+                  <Link href="/blogs" className="text-lg font-medium">
+                    Blogs
                   </Link>
                   
                   <div className="pt-4 border-t border-border">
