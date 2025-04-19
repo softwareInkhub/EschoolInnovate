@@ -8,8 +8,12 @@ import {
   applicationFormSchema,
   insertUserSchema
 } from "@shared/schema";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Set up authentication
+  setupAuth(app);
+  
   // API base route
   app.get("/api/health", (_req, res) => {
     res.json({ status: "ok" });
