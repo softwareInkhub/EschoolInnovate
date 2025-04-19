@@ -15,17 +15,17 @@ export default function Footer() {
                 <path d="M2 12l10 5 10-5"></path>
               </svg>
             </div>
-            <Link href="/">
-              <a className="text-lg font-bold">eSchool.ai</a>
+            <Link href="/" className="text-lg font-bold">
+              eSchool.ai
             </Link>
           </div>
           
           <div className="flex flex-wrap justify-center">
-            <Link href="/privacy">
-              <a className="text-muted-foreground hover:text-foreground px-3 py-1 text-sm">Privacy Policy</a>
+            <Link href="/privacy" className="text-muted-foreground hover:text-foreground px-3 py-1 text-sm">
+              Privacy Policy
             </Link>
-            <Link href="/terms">
-              <a className="text-muted-foreground hover:text-foreground px-3 py-1 text-sm">Terms and Conditions</a>
+            <Link href="/terms" className="text-muted-foreground hover:text-foreground px-3 py-1 text-sm">
+              Terms and Conditions
             </Link>
             <a 
               href="https://discord.gg/eschool" 
