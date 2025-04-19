@@ -184,214 +184,211 @@ export default function ProjectDetails() {
         {/* Main Content */}
         <div className="lg:col-span-2">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="mb-6">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="roles">Roles</TabsTrigger>
-              <TabsTrigger value="team">Team</TabsTrigger>
+            <TabsList className="mb-6 w-full grid grid-cols-3">
+              <TabsTrigger value="team">TEAM MEMBERS</TabsTrigger>
+              <TabsTrigger value="overview">DETAILS</TabsTrigger>
+              <TabsTrigger value="comments">COMMENTS (0)</TabsTrigger>
             </TabsList>
             
             <TabsContent value="overview">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Project Overview</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
+              <div className="p-4 space-y-4">
+                <div>
+                  <h4 className="text-md font-medium mb-1">Description</h4>
+                  <p className="text-muted-foreground text-sm">
+                    {project.description}
+                  </p>
+                </div>
+                
+                {project.problem && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Description</h3>
-                    <p className="text-muted-foreground">{project.description}</p>
+                    <h4 className="text-md font-medium mb-1">Problem Statement</h4>
+                    <p className="text-muted-foreground text-sm">
+                      {project.problem}
+                    </p>
                   </div>
-                  
-                  <Separator />
-                  
+                )}
+                
+                {project.market && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Problem Statement</h3>
-                    <p className="text-muted-foreground">{project.problem || "No problem statement provided."}</p>
+                    <h4 className="text-md font-medium mb-1">Target Market</h4>
+                    <p className="text-muted-foreground text-sm">
+                      {project.market}
+                    </p>
                   </div>
-                  
-                  <Separator />
-                  
+                )}
+                
+                {project.competition && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Target Market</h3>
-                    <p className="text-muted-foreground">{project.market || "No market information provided."}</p>
+                    <h4 className="text-md font-medium mb-1">Competition</h4>
+                    <p className="text-muted-foreground text-sm">
+                      {project.competition}
+                    </p>
                   </div>
-                  
-                  <Separator />
-                  
-                  <div>
-                    <h3 className="text-lg font-semibold mb-2">Competition</h3>
-                    <p className="text-muted-foreground">{project.competition || "No competition information provided."}</p>
+                )}
+                
+                <div>
+                  <h4 className="text-md font-medium mb-1">Progress</h4>
+                  <div className="flex items-center">
+                    <Progress value={project.teamSize / project.maxTeamSize * 100} className="flex-1 h-2.5 mr-2" />
+                    <span className="text-xs text-muted-foreground">{Math.round(project.teamSize / project.maxTeamSize * 100)}%</span>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="roles">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Open Positions</CardTitle>
-                  <CardDescription>
-                    Join the team and help make this project successful
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {isLoadingRoles ? (
-                    <div className="space-y-4">
-                      <div className="h-24 rounded-md bg-muted animate-pulse" />
-                      <div className="h-24 rounded-md bg-muted animate-pulse" />
+                </div>
+                
+                <div className="pt-4 border-t flex flex-col gap-3 mt-4">
+                  <div className="flex items-center">
+                    <div className="bg-primary w-14 h-14 rounded-md flex items-center justify-center">
+                      <Plus className="text-primary-foreground h-6 w-6" />
                     </div>
-                  ) : !roles || roles.length === 0 ? (
-                    <div className="text-center py-12">
-                      <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-30" />
-                      <h3 className="text-lg font-medium mb-2">No open positions</h3>
-                      <p className="text-muted-foreground">
-                        There are no roles open for applications at the moment.
-                      </p>
+                    <div className="ml-3">
+                      {roles && Array.isArray(roles) && roles.length > 0 ? (
+                        <div className="flex items-center">
+                          <span className="text-lg font-medium mr-2">Apply for</span>
+                          <span className="text-lg font-bold">
+                            {project.teamSize >= project.maxTeamSize ? "We're full" : roles[0]?.title || "Team Member"}
+                          </span>
+                          <span className="text-lg ml-1">role</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center">
+                          <span className="text-lg font-medium mr-2">Join this</span>
+                          <span className="text-lg font-bold">startup</span>
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {roles.map((role) => (
-                        <Card key={role.id} className="overflow-hidden">
-                          <CardContent className="p-0">
-                            <div className="p-4 pb-0">
-                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div>
-                                  <h3 className="text-lg font-semibold">{role.title}</h3>
-                                  <p className="text-muted-foreground mt-1">{role.description}</p>
-                                  
-                                  {/* Optional skills display if available */}
-                                </div>
-                                
-                                {user && !applyingForRoleId && (
-                                  <Button 
-                                    className="shrink-0" 
-                                    onClick={() => {
-                                      setApplyingForRoleId(role.id);
-                                      form.setValue('roleId', role.id);
-                                    }}
-                                  >
-                                    Apply Now
-                                  </Button>
-                                )}
-                              </div>
-                            </div>
-                            
-                            {applyingForRoleId === role.id && (
-                              <div className="p-4 mt-4 bg-muted/30 border-t">
-                                <Form {...form}>
-                                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                                    <FormField
-                                      control={form.control}
-                                      name="message"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel>Application Message</FormLabel>
-                                          <FormControl>
-                                            <Textarea 
-                                              placeholder="Describe why you're a good fit for this role and what relevant skills/experience you have..." 
-                                              {...field}
-                                              className="min-h-[120px]"
-                                            />
-                                          </FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <div className="flex justify-end gap-2">
-                                      <Button 
-                                        type="button" 
-                                        variant="outline" 
-                                        onClick={() => setApplyingForRoleId(null)}
-                                      >
-                                        Cancel
-                                      </Button>
-                                      <Button 
-                                        type="submit"
-                                        disabled={form.formState.isSubmitting}
-                                      >
-                                        {form.formState.isSubmitting ? (
-                                          <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Submitting...
-                                          </>
-                                        ) : (
-                                          <>
-                                            <CheckCircle className="mr-2 h-4 w-4" />
-                                            Submit Application
-                                          </>
-                                        )}
-                                      </Button>
-                                    </div>
-                                  </form>
-                                </Form>
-                              </div>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    {roles && Array.isArray(roles) && roles.length > 0 ? (
+                      <Button 
+                        className="w-full" 
+                        disabled={project.teamSize >= project.maxTeamSize || !user}
+                        onClick={() => {
+                          if (user) {
+                            setApplyingForRoleId(roles[0].id);
+                            form.setValue('roleId', roles[0].id);
+                          } else {
+                            window.location.href = '/auth';
+                          }
+                        }}
+                      >
+                        {!user ? "Login to Apply" : 
+                          project.teamSize >= project.maxTeamSize ? "Team Full" : "Apply Now"}
+                      </Button>
+                    ) : (
+                      <Button 
+                        className="w-full" 
+                        disabled={project.teamSize >= project.maxTeamSize || !user}
+                        onClick={() => {
+                          if (!user) {
+                            window.location.href = '/auth';
+                          }
+                        }}
+                      >
+                        {!user ? "Login to Join" : 
+                          project.teamSize >= project.maxTeamSize ? "Team Full" : "Join Now"}
+                      </Button>
+                    )}
+                  </div>
+                  
+                  {applyingForRoleId && (
+                    <div className="mt-4 bg-muted/30 border p-4 rounded-md">
+                      <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="message"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Application Message</FormLabel>
+                                <FormControl>
+                                  <Textarea 
+                                    placeholder="Describe why you're a good fit for this role and what relevant skills/experience you have..." 
+                                    {...field}
+                                    className="min-h-[120px]"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
                             )}
-                          </CardContent>
-                        </Card>
-                      ))}
+                          />
+                          <div className="flex justify-end gap-2">
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              onClick={() => setApplyingForRoleId(null)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button 
+                              type="submit"
+                              disabled={form.formState.isSubmitting}
+                            >
+                              {form.formState.isSubmitting ? (
+                                <>
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  Submitting...
+                                </>
+                              ) : (
+                                <>
+                                  <CheckCircle className="mr-2 h-4 w-4" />
+                                  Submit Application
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </form>
+                      </Form>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="comments">
+              <div className="p-4">
+                <div className="text-center py-8">
+                  <MessageSquare className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                  <p className="text-muted-foreground">No comments yet</p>
+                </div>
+              </div>
             </TabsContent>
             
             <TabsContent value="team">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Team Members</CardTitle>
-                  <CardDescription>
-                    Meet the people behind this project
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {isLoadingTeam ? (
-                    <div className="space-y-4">
-                      <div className="h-16 rounded-md bg-muted animate-pulse" />
-                      <div className="h-16 rounded-md bg-muted animate-pulse" />
-                    </div>
-                  ) : !teamMembers || teamMembers.length === 0 ? (
-                    <div className="text-center py-12">
-                      <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-30" />
-                      <h3 className="text-lg font-medium mb-2">No team members</h3>
-                      <p className="text-muted-foreground">
-                        There are no team members assigned to this project yet.
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {teamMembers.map((member) => (
-                        <div 
-                          key={member.id} 
-                          className="flex items-center gap-4 p-3 rounded-md hover:bg-accent/40 transition-colors"
-                        >
-                          <Avatar className="h-12 w-12 border-2 border-muted">
-                            <AvatarFallback>
-                              {"U"}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium truncate">
-                                Team Member
-                              </span>
-                              {member.isFounder && (
-                                <Badge variant="secondary" className="text-xs">Founder</Badge>
-                              )}
-                              {member.roleId && (
-                                <Badge variant="outline" className="text-xs">
-                                  {roles?.find(r => r.id === member.roleId)?.title || 'Team Member'}
-                                </Badge>
-                              )}
-                            </div>
-                            <p className="text-sm text-muted-foreground truncate">
-                              Project contributor
-                            </p>
+              <div className="p-4">
+                {isLoadingTeam ? (
+                  <div className="flex flex-col gap-4 py-2">
+                    <div className="h-16 bg-muted-foreground/10 rounded animate-pulse" />
+                    <div className="h-16 bg-muted-foreground/10 rounded animate-pulse" />
+                  </div>
+                ) : !teamMembers || teamMembers.length === 0 ? (
+                  <div className="text-center py-6">
+                    <Users className="mx-auto h-10 w-10 text-muted-foreground/50 mb-2" />
+                    <p className="text-muted-foreground">No team members yet</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-4 py-2">
+                    {teamMembers.map((member) => (
+                      <div key={member.id} className="flex items-center gap-3">
+                        <Avatar className="h-14 w-14 bg-muted-foreground/20 rounded-md border">
+                          <AvatarFallback>
+                            {member.user?.username?.charAt(0).toUpperCase() || 'U'}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium">
+                            {member.user?.username || 'Team Member'}
                           </div>
+                          <Badge variant="secondary" className="mt-1">
+                            {member.roleId ? 
+                              roles?.find((r) => r.id === member.roleId)?.title || 'MEMBER' : 
+                              member.isFounder ? 'FOUNDER' : 'MEMBER'}
+                          </Badge>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </TabsContent>
           </Tabs>
         </div>
