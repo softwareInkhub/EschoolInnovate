@@ -11,6 +11,7 @@ import AuthPage from "@/pages/auth-page";
 import LandingPage from "@/pages/LandingPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import SchoolsPage from "@/pages/SchoolsPage";
+import FeaturesShowcase from "@/pages/FeaturesShowcase";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -71,6 +72,14 @@ function Router() {
           <Navbar />
           <main className="flex-1">
             <ProtectedRoute path="/home" component={Home} />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/features">
+          <Navbar />
+          <main className="flex-1">
+            <ProtectedRoute path="/features" component={FeaturesShowcase} />
           </main>
           <Footer />
         </Route>
