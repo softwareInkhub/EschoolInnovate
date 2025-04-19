@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import ProjectDetails from "@/pages/ProjectDetails";
 import Dashboard from "@/pages/Dashboard";
 import AuthPage from "@/pages/auth-page";
+import LandingPage from "@/pages/LandingPage";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -17,19 +18,50 @@ function Router() {
   return (
     <div className="flex flex-col min-h-screen bg-[#121216]">
       <Switch>
+        {/* Authentication page route */}
         <Route path="/auth">
           <AuthPage />
         </Route>
         
+        {/* Landing page - accessible to everyone */}
+        <Route path="/">
+          <Navbar />
+          <main className="flex-1">
+            <LandingPage />
+          </main>
+          <Footer />
+        </Route>
+        
+        {/* Protected routes that require authentication */}
+        <Route path="/projects">
+          <Navbar />
+          <main className="flex-1">
+            <ProtectedRoute path="/projects" component={Home} />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/project/:id">
+          <Navbar />
+          <main className="flex-1">
+            <ProtectedRoute path="/project/:id" component={ProjectDetails} />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/dashboard">
+          <Navbar />
+          <main className="flex-1">
+            <ProtectedRoute path="/dashboard" component={Dashboard} />
+          </main>
+          <Footer />
+        </Route>
+        
+        {/* 404 Not Found Route */}
         <Route>
           <Navbar />
           <main className="flex-1">
-            <Switch>
-              <ProtectedRoute path="/" component={Home} />
-              <ProtectedRoute path="/project/:id" component={ProjectDetails} />
-              <ProtectedRoute path="/dashboard" component={Dashboard} />
-              <Route component={NotFound} />
-            </Switch>
+            <NotFound />
           </main>
           <Footer />
         </Route>

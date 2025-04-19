@@ -44,7 +44,7 @@ export default function Navbar() {
                   <path d="M2 12l10 5 10-5"></path>
                 </svg>
               </div>
-              <Link href="/">
+              <Link href={user ? "/projects" : "/"}>
                 <a className="text-xl font-bold text-white">eSchool.ai</a>
               </Link>
             </div>
@@ -156,7 +156,7 @@ export default function Navbar() {
                     </div>
                   )}
                   
-                  <Link href="/">
+                  <Link href={user ? "/projects" : "/"}>
                     <a className="text-lg font-medium">Home</a>
                   </Link>
                   <Link href="/dashboard">
