@@ -27,11 +27,8 @@ import { useAuth } from '@/hooks/use-auth';
 
 export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  
-  // For demo purposes, we'll use user ID 1
-  const { data: user } = useQuery({
-    queryKey: ['/api/users/1'],
-  });
+  const [location, navigate] = useLocation();
+  const { user, logoutMutation } = useAuth();
   
   return (
     <nav className="bg-[#121216] border-b border-[#2D2D3A] sticky top-0 z-50">
@@ -89,31 +86,47 @@ export default function Navbar() {
               <Users className="h-5 w-5" />
             </Button>
             
-            <DropdownMenu open={isUserMenuOpen} onOpenChange={setIsUserMenuOpen}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative rounded-full h-9 w-9 p-0">
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage src={user?.avatar} alt={user?.username} />
-                    <AvatarFallback>
-                      <User className="h-5 w-5" />
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <Link href="/dashboard">
-                  <DropdownMenuItem className="cursor-pointer">
-                    Dashboard
+            {user ? (
+              <DropdownMenu open={isUserMenuOpen} onOpenChange={setIsUserMenuOpen}>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative rounded-full h-9 w-9 p-0">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src={user.avatar ? user.avatar : undefined} alt={user.username} />
+                      <AvatarFallback>
+                        {user.username.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href="/dashboard">
+                    <DropdownMenuItem className="cursor-pointer">
+                      Dashboard
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="cursor-pointer"
+                    onClick={() => logoutMutation.mutate()}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Log out
                   </DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">Settings</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">Log out</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                variant="default" 
+                size="sm"
+                onClick={() => navigate("/auth")}
+              >
+                Login
+              </Button>
+            )}
           </div>
           
           {/* Mobile menu button */}
@@ -126,6 +139,23 @@ export default function Navbar() {
               </SheetTrigger>
               <SheetContent>
                 <div className="flex flex-col space-y-4 mt-6">
+                  {user && (
+                    <div className="flex items-center space-x-3 pb-4 mb-2 border-b border-border">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={user.avatar ? user.avatar : undefined} alt={user.username} />
+                        <AvatarFallback>
+                          {user.username.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{user.username}</p>
+                        <p className="text-sm text-muted-foreground truncate max-w-[180px]">
+                          {user.email}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  
                   <Link href="/">
                     <a className="text-lg font-medium">Home</a>
                   </Link>
@@ -138,8 +168,25 @@ export default function Navbar() {
                   <Link href="/blogs">
                     <a className="text-lg font-medium">Blogs</a>
                   </Link>
+                  
                   <div className="pt-4 border-t border-border">
-                    <Button className="w-full">EXPLORE</Button>
+                    {user ? (
+                      <Button 
+                        className="w-full" 
+                        variant="destructive"
+                        onClick={() => logoutMutation.mutate()}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button 
+                        className="w-full"
+                        onClick={() => navigate("/auth")}
+                      >
+                        Login
+                      </Button>
+                    )}
                   </div>
                 </div>
               </SheetContent>
