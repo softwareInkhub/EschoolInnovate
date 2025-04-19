@@ -456,106 +456,311 @@ export default function LandingPage() {
       </section>
 
       {/* Schools Section Preview */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      <section className="py-20 relative overflow-hidden">
+        {/* Background decoration */}
+        <motion.div 
+          className="absolute bottom-40 -left-28 w-96 h-96 bg-primary/10 rounded-full blur-3xl mix-blend-multiply"
+          animate={{ 
+            x: [0, 30, 0],
+            y: [0, -20, 0], 
+          }}
+          transition={{ 
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut" 
+          }}
+        />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+          >
             <h2 className="text-3xl font-bold mb-4">Our Educational Partners</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Access high-quality educational content from leading schools in technology, business, design, and more.
             </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* School Card 1 */}
-            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
-              <div className="bg-primary h-2"></div>
-              <div className="p-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
-                  <Lightbulb className="h-6 w-6 text-primary" />
+          </motion.div>
+          
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+          >
+            {[
+              {
+                icon: <Lightbulb className="h-6 w-6 text-primary" />,
+                title: "TechAcademy",
+                description: "Advanced courses in programming, AI, and machine learning",
+                courses: 24,
+                animate: { rotate: [0, 10, -10, 0] }
+              },
+              {
+                icon: <Users className="h-6 w-6 text-primary" />,
+                title: "Business Hub",
+                description: "Startup fundamentals, marketing, and growth strategies",
+                courses: 18,
+                animate: { scale: [1, 1.1, 1] }
+              },
+              {
+                icon: <GitMerge className="h-6 w-6 text-primary" />,
+                title: "Design Master",
+                description: "UX/UI design principles and practical applications",
+                courses: 15,
+                animate: { rotate: [0, -10, 10, 0] }
+              },
+              {
+                icon: <Rocket className="h-6 w-6 text-primary" />,
+                title: "Innovation Lab",
+                description: "Product development and innovation frameworks",
+                courses: 12,
+                animate: { y: [0, -5, 0] }
+              }
+            ].map((school, index) => (
+              <motion.div 
+                key={index}
+                className="bg-card rounded-lg overflow-hidden shadow-md border border-border group"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.5 } 
+                  }
+                }}
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  borderColor: "rgba(139, 92, 246, 0.3)"
+                }}
+              >
+                <div className="bg-primary h-2 group-hover:h-3 transition-all"></div>
+                <div className="p-6">
+                  <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <motion.div
+                      animate={school.animate}
+                      transition={{ 
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut" 
+                      }}
+                    >
+                      {school.icon}
+                    </motion.div>
+                  </div>
+                  <motion.h3 
+                    className="font-bold text-xl mb-2"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    {school.title}
+                  </motion.h3>
+                  <p className="text-muted-foreground mb-4">{school.description}</p>
+                  <p className="text-sm text-primary">{school.courses} Courses Available</p>
                 </div>
-                <h3 className="font-bold text-xl mb-2">TechAcademy</h3>
-                <p className="text-muted-foreground mb-4">Advanced courses in programming, AI, and machine learning</p>
-                <p className="text-sm text-primary">24 Courses Available</p>
-              </div>
-            </div>
-            
-            {/* School Card 2 */}
-            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
-              <div className="bg-primary h-2"></div>
-              <div className="p-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-bold text-xl mb-2">Business Hub</h3>
-                <p className="text-muted-foreground mb-4">Startup fundamentals, marketing, and growth strategies</p>
-                <p className="text-sm text-primary">18 Courses Available</p>
-              </div>
-            </div>
-            
-            {/* School Card 3 */}
-            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
-              <div className="bg-primary h-2"></div>
-              <div className="p-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
-                  <GitMerge className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-bold text-xl mb-2">Design Master</h3>
-                <p className="text-muted-foreground mb-4">UX/UI design principles and practical applications</p>
-                <p className="text-sm text-primary">15 Courses Available</p>
-              </div>
-            </div>
-            
-            {/* School Card 4 */}
-            <div className="bg-card rounded-lg overflow-hidden shadow-md border border-border hover:shadow-lg transition-all">
-              <div className="bg-primary h-2"></div>
-              <div className="p-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mb-4">
-                  <Rocket className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-bold text-xl mb-2">Innovation Lab</h3>
-                <p className="text-muted-foreground mb-4">Product development and innovation frameworks</p>
-                <p className="text-sm text-primary">12 Courses Available</p>
-              </div>
-            </div>
-          </div>
-          <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => navigate("/auth")}
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          <motion.div 
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Explore All Schools
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => navigate("/auth")}
+              >
+                Explore All Schools
+                <motion.span
+                  className="ml-2 inline-block"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ 
+                    duration: 1.5, 
+                    repeat: Infinity,
+                    ease: "easeInOut" 
+                  }}
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </motion.span>
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-card border border-border rounded-xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-lg">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Join Our Community?</h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+      <section className="py-20 bg-primary/10 relative overflow-hidden">
+        {/* Animated background elements */}
+        <motion.div 
+          className="absolute top-20 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl opacity-30"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut" 
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-10 left-20 w-48 h-48 bg-primary/20 rounded-full blur-3xl opacity-20"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ 
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut" 
+          }}
+        />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <motion.div 
+            className="bg-card border border-border rounded-xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-lg relative overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            whileHover={{ 
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              borderColor: "rgba(139, 92, 246, 0.3)"
+            }}
+          >
+            {/* Decorative shapes */}
+            <motion.div 
+              className="absolute -top-10 -right-10 w-40 h-40 rounded-full border border-primary/20 opacity-50"
+              animate={{ rotate: 360 }}
+              transition={{ 
+                duration: 20, 
+                repeat: Infinity,
+                ease: "linear" 
+              }}
+            />
+            <motion.div 
+              className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full border border-primary/20 opacity-30"
+              animate={{ rotate: -360 }}
+              transition={{ 
+                duration: 30, 
+                repeat: Infinity,
+                ease: "linear" 
+              }}
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold mb-6 relative"
+                initial={{ scale: 0.95 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                <motion.span
+                  className="inline-block"
+                  whileInView={{
+                    color: [
+                      "rgba(var(--foreground))",
+                      "rgba(var(--primary))",
+                      "rgba(var(--foreground))"
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut" 
+                  }}
+                >
+                  Ready to Join Our Community?
+                </motion.span>
+              </motion.h2>
+            </motion.div>
+            
+            <motion.p 
+              className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
               Create an account today to browse projects, join teams, and access educational content.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="text-lg px-8"
-                onClick={() => navigate("/auth")}
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.7 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Sign Up Now
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8"
-                onClick={() => navigate("/auth")}
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8"
+                  onClick={() => navigate("/auth")}
+                >
+                  <motion.span
+                    animate={{ 
+                      textShadow: [
+                        "0 0 0px rgba(255,255,255,0)", 
+                        "0 0 10px rgba(255,255,255,0.5)", 
+                        "0 0 0px rgba(255,255,255,0)"
+                      ] 
+                    }}
+                    transition={{ 
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    Sign Up Now
+                  </motion.span>
+                </Button>
+              </motion.div>
+              
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Learn More
-              </Button>
-            </div>
-          </div>
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="text-lg px-8"
+                  onClick={() => navigate("/auth")}
+                >
+                  Learn More
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </div>
