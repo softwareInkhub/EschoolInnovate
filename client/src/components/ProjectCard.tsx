@@ -92,9 +92,9 @@ export default function ProjectCard({ project, showDetails = false }: ProjectCar
                 <div className="h-6 w-24 bg-muted-foreground/20 rounded"></div>
                 <div className="h-6 w-20 bg-muted-foreground/20 rounded"></div>
               </div>
-            ) : roles && roles.length > 0 ? (
+            ) : roles && Array.isArray(roles) && roles.length > 0 ? (
               <div className="flex flex-wrap gap-2">
-                {roles.map(role => (
+                {roles.map((role: { id: number; title: string }) => (
                   <Badge key={role.id} variant="outline" className="bg-primary/10 text-primary">
                     {role.title}
                   </Badge>
@@ -123,9 +123,9 @@ export default function ProjectCard({ project, showDetails = false }: ProjectCar
           )}
           
           <div className="flex justify-end">
-            <Link href={`/project/${project.id}`}>
+            <Link href={`/projects/${project.id}`}>
               <Button>
-                Apply to Join
+                View Project
               </Button>
             </Link>
           </div>

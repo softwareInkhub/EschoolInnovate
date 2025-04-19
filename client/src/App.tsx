@@ -44,10 +44,10 @@ function Router() {
           <Footer />
         </Route>
         
-        <Route path="/project/:id">
+        <Route path="/projects/:id">
           <Navbar />
           <main className="flex-1">
-            <ProtectedRoute path="/project/:id" component={ProjectDetails} />
+            <ProtectedRoute path="/projects/:id" component={ProjectDetails} />
           </main>
           <Footer />
         </Route>

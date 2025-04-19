@@ -223,8 +223,8 @@ export default function ProjectsPage() {
               animate="visible"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {filteredProjects.data.length > 0 ? (
-                filteredProjects.data.map((project) => (
+              {filteredProjects.data && filteredProjects.data.length > 0 ? (
+                filteredProjects.data.map((project: any) => (
                   <motion.div 
                     key={project.id}
                     variants={fadeIn}
@@ -429,7 +429,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       
       <CardFooter className="pt-2 border-t flex justify-between items-center">
         <span className="text-xs text-muted-foreground">
-          Created {new Date(project.createdAt).toLocaleDateString()}
+          Created {project.createdAt ? new Date(project.createdAt).toLocaleDateString() : "Recently"}
         </span>
         
         <Button variant="ghost" size="sm" className="gap-1 text-xs h-8">
