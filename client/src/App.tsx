@@ -9,6 +9,8 @@ import ProjectDetails from "@/pages/ProjectDetails";
 import Dashboard from "@/pages/Dashboard";
 import AuthPage from "@/pages/auth-page";
 import LandingPage from "@/pages/LandingPage";
+import ProjectsPage from "@/pages/ProjectsPage";
+import SchoolsPage from "@/pages/SchoolsPage";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -36,7 +38,7 @@ function Router() {
         <Route path="/projects">
           <Navbar />
           <main className="flex-1">
-            <ProtectedRoute path="/projects" component={Home} />
+            <ProtectedRoute path="/projects" component={ProjectsPage} />
           </main>
           <Footer />
         </Route>
@@ -53,6 +55,22 @@ function Router() {
           <Navbar />
           <main className="flex-1">
             <ProtectedRoute path="/dashboard" component={Dashboard} />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/schools">
+          <Navbar />
+          <main className="flex-1">
+            <ProtectedRoute path="/schools" component={SchoolsPage} />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/home">
+          <Navbar />
+          <main className="flex-1">
+            <ProtectedRoute path="/home" component={Home} />
           </main>
           <Footer />
         </Route>

@@ -789,15 +789,7 @@ export default function LandingPage() {
         </div>
       </section>
       
-      {/* CSS for grid pattern */}
-      <style jsx global>{`
-        .bg-grid-pattern {
-          background-size: 40px 40px;
-          background-image: 
-            linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-        }
-      `}</style>
+      {/* The grid pattern is defined in the CSS */}
     </div>
   );
 }

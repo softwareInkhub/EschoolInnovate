@@ -1,161 +1,228 @@
-import { useState } from 'react';
-import { useLocation } from 'wouter';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Loader2, MailIcon, KeyIcon, UserIcon, ShieldIcon } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
-import { insertUserSchema } from '@shared/schema';
+import { useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { useLocation } from "wouter";
+import { motion } from "framer-motion";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  ArrowRight,
+  Lock,
+  User,
+  Mail,
+  KeyRound,
+  Shield,
+  Check,
+  Rocket,
+  Lightbulb,
+  GitMerge,
+  BookOpen
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
+// Login schema
 const loginSchema = z.object({
-  username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+  username: z.string().min(3, {
+    message: "Username must be at least 3 characters.",
+  }),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
 });
 
-const registerSchema = insertUserSchema
-  .pick({
-    username: true,
-    email: true,
-    password: true,
-  })
-  .extend({
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
+// Registration schema
+const registerSchema = z.object({
+  username: z.string().min(3, {
+    message: "Username must be at least 3 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+  confirmPassword: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState('login');
-  const [location, navigate] = useLocation();
-  const { user, loginMutation, registerMutation } = useAuth();
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
 
-  // If user is already logged in, redirect to home
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+export default function AuthPage() {
+  const { user } = useAuth();
+  const [, navigate] = useLocation();
+  const [activeTab, setActiveTab] = useState<string>("login");
+
+  // If user is already logged in, redirect to projects page
   if (user) {
-    navigate('/');
+    navigate("/projects");
     return null;
   }
 
   return (
-    <div className="flex min-h-screen bg-[#121216]">
-      {/* Left Side - Auth Forms */}
-      <div className="flex flex-1 items-center justify-center">
-        <Card className="w-full max-w-md bg-[#1E1E24] border border-[#2D2D3A]">
-          <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-bold">Welcome to eSchool.ai</CardTitle>
-            <CardDescription>
-              {activeTab === 'login' 
-                ? 'Sign in to access your account' 
-                : 'Create an account to get started'}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="login">
-                <LoginForm />
-              </TabsContent>
-              
-              <TabsContent value="register">
-                <RegisterForm />
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-[#2D2D3A]" />
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="bg-[#1E1E24] px-2 text-muted-foreground">
-                  OR CONTINUE WITH
-                </span>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" className="w-full">
-                <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335" />
-                  <path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4" />
-                  <path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z" fill="#FBBC05" />
-                  <path d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.25 12.0004 19.25C8.8704 19.25 6.21537 17.14 5.2654 14.295L1.2754 17.39C3.2504 21.31 7.3104 24.0001 12.0004 24.0001Z" fill="#34A853" />
-                </svg>
-                Google
-              </Button>
-              <Button variant="outline" className="w-full">
-                <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9.5 3.5H14.5V10.5H21.5V15.5H14.5V22.5H9.5V15.5H2.5V10.5H9.5V3.5Z" fill="#1877F2" />
-                </svg>
-                Facebook
-              </Button>
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Left panel (Form) */}
+      <motion.div 
+        className="w-full md:w-1/2 flex-shrink-0 flex items-center justify-center p-6 md:p-12 bg-background"
+        initial="hidden"
+        animate="visible"
+        variants={fadeInLeft}
+      >
+        <div className="w-full max-w-md">
+          <div className="mb-8 text-center md:text-left">
+            <h1 className="text-3xl font-bold mb-2">Welcome to <span className="text-primary">eSchool.ai</span></h1>
+            <p className="text-muted-foreground">Sign in to your account or create a new one to get started</p>
+          </div>
+          
+          <Tabs 
+            defaultValue="login" 
+            value={activeTab} 
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <TabsList className="grid grid-cols-2 mb-6">
+              <TabsTrigger value="login">Sign In</TabsTrigger>
+              <TabsTrigger value="register">Create Account</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="login">
+              <LoginForm />
+            </TabsContent>
+            
+            <TabsContent value="register">
+              <RegisterForm />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </motion.div>
       
-      {/* Right Side - Hero Image */}
-      <div className="hidden md:block md:w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80')" }}>
-        <div className="h-full w-full bg-black bg-opacity-70 flex items-center justify-center p-12">
-          <div className="max-w-md text-white">
-            <h1 className="text-4xl font-bold mb-6">Build or Join Your Dream Team</h1>
-            <p className="text-lg mb-8">From Idea to Funded Startup - connect with talented individuals, showcase your projects, and learn new skills all in one place.</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white bg-opacity-10 p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-2">Project Showcase</h3>
-                <p className="text-sm">Present your ideas to the world and attract collaborators</p>
+      {/* Right panel (Details) */}
+      <motion.div 
+        className="w-full md:w-1/2 bg-gradient-to-br from-primary/10 via-background to-primary/5 relative hidden md:flex items-center justify-center overflow-hidden"
+        initial="hidden"
+        animate="visible"
+        variants={fadeInRight}
+      >
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.05]"></div>
+        <div className="absolute left-1/2 top-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[80px] z-0"></div>
+        
+        <div className="relative z-10 max-w-md mx-8 p-8">
+          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+            <BookOpen className="h-8 w-8 text-primary" />
+          </div>
+          
+          <h2 className="text-3xl font-bold mb-6">Join Our Innovative Community</h2>
+          <p className="text-muted-foreground mb-8">
+            Connect with passionate creators, find exciting projects, and access world-class educational resources to accelerate your growth.
+          </p>
+          
+          <div className="space-y-4 mb-12">
+            {[
+              { icon: <GitMerge className="h-5 w-5 text-primary" />, text: "Collaborate on cutting-edge projects" },
+              { icon: <Rocket className="h-5 w-5 text-primary" />, text: "Accelerate your idea from concept to launch" },
+              { icon: <BookOpen className="h-5 w-5 text-primary" />, text: "Access premium educational content" },
+              { icon: <Lightbulb className="h-5 w-5 text-primary" />, text: "Connect with like-minded innovators" }
+            ].map((item, i) => (
+              <div key={i} className="flex items-start">
+                <div className="mr-3 mt-0.5">
+                  {item.icon}
+                </div>
+                <span>{item.text}</span>
               </div>
-              <div className="bg-white bg-opacity-10 p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-2">Talent Matching</h3>
-                <p className="text-sm">Find the perfect team members for your venture</p>
+            ))}
+          </div>
+          
+          <div className="p-4 border border-border bg-card/50 rounded-lg">
+            <div className="flex items-center gap-4 mb-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="h-5 w-5 text-primary" />
               </div>
-              <div className="bg-white bg-opacity-10 p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-2">Learning Schools</h3>
-                <p className="text-sm">Acquire new skills through specialized courses</p>
-              </div>
-              <div className="bg-white bg-opacity-10 p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-2">Mentor Guidance</h3>
-                <p className="text-sm">Get advice from experienced professionals</p>
+              <div>
+                <div className="font-medium">Jessica Wilson</div>
+                <div className="text-sm text-muted-foreground">UX Designer</div>
               </div>
             </div>
+            <p className="text-sm italic">
+              "eSchool.ai helped me connect with an amazing team of developers. Together we built a product that now has over 10,000 users!"
+            </p>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 function LoginForm() {
   const { loginMutation } = useAuth();
+  const { toast } = useToast();
+  const [, navigate] = useLocation();
   
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       username: "",
-      password: "",
-    },
+      password: ""
+    }
   });
   
   function onSubmit(data: LoginFormValues) {
-    loginMutation.mutate(data);
+    loginMutation.mutate(data, {
+      onSuccess: () => {
+        toast({
+          title: "Login successful",
+          description: "Welcome back to eSchool.ai!",
+        });
+        navigate("/projects");
+      }
+    });
   }
   
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="username"
@@ -164,12 +231,8 @@ function LoginForm() {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <UserIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    placeholder="Enter your username" 
-                    className="pl-10" 
-                    {...field} 
-                  />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input placeholder="Enter your username" className="pl-10" {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -185,13 +248,8 @@ function LoginForm() {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <KeyIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    type="password" 
-                    placeholder="Enter your password" 
-                    className="pl-10" 
-                    {...field} 
-                  />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input type="password" placeholder="Enter your password" className="pl-10" {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -199,18 +257,29 @@ function LoginForm() {
           )}
         />
         
+        <div className="flex items-center justify-between">
+          <div className="text-sm">
+            <Button variant="link" className="p-0 h-auto text-primary" type="button">
+              Forgot password?
+            </Button>
+          </div>
+        </div>
+        
         <Button 
           type="submit" 
-          className="w-full" 
+          className="w-full"
           disabled={loginMutation.isPending}
         >
           {loginMutation.isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <div className="flex items-center">
+              <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2"></div>
               Signing in...
-            </>
+            </div>
           ) : (
-            "Sign In"
+            <div className="flex items-center">
+              Sign In
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </div>
           )}
         </Button>
       </form>
@@ -220,6 +289,8 @@ function LoginForm() {
 
 function RegisterForm() {
   const { registerMutation } = useAuth();
+  const { toast } = useToast();
+  const [, navigate] = useLocation();
   
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -227,14 +298,23 @@ function RegisterForm() {
       username: "",
       email: "",
       password: "",
-      confirmPassword: "",
-    },
+      confirmPassword: ""
+    }
   });
   
   function onSubmit(data: RegisterFormValues) {
-    // Remove confirmPassword as it's not part of the API schema
-    const { confirmPassword, ...registerData } = data;
-    registerMutation.mutate(registerData);
+    // Remove confirmPassword as it's not part of the API
+    const { confirmPassword, ...registrationData } = data;
+    
+    registerMutation.mutate(registrationData, {
+      onSuccess: () => {
+        toast({
+          title: "Registration successful",
+          description: "Welcome to eSchool.ai!",
+        });
+        navigate("/projects");
+      }
+    });
   }
   
   return (
@@ -248,12 +328,8 @@ function RegisterForm() {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <UserIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    placeholder="Choose a username" 
-                    className="pl-10" 
-                    {...field} 
-                  />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input placeholder="Choose a username" className="pl-10" {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -269,13 +345,8 @@ function RegisterForm() {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <MailIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    className="pl-10" 
-                    {...field} 
-                  />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input placeholder="Enter your email" className="pl-10" {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -291,13 +362,8 @@ function RegisterForm() {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <KeyIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    type="password" 
-                    placeholder="Create a strong password" 
-                    className="pl-10" 
-                    {...field} 
-                  />
+                  <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input type="password" placeholder="Create a password" className="pl-10" {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -313,13 +379,8 @@ function RegisterForm() {
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <ShieldIcon className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    type="password" 
-                    placeholder="Confirm your password" 
-                    className="pl-10" 
-                    {...field} 
-                  />
+                  <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input type="password" placeholder="Confirm your password" className="pl-10" {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -327,18 +388,25 @@ function RegisterForm() {
           )}
         />
         
+        <div className="text-sm text-muted-foreground mt-4">
+          By registering, you agree to our Terms of Service and Privacy Policy.
+        </div>
+        
         <Button 
           type="submit" 
-          className="w-full" 
+          className="w-full"
           disabled={registerMutation.isPending}
         >
           {registerMutation.isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <div className="flex items-center">
+              <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2"></div>
               Creating account...
-            </>
+            </div>
           ) : (
-            "Create Account"
+            <div className="flex items-center">
+              Create Account
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </div>
           )}
         </Button>
       </form>
