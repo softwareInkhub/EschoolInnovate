@@ -155,6 +155,7 @@ export default function LandingPage() {
               <Button 
                 variant="outline" 
                 className="h-14 px-8 text-lg font-medium rounded-xl"
+                onClick={() => navigate("/auth")}
               >
                 Explore Projects
               </Button>
