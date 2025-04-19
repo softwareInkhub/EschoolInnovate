@@ -55,13 +55,12 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
       description: "",
       category: "",
       problem: "",
-      solution: "",
       market: "",
       competition: "",
       stage: "Idea",
+      teamSize: 1,
       maxTeamSize: 5,
       createdBy: user?.id || 0,
-      roles: [],
     },
   });
   
@@ -203,19 +202,23 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               )}
             />
             
-            {/* Solution */}
+            {/* Banner URL (Optional) */}
             <FormField
               control={form.control}
-              name="solution"
+              name="banner"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Solution</FormLabel>
+                  <FormLabel>Banner Image URL (Optional)</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="How does your project solve this problem?" 
+                    <Input 
+                      placeholder="URL to a banner image for your project" 
                       {...field} 
+                      value={field.value || ''}
                     />
                   </FormControl>
+                  <FormDescription>
+                    Add a URL to an image that represents your project
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
