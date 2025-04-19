@@ -9,13 +9,16 @@ import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
+// Remove password from SelectUser type for safety
+type SafeUser = Omit<SelectUser, 'password'>;
+
 type AuthContextType = {
-  user: SelectUser | null;
+  user: SafeUser | null;
   isLoading: boolean;
   error: Error | null;
-  loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
+  loginMutation: UseMutationResult<SafeUser, Error, LoginData>;
   logoutMutation: UseMutationResult<void, Error, void>;
-  registerMutation: UseMutationResult<SelectUser, Error, RegisterData>;
+  registerMutation: UseMutationResult<SafeUser, Error, RegisterData>;
 };
 
 type LoginData = {
@@ -42,9 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     data: user,
     error,
     isLoading,
-  } = useQuery<SelectUser | null, Error>({
+  } = useQuery<SafeUser | null, Error>({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const loginMutation = useMutation({
@@ -53,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
       return data;
     },
-    onSuccess: (user: SelectUser) => {
+    onSuccess: (user: SafeUser) => {
       queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Login successful",
@@ -75,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
       return data;
     },
-    onSuccess: (user: SelectUser) => {
+    onSuccess: (user: SafeUser) => {
       queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Registration successful",
@@ -114,7 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: user || null,
         isLoading,
         error,
         loginMutation,
