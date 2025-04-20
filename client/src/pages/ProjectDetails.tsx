@@ -18,6 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { getStageColor, getProgressPercentage, formatDate } from '@/lib/project-utils';
+import { Plus } from 'lucide-react';
 import { 
   Users, 
   Link2, 
