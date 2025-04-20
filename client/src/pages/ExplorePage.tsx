@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
+import ContextualHelp from "@/components/ContextualHelp";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -296,24 +297,46 @@ export default function ExplorePage() {
                   Projects & Startups
                 </Button>
               </ContextualHelp>
-              <Button 
-                variant={mainTab === "learning" ? "default" : "outline"} 
-                size="lg"
-                className="text-base py-6 gap-2 w-full sm:w-auto"
-                onClick={() => setMainTab("learning")}
+              <ContextualHelp
+                id="explore-learning-tab"
+                text={[
+                  "Welcome to the Learning Platform! This is your gateway to high-quality educational content.",
+                  "Browse courses from leading schools and institutions in various fields like programming, business, and design.",
+                  "Level up your skills and improve your project's success chances with targeted learning!"
+                ]}
+                context="learning"
+                interactive={true}
               >
-                <GraduationCap className="h-5 w-5" />
-                Learning Platform
-              </Button>
-              <Button 
-                variant={mainTab === "funding" ? "default" : "outline"} 
-                size="lg"
-                className="text-base py-6 gap-2 w-full sm:w-auto"
-                onClick={() => setMainTab("funding")}
+                <Button 
+                  variant={mainTab === "learning" ? "default" : "outline"} 
+                  size="lg"
+                  className="text-base py-6 gap-2 w-full sm:w-auto"
+                  onClick={() => setMainTab("learning")}
+                >
+                  <GraduationCap className="h-5 w-5" />
+                  Learning Platform
+                </Button>
+              </ContextualHelp>
+              <ContextualHelp
+                id="explore-funding-tab"
+                text={[
+                  "Welcome to the Funding section! This is where you can find financial opportunities for your projects.",
+                  "Discover grants, angel investors, venture capital, and crowdfunding options for your startup.",
+                  "Get connected with potential investors who are looking for innovative ideas like yours!"
+                ]}
+                context="funding"
+                interactive={true}
               >
-                <DollarSign className="h-5 w-5" />
-                Funding
-              </Button>
+                <Button 
+                  variant={mainTab === "funding" ? "default" : "outline"} 
+                  size="lg"
+                  className="text-base py-6 gap-2 w-full sm:w-auto"
+                  onClick={() => setMainTab("funding")}
+                >
+                  <DollarSign className="h-5 w-5" />
+                  Funding
+                </Button>
+              </ContextualHelp>
             </div>
           </motion.div>
         </div>
@@ -330,13 +353,25 @@ export default function ExplorePage() {
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Projects & Startups</h2>
-              <Button 
-                onClick={openCreateModal}
-                className="gap-2"
+              <ContextualHelp
+                id="create-project-button"
+                text={[
+                  "Ready to start your own project? Click here to create one!",
+                  "You'll be asked to provide details like project name, description, category, and team size requirements.",
+                  "Once created, your project will be visible to potential collaborators and investors."
+                ]}
+                context="projects"
+                width="md"
+                position="left"
               >
-                <Plus className="h-4 w-4" />
-                Create Project
-              </Button>
+                <Button 
+                  onClick={openCreateModal}
+                  className="gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Create Project
+                </Button>
+              </ContextualHelp>
             </div>
             
             <p className="text-muted-foreground mb-8 max-w-3xl">
@@ -344,15 +379,26 @@ export default function ExplorePage() {
             </p>
             
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
-              <div className="relative flex-1 w-full md:w-auto">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search projects..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-full"
-                />
-              </div>
+              <ContextualHelp
+                id="search-projects"
+                text={[
+                  "Looking for specific projects? Use this search bar to find exactly what you're interested in.",
+                  "You can search by project name, keywords in the description, or by technology stack.",
+                  "The results will update in real-time as you type!"
+                ]}
+                context="projects"
+                position="bottom"
+              >
+                <div className="relative flex-1 w-full md:w-auto">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search projects..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 w-full"
+                  />
+                </div>
+              </ContextualHelp>
               
               <div className="flex items-center gap-2 w-full md:w-auto">
                 <Select

@@ -18,12 +18,14 @@ import {
   Users, 
   User,
   Menu,
-  LogOut
+  LogOut,
+  HelpCircle
 } from 'lucide-react';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/use-auth';
+import HelpSettingsModal from '@/components/HelpSettingsModal';
 
 export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
