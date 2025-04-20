@@ -3,150 +3,143 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/not-found";
-import Home from "@/pages/Home";
-import ProjectDetails from "@/pages/ProjectDetails";
-import Dashboard from "@/pages/Dashboard";
-import AuthPage from "@/pages/auth-page";
-import LandingPage from "@/pages/LandingPage";
-import ProjectsPage from "@/pages/ProjectsPage";
-import SchoolsPage from "@/pages/SchoolsPage";
-import SchoolDetailPage from "@/pages/SchoolDetailPage";
-import FeaturesShowcase from "@/pages/FeaturesShowcase";
-import CompetitionPage from "@/pages/CompetitionPage";
-import ExplorePage from "@/pages/ExplorePage";
-import FAQPage from "@/pages/FAQPage";
-import BlogPage from "@/pages/BlogPage";
-import AdvancedFeaturesPage from "@/pages/AdvancedFeaturesPage";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { lazy, Suspense } from "react";
 import { AuthProvider } from "@/hooks/use-auth";
 import { HelpProvider } from "@/hooks/use-help-context";
 import { ProtectedRoute } from "@/lib/protected-route";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+// Eagerly load critical components
+import LandingPage from "@/pages/LandingPage";
+import AuthPage from "@/pages/auth-page";
+import NotFound from "@/pages/not-found";
+
+// Lazy load non-critical components
+const Home = lazy(() => import("@/pages/Home"));
+const ProjectDetails = lazy(() => import("@/pages/ProjectDetails"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const ProjectsPage = lazy(() => import("@/pages/ProjectsPage"));
+const SchoolsPage = lazy(() => import("@/pages/SchoolsPage"));
+const SchoolDetailPage = lazy(() => import("@/pages/SchoolDetailPage"));
+const FeaturesShowcase = lazy(() => import("@/pages/FeaturesShowcase"));
+const CompetitionPage = lazy(() => import("@/pages/CompetitionPage"));
+const ExplorePage = lazy(() => import("@/pages/ExplorePage"));
+const FAQPage = lazy(() => import("@/pages/FAQPage"));
+const BlogPage = lazy(() => import("@/pages/BlogPage"));
+const AdvancedFeaturesPage = lazy(() => import("@/pages/AdvancedFeaturesPage"));
+
+// Import the loading component
+import { PageLoading } from "@/components/ui/page-loading";
+
+// Common layout component to maintain consistent structure
+const PageLayout = ({ children }: { children: React.ReactNode }) => (
+  <>
+    <Navbar />
+    <main className="flex-1">
+      <Suspense fallback={<PageLoading />}>
+        {children}
+      </Suspense>
+    </main>
+    <Footer />
+  </>
+);
 
 function Router() {
   return (
     <div className="flex flex-col min-h-screen bg-[#121216]">
       <Switch>
-        {/* Authentication page route */}
+        {/* Authentication page route - directly loaded */}
         <Route path="/auth">
           <AuthPage />
         </Route>
         
         {/* Public pages */}
         <Route path="/explore">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ExplorePage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/faq">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <FAQPage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/blogs">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <BlogPage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/advanced-features">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <AdvancedFeaturesPage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         {/* Protected routes that require authentication */}
         <Route path="/projects">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ProtectedRoute path="/projects" component={ProjectsPage} />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/projects/:id">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ProtectedRoute path="/projects/:id" component={ProjectDetails} />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/dashboard">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ProtectedRoute path="/dashboard" component={Dashboard} />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/schools">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <SchoolsPage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/schools/:id">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <SchoolDetailPage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/home">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ProtectedRoute path="/home" component={Home} />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         <Route path="/features">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ProtectedRoute path="/features" component={FeaturesShowcase} />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
 
         <Route path="/competitions">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <ProtectedRoute path="/competitions" component={CompetitionPage} />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
-        {/* Landing page as root route - accessible to everyone */}
+        {/* Landing page as root route - directly loaded for best performance */}
         <Route path="/">
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <LandingPage />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
         
         {/* 404 Not Found Route */}
         <Route>
-          <Navbar />
-          <main className="flex-1">
+          <PageLayout>
             <NotFound />
-          </main>
-          <Footer />
+          </PageLayout>
         </Route>
       </Switch>
     </div>
