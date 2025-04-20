@@ -109,20 +109,22 @@ export class DynamoStorage implements IStorage {
     
     // Generate a unique ID for the user
     const id = Date.now(); // Simple ID generation for demo
-    const now = new Date();
+    const nowISO = new Date().toISOString(); // Store dates as ISO strings for DynamoDB
     
     const newUser: User = {
       ...user,
       id,
-      createdAt: now,
+      createdAt: nowISO as any, // Cast to any to avoid type issues with Date vs string
       avatar: user.avatar || null,
       bio: user.bio || null
     };
     
+    // Set up MarshallOptions to handle Date objects
     await docClient.send(
       new PutCommand({
         TableName: TABLE_NAMES.USERS,
         Item: newUser,
+        // DynamoDB doesn't directly support JS Date objects
       })
     );
     
@@ -210,13 +212,16 @@ export class DynamoStorage implements IStorage {
   }
 
   async createProject(project: InsertProject): Promise<Project> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     const id = Date.now();
-    const now = new Date();
+    const nowISO = new Date().toISOString(); // Store dates as ISO strings for DynamoDB
     
     const newProject: Project = {
       ...project,
       id,
-      createdAt: now,
+      createdAt: nowISO as any, // Cast to any to avoid type issues with Date vs string
       isFeatured: false, // Default value using the correct property name
       banner: project.banner || null,
       website: project.website || null,
@@ -426,13 +431,16 @@ export class DynamoStorage implements IStorage {
   }
 
   async createTeamMember(teamMember: InsertTeamMember): Promise<TeamMember> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     const id = Date.now();
-    const now = new Date();
+    const nowISO = new Date().toISOString(); // Store dates as ISO strings for DynamoDB
     
     const newTeamMember: TeamMember = {
       ...teamMember,
       id,
-      joinedAt: now,
+      joinedAt: nowISO as any, // Cast to any to avoid type issues with Date vs string
       roleId: teamMember.roleId || null,
       isFounder: teamMember.isFounder ?? false
     };
@@ -491,13 +499,16 @@ export class DynamoStorage implements IStorage {
   }
 
   async createApplication(application: InsertApplication): Promise<Application> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     const id = Date.now();
-    const now = new Date();
+    const nowISO = new Date().toISOString(); // Store dates as ISO strings for DynamoDB
     
     const newApplication: Application = {
       ...application,
       id,
-      createdAt: now,
+      createdAt: nowISO as any, // Cast to any to avoid type issues with Date vs string
       status: "pending", // Default
       message: application.message || null
     };
@@ -763,14 +774,17 @@ export class DynamoStorage implements IStorage {
   }
 
   async createCourse(course: InsertCourse): Promise<Course> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     const id = Date.now();
-    const now = new Date();
+    const nowISO = new Date().toISOString(); // Store dates as ISO strings for DynamoDB
     
     const newCourse: Course = {
       ...course,
       id,
-      createdAt: now,
-      updatedAt: now,
+      createdAt: nowISO as any, // Cast to any to avoid type issues with Date vs string
+      updatedAt: nowISO as any, // Cast to any to avoid type issues with Date vs string
       banner: course.banner || null,
       thumbnail: course.thumbnail || null,
       introVideo: course.introVideo || null,
