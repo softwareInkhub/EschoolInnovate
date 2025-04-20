@@ -96,9 +96,9 @@ export default function AuthPage() {
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState<string>("login");
 
-  // If user is already logged in, redirect to projects page
+  // If user is already logged in, redirect to explore page
   if (user) {
-    navigate("/projects");
+    navigate("/explore");
     return null;
   }
 
@@ -215,7 +215,7 @@ function LoginForm() {
           title: "Login successful",
           description: "Welcome back to eSchool.ai!",
         });
-        navigate("/projects");
+        navigate("/explore");
       }
     });
   }
@@ -312,7 +312,7 @@ function RegisterForm() {
           title: "Registration successful",
           description: "Welcome to eSchool.ai!",
         });
-        navigate("/projects");
+        navigate("/explore");
       }
     });
   }
