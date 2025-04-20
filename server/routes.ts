@@ -259,6 +259,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to fetch schools" });
     }
   });
+  
+  app.get("/api/schools/featured", async (_req, res) => {
+    try {
+      const featuredSchools = await storage.getFeaturedSchools();
+      res.json(featuredSchools);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch featured schools" });
+    }
+  });
 
   app.get("/api/schools/:id", async (req, res) => {
     try {
@@ -275,6 +284,185 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(school);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch school" });
+    }
+  });
+  
+  app.get("/api/schools/:id/courses", async (req, res) => {
+    try {
+      const schoolId = parseInt(req.params.id);
+      if (isNaN(schoolId)) {
+        return res.status(400).json({ error: "Invalid school ID" });
+      }
+
+      const courses = await storage.getSchoolCourses(schoolId);
+      res.json(courses);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch school courses" });
+    }
+  });
+  
+  app.get("/api/schools/:id/instructors", async (req, res) => {
+    try {
+      const schoolId = parseInt(req.params.id);
+      if (isNaN(schoolId)) {
+        return res.status(400).json({ error: "Invalid school ID" });
+      }
+
+      const instructors = await storage.getSchoolInstructors(schoolId);
+      res.json(instructors);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch school instructors" });
+    }
+  });
+  
+  // Courses routes
+  app.get("/api/courses", async (req, res) => {
+    try {
+      const courses = await storage.getCourses();
+      res.json(courses);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch courses" });
+    }
+  });
+  
+  app.get("/api/courses/featured", async (_req, res) => {
+    try {
+      const featuredCourses = await storage.getFeaturedCourses();
+      res.json(featuredCourses);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch featured courses" });
+    }
+  });
+  
+  app.get("/api/courses/popular", async (_req, res) => {
+    try {
+      const popularCourses = await storage.getPopularCourses();
+      res.json(popularCourses);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch popular courses" });
+    }
+  });
+  
+  app.get("/api/courses/new", async (_req, res) => {
+    try {
+      const newCourses = await storage.getNewCourses();
+      res.json(newCourses);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch new courses" });
+    }
+  });
+  
+  app.get("/api/courses/:id", async (req, res) => {
+    try {
+      const courseId = parseInt(req.params.id);
+      if (isNaN(courseId)) {
+        return res.status(400).json({ error: "Invalid course ID" });
+      }
+
+      const course = await storage.getCourse(courseId);
+      if (!course) {
+        return res.status(404).json({ error: "Course not found" });
+      }
+
+      // Get instructor details
+      const instructor = await storage.getInstructor(course.instructorId);
+      
+      // Get modules for this course
+      const modules = await storage.getModules(courseId);
+      
+      // For each module, get its lessons
+      const modulesWithLessons = await Promise.all(
+        modules.map(async (module) => {
+          const lessons = await storage.getLessons(module.id);
+          return { ...module, lessons };
+        })
+      );
+      
+      // Combine course, instructor, and modules with lessons
+      const enrichedCourse = {
+        ...course,
+        instructor,
+        modules: modulesWithLessons
+      };
+
+      res.json(enrichedCourse);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch course" });
+    }
+  });
+  
+  // Modules routes
+  app.get("/api/modules/:id", async (req, res) => {
+    try {
+      const moduleId = parseInt(req.params.id);
+      if (isNaN(moduleId)) {
+        return res.status(400).json({ error: "Invalid module ID" });
+      }
+
+      const module = await storage.getModule(moduleId);
+      if (!module) {
+        return res.status(404).json({ error: "Module not found" });
+      }
+      
+      // Get lessons for this module
+      const lessons = await storage.getLessons(moduleId);
+      
+      // Combine module and lessons
+      const enrichedModule = {
+        ...module,
+        lessons
+      };
+
+      res.json(enrichedModule);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch module" });
+    }
+  });
+  
+  // Lessons routes
+  app.get("/api/lessons/:id", async (req, res) => {
+    try {
+      const lessonId = parseInt(req.params.id);
+      if (isNaN(lessonId)) {
+        return res.status(400).json({ error: "Invalid lesson ID" });
+      }
+
+      const lesson = await storage.getLesson(lessonId);
+      if (!lesson) {
+        return res.status(404).json({ error: "Lesson not found" });
+      }
+
+      res.json(lesson);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch lesson" });
+    }
+  });
+  
+  // Instructors routes
+  app.get("/api/instructors", async (_req, res) => {
+    try {
+      const instructors = await storage.getInstructors();
+      res.json(instructors);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch instructors" });
+    }
+  });
+  
+  app.get("/api/instructors/:id", async (req, res) => {
+    try {
+      const instructorId = parseInt(req.params.id);
+      if (isNaN(instructorId)) {
+        return res.status(400).json({ error: "Invalid instructor ID" });
+      }
+
+      const instructor = await storage.getInstructor(instructorId);
+      if (!instructor) {
+        return res.status(404).json({ error: "Instructor not found" });
+      }
+
+      res.json(instructor);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch instructor" });
     }
   });
 
