@@ -44,12 +44,12 @@ export default function Navbar() {
                   <path d="M2 12l10 5 10-5"></path>
                 </svg>
               </div>
-              <Link href={user ? "/projects" : "/"} className="text-xl font-bold text-white">
+              <Link href={user ? "/explore" : "/"} className="text-xl font-bold text-white">
                 eSchool.ai
               </Link>
             </div>
             <div className="ml-6 hidden md:flex space-x-2">
-              <Link href="/projects">
+              <Link href="/explore">
                 <Button variant="default" className="bg-primary hover:bg-primary/90">EXPLORE</Button>
               </Link>
               <Link href="/competitions">
@@ -156,7 +156,7 @@ export default function Navbar() {
                     </div>
                   )}
                   
-                  <Link href={user ? "/projects" : "/"} className="text-lg font-medium">
+                  <Link href={user ? "/explore" : "/"} className="text-lg font-medium">
                     Home
                   </Link>
                   <Link href="/dashboard" className="text-lg font-medium">

@@ -199,11 +199,14 @@ export default function ExplorePage() {
           </p>
           
           <div className="flex flex-wrap gap-1 mb-3">
-            {project.tags?.split(',').slice(0, 3).map((tag, idx) => (
-              <Badge key={idx} variant="outline" className="text-xs font-normal">
-                {tag.trim()}
+            <Badge variant="outline" className="text-xs font-normal">
+              {project.category}
+            </Badge>
+            {project.stage && (
+              <Badge variant="outline" className="text-xs font-normal">
+                {project.stage}
               </Badge>
-            ))}
+            )}
           </div>
           
           <div className="flex items-center justify-between text-xs text-muted-foreground">
