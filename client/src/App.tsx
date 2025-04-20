@@ -9,7 +9,7 @@ import { HelpProvider } from "@/hooks/use-help-context";
 import { ProtectedRoute } from "@/lib/protected-route";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { AdvancedBackground } from "@/components/AdvancedBackground";
+import { AnimatedSpaceBackground } from "./components/AnimatedSpaceBackground";
 
 // Eagerly load critical components
 import LandingPage from "@/pages/LandingPage";
@@ -47,8 +47,32 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => (
 );
 
 function Router() {
+  const [location] = useLocation();
+  const [backgroundVariant, setBackgroundVariant] = useState<'simple' | 'enhanced' | 'gradient' | 'combined'>('enhanced');
+  
+  // Adjust background based on route
+  useEffect(() => {
+    // More immersive backgrounds for key pages
+    if (location === "/" || location === "/auth") {
+      setBackgroundVariant('combined');
+    } else if (location.startsWith('/schools') || location.startsWith('/projects')) {
+      setBackgroundVariant('enhanced');
+    } else {
+      setBackgroundVariant('simple');
+    }
+  }, [location]);
+  
   return (
     <div className="flex flex-col min-h-screen bg-[#121216]">
+      {/* Global background animation with space theme */}
+      <AnimatedSpaceBackground 
+        variant={backgroundVariant}
+        interactive={true}
+        colorTheme="gold"
+        showSpaceOverlay={true}
+        transitionOnMount={location === "/" || location === "/auth"}
+      />
+      
       <Switch>
         {/* Authentication page route - directly loaded */}
         <Route path="/auth">
