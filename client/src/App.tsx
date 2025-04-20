@@ -97,7 +97,7 @@ function Router() {
         <Route path="/explore">
           <Navbar />
           <main className="flex-1">
-            <ProtectedRoute path="/explore" component={ExplorePage} />
+            <ExplorePage />
           </main>
           <Footer />
         </Route>
