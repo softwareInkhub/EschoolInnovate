@@ -1,9 +1,14 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useCallback } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import Particles from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { Engine } from "@tsparticles/engine";
+import Tilt from "react-parallax-tilt";
+import CountUp from "react-countup";
 import { 
   GitMerge, 
   Users, 
@@ -20,7 +25,11 @@ import {
   Code,
   Briefcase,
   User,
-  Shield
+  Shield,
+  Sparkles,
+  RefreshCw,
+  Brain,
+  Zap
 } from "lucide-react";
 
 // Animation variants
@@ -62,40 +71,131 @@ const staggerContainer = {
   }
 };
 
-// Number counter animation component
+// SVG Wave Components
+const WaveTop = ({ className = "", fill = "currentColor" }) => (
+  <div className={`w-full overflow-hidden ${className}`}>
+    <svg className="w-full h-auto" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 120L48 110C96 100 192 80 288 75C384 70 480 80 576 80C672 80 768 70 864 70C960 70 1056 80 1152 85C1248 90 1344 90 1392 90L1440 90V0H1392C1344 0 1248 0 1152 0C1056 0 960 0 864 0C768 0 672 0 576 0C480 0 384 0 288 0C192 0 96 0 48 0H0V120Z" fill={fill} fillOpacity="0.1" />
+      <path d="M0 80L48 75C96 70 192 60 288 55C384 50 480 50 576 60C672 70 768 90 864 95C960 100 1056 90 1152 80C1248 70 1344 60 1392 55L1440 50V0H1392C1344 0 1248 0 1152 0C1056 0 960 0 864 0C768 0 672 0 576 0C480 0 384 0 288 0C192 0 96 0 48 0H0V80Z" fill={fill} fillOpacity="0.1" />
+    </svg>
+  </div>
+);
+
+const WaveBottom = ({ className = "", fill = "currentColor" }) => (
+  <div className={`w-full overflow-hidden rotate-180 ${className}`}>
+    <svg className="w-full h-auto" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 120L48 110C96 100 192 80 288 75C384 70 480 80 576 80C672 80 768 70 864 70C960 70 1056 80 1152 85C1248 90 1344 90 1392 90L1440 90V0H1392C1344 0 1248 0 1152 0C1056 0 960 0 864 0C768 0 672 0 576 0C480 0 384 0 288 0C192 0 96 0 48 0H0V120Z" fill={fill} fillOpacity="0.1" />
+      <path d="M0 80L48 75C96 70 192 60 288 55C384 50 480 50 576 60C672 70 768 90 864 95C960 100 1056 90 1152 80C1248 70 1344 60 1392 55L1440 50V0H1392C1344 0 1248 0 1152 0C1056 0 960 0 864 0C768 0 672 0 576 0C480 0 384 0 288 0C192 0 96 0 48 0H0V80Z" fill={fill} fillOpacity="0.1" />
+    </svg>
+  </div>
+);
+
+// Particles animation options
+const particlesOptions = {
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    },
+    color: {
+      value: "#8b5cf6"
+    },
+    shape: {
+      type: "circle",
+    },
+    opacity: {
+      value: 0.3,
+      random: true,
+      anim: {
+        enable: true,
+        speed: 1,
+        opacity_min: 0.1,
+        sync: false
+      }
+    },
+    size: {
+      value: 3,
+      random: true,
+      anim: {
+        enable: true,
+        speed: 2,
+        size_min: 0.1,
+        sync: false
+      }
+    },
+    move: {
+      enable: true,
+      speed: 1,
+      direction: "none",
+      random: true,
+      straight: false,
+      out_mode: "out",
+      bounce: false,
+    }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: {
+      onhover: {
+        enable: true,
+        mode: "grab"
+      },
+      onclick: {
+        enable: true,
+        mode: "push"
+      },
+      resize: true
+    },
+    modes: {
+      grab: {
+        distance: 140,
+        line_linked: {
+          opacity: 0.5
+        }
+      },
+      push: {
+        particles_nb: 3
+      }
+    }
+  },
+  retina_detect: true
+};
+
+// Counter component using the react-countup library
 const CounterAnimation = ({ end, duration = 2 }: { end: number, duration?: number }) => {
-  const [count, setCount] = useState(0);
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
   
-  useEffect(() => {
-    if (inView) {
-      let startTime: number;
-      let animationFrame: number;
-      
-      const step = (timestamp: number) => {
-        if (!startTime) startTime = timestamp;
-        const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-        setCount(Math.floor(progress * end));
-        
-        if (progress < 1) {
-          animationFrame = requestAnimationFrame(step);
-        }
-      };
-      
-      animationFrame = requestAnimationFrame(step);
-      return () => cancelAnimationFrame(animationFrame);
-    }
-  }, [inView, end, duration]);
-  
-  return <span ref={ref}>{count}</span>;
+  return (
+    <span ref={ref}>
+      {inView ? (
+        <CountUp 
+          end={end} 
+          duration={duration}
+          enableScrollSpy={true}
+          separator=","
+          decimals={0} 
+        />
+      ) : (
+        0
+      )}
+    </span>
+  );
 };
 
 export default function LandingPage() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
+  
+  // Particle animation initialization (moved inside component as it uses hooks)
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
 
   // If user is logged in, redirect to /projects
   useEffect(() => {
@@ -108,6 +208,16 @@ export default function LandingPage() {
     <div className="bg-background">
       {/* Hero Section */}
       <section className="min-h-screen relative flex items-center overflow-hidden pt-20 pb-32">
+        {/* Particles animation */}
+        <div className="absolute inset-0 z-0">
+          <Particles
+            id="tsparticles"
+            className="absolute inset-0"
+            init={particlesInit}
+            options={particlesOptions}
+          />
+        </div>
+        
         {/* Background elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 z-10"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] z-0"></div>
@@ -124,17 +234,31 @@ export default function LandingPage() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeIn} className="mb-6">
-              <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary mb-4">
+              <span className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-primary/10 text-primary mb-4">
+                <Sparkles className="mr-2 h-4 w-4" />
                 The Future of Collaboration is Here
               </span>
             </motion.div>
             
             <motion.h1 
               variants={fadeIn}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-primary"
             >
               Connect, Create &<br />
-              <span className="text-primary">Launch Your Ideas</span>
+              <motion.span 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+                className="relative inline-block text-foreground"
+              >
+                Launch Your Ideas
+                <motion.span 
+                  className="absolute bottom-0 left-0 w-full h-1 bg-primary"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 0.7, duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+                />
+              </motion.span>
             </motion.h1>
             
             <motion.p 
@@ -146,18 +270,29 @@ export default function LandingPage() {
             
             <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
-                className="h-14 px-8 text-lg font-medium rounded-xl"
+                className="h-14 px-8 text-lg font-medium rounded-xl group relative overflow-hidden"
                 onClick={() => navigate("/auth")}
               >
-                Get Started
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-600 to-primary transition-all duration-300 transform group-hover:translate-x-full opacity-30"></span>
+                <span className="relative flex items-center">
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Button>
               <Button 
                 variant="outline" 
-                className="h-14 px-8 text-lg font-medium rounded-xl"
+                className="h-14 px-8 text-lg font-medium rounded-xl group"
                 onClick={() => navigate("/auth")}
               >
-                Explore Projects
+                <span className="flex items-center">
+                  Explore Projects
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <ChevronRight className="ml-2 h-5 w-5" />
+                  </motion.div>
+                </span>
               </Button>
             </motion.div>
           </motion.div>
