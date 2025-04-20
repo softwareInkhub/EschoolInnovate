@@ -6,6 +6,8 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useInView } from "react-intersection-observer";
 import Tilt from "react-parallax-tilt";
 import CountUp from "react-countup";
+import FAQSection from "@/components/FAQSection";
+import BlogSection from "@/components/BlogSection";
 import { 
   GitMerge, 
   Users, 
@@ -26,7 +28,10 @@ import {
   Sparkles,
   RefreshCw,
   Brain,
-  Zap
+  Zap,
+  MapPin,
+  Building2,
+  Brush
 } from "lucide-react";
 
 // Animation variants
