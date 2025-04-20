@@ -87,7 +87,7 @@ const WaveBottom = ({ className = "", fill = "currentColor" }) => (
   </div>
 );
 
-// Let's define the particles options inside the component to avoid hook errors
+// Animation and UI interaction related components
 
 // Counter component using the react-countup library
 const CounterAnimation = ({ end, duration = 2 }: { end: number, duration?: number }) => {
@@ -734,23 +734,23 @@ export default function LandingPage() {
                   className="h-full"
                 >
                   <div className="bg-card hover:bg-card/80 border border-border hover:border-primary/30 rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col shadow-md hover:shadow-xl">
-                  <div className="p-6 border-b border-border group-hover:border-primary/20 transition-colors">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors">
-                      {school.icon}
+                    <div className="p-6 border-b border-border group-hover:border-primary/20 transition-colors">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors">
+                        {school.icon}
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">{school.title}</h3>
+                      <p className="text-muted-foreground mb-2">{school.description}</p>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{school.title}</h3>
-                    <p className="text-muted-foreground mb-2">{school.description}</p>
-                  </div>
-                  
-                  <div className="p-6 mt-auto">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-primary">{school.courses} Courses</span>
-                      <div className="rounded-full bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
-                        <ArrowUpRight className="h-4 w-4 text-primary" />
+                    
+                    <div className="p-6 mt-auto">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-primary">{school.courses} Courses</span>
+                        <div className="rounded-full bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
+                          <ArrowUpRight className="h-4 w-4 text-primary" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </Tilt>
               </motion.div>
             ))}
@@ -833,13 +833,20 @@ export default function LandingPage() {
               </div>
               
               <div className="relative">
-                <motion.div 
-                  className="bg-muted/30 border border-border rounded-2xl p-6 relative z-10"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
+                <Tilt
+                  tiltMaxAngleX={3}
+                  tiltMaxAngleY={3}
+                  perspective={800}
+                  scale={1.02}
+                  transitionSpeed={1500}
                 >
+                  <motion.div 
+                    className="bg-muted/30 border border-border rounded-2xl p-6 relative z-10"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 }}
+                  >
                   <div className="space-y-4 mb-6">
                     {[
                       "Access to 1,500+ projects and ideas",
@@ -868,6 +875,7 @@ export default function LandingPage() {
                     <span className="text-sm text-muted-foreground">Join 500+ members this month</span>
                   </div>
                 </motion.div>
+                </Tilt>
                 
                 <motion.div 
                   className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/5 rounded-full blur-xl z-0"
