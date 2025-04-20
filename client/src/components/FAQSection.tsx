@@ -1011,11 +1011,19 @@ const FAQSection = () => {
   ];
   
   const filteredFaqs = allFaqs.flatMap(category => 
-    category.questions.filter(faq => 
-      searchQuery === '' || 
-      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (typeof faq.answer === 'string' && faq.answer.toLowerCase().includes(searchQuery.toLowerCase()))
-    )
+    category.questions.filter(faq => {
+      if (searchQuery === '') return true;
+      
+      // Always check the question text
+      if (faq.question.toLowerCase().includes(searchQuery.toLowerCase())) return true;
+      
+      // Only check string answers
+      if (typeof faq.answer === 'string' && faq.answer.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return true;
+      }
+      
+      return false;
+    })
   );
 
   return (

@@ -14,6 +14,8 @@ import SchoolsPage from "@/pages/SchoolsPage";
 import FeaturesShowcase from "@/pages/FeaturesShowcase";
 import CompetitionPage from "@/pages/CompetitionPage";
 import ExplorePage from "@/pages/ExplorePage";
+import FAQPage from "@/pages/FAQPage";
+import BlogPage from "@/pages/BlogPage";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -99,6 +101,24 @@ function Router() {
           <Navbar />
           <main className="flex-1">
             <ExplorePage />
+          </main>
+          <Footer />
+        </Route>
+        
+        {/* FAQ Page */}
+        <Route path="/faq">
+          <Navbar />
+          <main className="flex-1">
+            <FAQPage />
+          </main>
+          <Footer />
+        </Route>
+        
+        {/* Blog Page */}
+        <Route path="/blogs">
+          <Navbar />
+          <main className="flex-1">
+            <BlogPage />
           </main>
           <Footer />
         </Route>
