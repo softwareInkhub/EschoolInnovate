@@ -133,22 +133,15 @@ export default function Navbar() {
               <Users className="h-5 w-5" />
             </Button>
             
-            {/* Help Button with Tooltip */}
-            <ContextualHelp
-              id="help-button-tooltip"
-              text="Click here to customize your help experience and manage tooltip settings"
-              context="general"
-              position="bottom"
+            {/* Help Button */}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="text-primary"
+              onClick={() => setIsHelpModalOpen(true)}
             >
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="text-primary"
-                onClick={() => setIsHelpModalOpen(true)}
-              >
-                <HelpCircle className="h-5 w-5" />
-              </Button>
-            </ContextualHelp>
+              <HelpCircle className="h-5 w-5" />
+            </Button>
             
             {user ? (
               <DropdownMenu open={isUserMenuOpen} onOpenChange={setIsUserMenuOpen}>

@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   ChevronRight, 
   Clock, 
@@ -19,11 +18,7 @@ import {
   Building,
   BarChart3,
   Network,
-  GraduationCap,
-  Award,
-  Brush,
-  Check,
-  X
+  GraduationCap
 } from "lucide-react";
 
 const BlogSection = () => {
@@ -125,39 +120,7 @@ const BlogSection = () => {
       tags: ["Women Entrepreneurs", "Diversity", "Inclusion"],
       featured: true,
       location: "Chennai",
-    },
-    {
-      id: 7,
-      title: "The Role of Government Initiatives in Supporting Indian Startups",
-      excerpt: "A deep dive into how programs like Startup India are creating opportunities and how escool.ai helps founders navigate them.",
-      image: "https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2946&q=80",
-      date: "March 25, 2025",
-      readTime: "8 min read",
-      author: {
-        name: "Aditya Patel",
-        avatar: "https://randomuser.me/api/portraits/men/22.jpg"
-      },
-      category: "policy",
-      tags: ["Government Policy", "Startup India", "Regulation"],
-      featured: false,
-      location: "Delhi NCR",
-    },
-    {
-      id: 8,
-      title: "Building for Bharat: Creating Solutions for Rural India",
-      excerpt: "How startups are designing products for India's next billion users and the unique challenges and opportunities they present.",
-      image: "https://images.unsplash.com/photo-1600664356348-09a5363420e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2970&q=80",
-      date: "March 22, 2025",
-      readTime: "9 min read",
-      author: {
-        name: "Kiran Desai",
-        avatar: "https://randomuser.me/api/portraits/men/75.jpg"
-      },
-      category: "impact",
-      tags: ["Rural Innovation", "Inclusive Design", "Social Impact"],
-      featured: false,
-      location: "Pune",
-    },
+    }
   ];
   
   const filteredPosts = activeCategory === 'all' 
@@ -175,6 +138,10 @@ const BlogSection = () => {
     { id: "impact", label: "Impact", icon: <LineChart className="h-4 w-4" /> },
     { id: "policy", label: "Policy", icon: <Building className="h-4 w-4" /> },
   ];
+
+  const navigateToBlog = (id: number) => {
+    window.location.href = `/blog/${id}`;
+  };
 
   return (
     <div className="py-16 md:py-24 bg-[#0a0b15] relative overflow-hidden">
@@ -236,56 +203,54 @@ const BlogSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                <Link href={`/blog/${featuredPosts[0].id}`}>
-                  <a className="block h-full">
-                    <div className="bg-card border border-border rounded-xl overflow-hidden h-full hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
-                      <div className="relative aspect-[16/9] overflow-hidden">
-                        <img 
-                          src={featuredPosts[0].image} 
-                          alt={featuredPosts[0].title} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 flex items-center">
-                          <Badge className="bg-[#f6c000] hover:bg-[#f6c000] text-black">Featured</Badge>
-                          <div className="ml-3 flex items-center text-white/90 text-sm">
-                            <MapPin className="h-3.5 w-3.5 mr-1" />
-                            {featuredPosts[0].location}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-6 flex flex-col flex-grow">
-                        <div className="flex items-center mb-3">
-                          <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
-                            <img 
-                              src={featuredPosts[0].author.avatar} 
-                              alt={featuredPosts[0].author.name} 
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium">{featuredPosts[0].author.name}</div>
-                            <div className="flex items-center text-xs text-muted-foreground">
-                              <Clock className="h-3 w-3 mr-1" />
-                              {featuredPosts[0].date} • {featuredPosts[0].readTime}
-                            </div>
-                          </div>
-                        </div>
-                        <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                          {featuredPosts[0].title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4 flex-grow">{featuredPosts[0].excerpt}</p>
-                        <div className="flex flex-wrap gap-2 mt-auto">
-                          {featuredPosts[0].tags.map((tag, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
+                <div className="block h-full cursor-pointer" onClick={() => navigateToBlog(featuredPosts[0].id)}>
+                  <div className="bg-card border border-border rounded-xl overflow-hidden h-full hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
+                    <div className="relative aspect-[16/9] overflow-hidden">
+                      <img 
+                        src={featuredPosts[0].image} 
+                        alt={featuredPosts[0].title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4 flex items-center">
+                        <Badge className="bg-[#f6c000] hover:bg-[#f6c000] text-black">Featured</Badge>
+                        <div className="ml-3 flex items-center text-white/90 text-sm">
+                          <MapPin className="h-3.5 w-3.5 mr-1" />
+                          {featuredPosts[0].location}
                         </div>
                       </div>
                     </div>
-                  </a>
-                </Link>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="flex items-center mb-3">
+                        <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
+                          <img 
+                            src={featuredPosts[0].author.avatar} 
+                            alt={featuredPosts[0].author.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">{featuredPosts[0].author.name}</div>
+                          <div className="flex items-center text-xs text-muted-foreground">
+                            <Clock className="h-3 w-3 mr-1" />
+                            {featuredPosts[0].date} • {featuredPosts[0].readTime}
+                          </div>
+                        </div>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        {featuredPosts[0].title}
+                      </h3>
+                      <p className="text-muted-foreground mb-4 flex-grow">{featuredPosts[0].excerpt}</p>
+                      <div className="flex flex-wrap gap-2 mt-auto">
+                        {featuredPosts[0].tags.map((tag, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             )}
             
@@ -299,49 +264,47 @@ const BlogSection = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 + 0.1, duration: 0.5 }}
                 >
-                  <Link href={`/blog/${post.id}`}>
-                    <a className="block">
-                      <div className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
-                        <div className="relative aspect-[16/9] overflow-hidden">
-                          <img 
-                            src={post.image} 
-                            alt={post.title} 
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                          <div className="absolute bottom-4 left-4 flex items-center">
-                            <Badge className="bg-[#f6c000] hover:bg-[#f6c000] text-black">Featured</Badge>
-                            <div className="ml-3 flex items-center text-white/90 text-sm">
-                              <MapPin className="h-3.5 w-3.5 mr-1" />
-                              {post.location}
-                            </div>
+                  <div className="cursor-pointer" onClick={() => navigateToBlog(post.id)}>
+                    <div className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <img 
+                          src={post.image} 
+                          alt={post.title} 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div className="absolute bottom-4 left-4 flex items-center">
+                          <Badge className="bg-[#f6c000] hover:bg-[#f6c000] text-black">Featured</Badge>
+                          <div className="ml-3 flex items-center text-white/90 text-sm">
+                            <MapPin className="h-3.5 w-3.5 mr-1" />
+                            {post.location}
                           </div>
-                        </div>
-                        <div className="p-5">
-                          <div className="flex items-center mb-3">
-                            <div className="w-7 h-7 rounded-full overflow-hidden mr-2">
-                              <img 
-                                src={post.author.avatar} 
-                                alt={post.author.name} 
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div>
-                              <div className="text-xs font-medium">{post.author.name}</div>
-                              <div className="flex items-center text-xs text-muted-foreground">
-                                <Clock className="h-3 w-3 mr-1" />
-                                {post.date} • {post.readTime}
-                              </div>
-                            </div>
-                          </div>
-                          <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                            {post.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
                         </div>
                       </div>
-                    </a>
-                  </Link>
+                      <div className="p-5">
+                        <div className="flex items-center mb-3">
+                          <div className="w-7 h-7 rounded-full overflow-hidden mr-2">
+                            <img 
+                              src={post.author.avatar} 
+                              alt={post.author.name} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <div className="text-xs font-medium">{post.author.name}</div>
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <Clock className="h-3 w-3 mr-1" />
+                              {post.date} • {post.readTime}
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -383,59 +346,57 @@ const BlogSection = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.05, duration: 0.5 }}
             >
-              <Link href={`/blog/${post.id}`}>
-                <a className="block h-full">
-                  <div className="bg-card border border-border rounded-xl overflow-hidden h-full hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
-                    <div className="relative aspect-[16/9] overflow-hidden">
-                      <img 
-                        src={post.image} 
-                        alt={post.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute bottom-4 left-4 flex items-center">
-                        <div className="flex items-center text-white/90 text-sm">
-                          <MapPin className="h-3.5 w-3.5 mr-1" />
-                          {post.location}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-5 flex flex-col flex-grow">
-                      <div className="flex items-center mb-3">
-                        <div className="w-7 h-7 rounded-full overflow-hidden mr-2">
-                          <img 
-                            src={post.author.avatar} 
-                            alt={post.author.name} 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div>
-                          <div className="text-xs font-medium">{post.author.name}</div>
-                          <div className="flex items-center text-xs text-muted-foreground">
-                            <Clock className="h-3 w-3 mr-1" />
-                            {post.date} • {post.readTime}
-                          </div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                        {post.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">{post.excerpt}</p>
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        {post.tags.slice(0, 2).map((tag, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                        {post.tags.length > 2 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{post.tags.length - 2}
-                          </Badge>
-                        )}
+              <div className="cursor-pointer" onClick={() => navigateToBlog(post.id)}>
+                <div className="bg-card border border-border rounded-xl overflow-hidden h-full hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <img 
+                      src={post.image} 
+                      alt={post.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-4 left-4 flex items-center">
+                      <div className="flex items-center text-white/90 text-sm">
+                        <MapPin className="h-3.5 w-3.5 mr-1" />
+                        {post.location}
                       </div>
                     </div>
                   </div>
-                </a>
-              </Link>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <div className="flex items-center mb-3">
+                      <div className="w-7 h-7 rounded-full overflow-hidden mr-2">
+                        <img 
+                          src={post.author.avatar} 
+                          alt={post.author.name} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <div className="text-xs font-medium">{post.author.name}</div>
+                        <div className="flex items-center text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {post.date} • {post.readTime}
+                        </div>
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 flex-grow line-clamp-3">{post.excerpt}</p>
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                      {post.tags.slice(0, 2).map((tag, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                      {post.tags.length > 2 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{post.tags.length - 2}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
