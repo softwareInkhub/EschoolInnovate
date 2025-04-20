@@ -61,7 +61,7 @@ export default function FeaturesShowcase() {
         animate="visible"
         variants={fadeIn}
       >
-        <h1 className="text-3xl font-bold mb-2">eSchool.ai Platform Features</h1>
+        <h1 className="text-3xl font-bold mb-2">escool.ai Platform Features</h1>
         <p className="text-xl text-muted-foreground max-w-3xl">
           Explore the innovative features that make our platform unique. These components enhance user experience and make collaboration more engaging.
         </p>

@@ -115,7 +115,7 @@ export default function AdvancedFeaturesPage() {
                   Building the Future of <br/>Indian Innovation
                 </h2>
                 <p className="text-[#ccc] mb-6">
-                  eSchool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
+                  escool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
                 </p>
 
                 <div className="hidden md:block">

@@ -46,7 +46,7 @@ const FAQSection = () => {
       icon: <HelpCircle className="h-5 w-5" />,
       questions: [
         {
-          id: "what-is-eschool",
+          id: "what-is-escool",
           question: "What is escool.ai?",
           answer: (
             <div className="space-y-4">
