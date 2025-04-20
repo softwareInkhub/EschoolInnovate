@@ -54,6 +54,20 @@ async function createDynamoTables() {
   // Define tables to create with proper types
   const tablesToCreate: { name: string, schema: CreateTableCommandInput }[] = [
     {
+      name: "escool_sessions",
+      schema: {
+        TableName: "escool_sessions",
+        KeySchema: [createKeySchema("id", "HASH")],
+        AttributeDefinitions: [
+          createAttrDef("id", "S")
+        ],
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5
+        }
+      }
+    },
+    {
       name: "escool_users",
       schema: {
         TableName: "escool_users",

@@ -23,8 +23,11 @@ import {
 } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
+import connectDynamoDB from "connect-dynamodb";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
 const MemoryStore = createMemoryStore(session);
+const DynamoDBStore = connectDynamoDB(session);
 
 // DynamoDB table names
 const TABLE_NAMES = {
@@ -37,17 +40,28 @@ const TABLE_NAMES = {
   COURSES: "escool_courses",
   MODULES: "escool_modules",
   LESSONS: "escool_lessons",
-  INSTRUCTORS: "escool_instructors"
+  INSTRUCTORS: "escool_instructors",
+  SESSIONS: "escool_sessions" // Table for session storage
 };
 
 export class DynamoStorage implements IStorage {
-  sessionStore: any; // Use any for now because of typing issue
+  sessionStore: session.Store;
 
   constructor() {
-    // For now, we'll use MemoryStore for sessions
-    // In production, you should use DynamoDB for sessions as well
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 86400000, // prune expired entries every 24h
+    // Use DynamoDB for session storage
+    this.sessionStore = new DynamoDBStore({
+      // AWS SDK v3 client
+      client: new DynamoDB({
+        region: process.env.AWS_REGION || 'us-east-1',
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
+        }
+      }),
+      table: TABLE_NAMES.SESSIONS,
+      hashKey: 'id', // The primary key attribute name
+      readCapacityUnits: 5,
+      writeCapacityUnits: 5
     });
     
     // We'll initialize tables when needed in async methods
