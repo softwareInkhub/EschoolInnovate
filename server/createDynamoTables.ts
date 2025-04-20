@@ -261,11 +261,5 @@ async function createDynamoTables() {
   console.log("All tables created or verified successfully");
 }
 
-// If this file is run directly
-if (require.main === module) {
-  createDynamoTables()
-    .then(() => console.log("DynamoDB tables setup complete"))
-    .catch(err => console.error("Error setting up DynamoDB tables:", err));
-}
-
+// For ESM modules, we export the function directly
 export default createDynamoTables;

@@ -50,8 +50,8 @@ export class DynamoStorage implements IStorage {
       checkPeriod: 86400000, // prune expired entries every 24h
     });
     
-    // Initialize DynamoDB tables if needed
-    this.initializeTables();
+    // We'll initialize tables when needed in async methods
+    // since constructor can't be async
   }
 
   private async initializeTables() {
@@ -68,6 +68,9 @@ export class DynamoStorage implements IStorage {
 
   // User operations
   async getUser(id: number): Promise<User | undefined> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     const result = await docClient.send(
       new GetCommand({
         TableName: TABLE_NAMES.USERS,
@@ -79,6 +82,9 @@ export class DynamoStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     const result = await docClient.send(
       new QueryCommand({
         TableName: TABLE_NAMES.USERS,
@@ -98,6 +104,9 @@ export class DynamoStorage implements IStorage {
   }
 
   async createUser(user: InsertUser): Promise<User> {
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
+    
     // Generate a unique ID for the user
     const id = Date.now(); // Simple ID generation for demo
     const now = new Date();
