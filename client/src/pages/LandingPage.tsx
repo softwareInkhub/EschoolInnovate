@@ -122,127 +122,218 @@ export default function LandingPage() {
   // If user is logged in, redirect to /projects
   useEffect(() => {
     if (user) {
-      navigate("/projects");
+      navigate("/explore");
     }
   }, [user, navigate]);
 
   return (
-    <div className="bg-background">
+    <div className="bg-[#0a0b15]">
       {/* Hero Section */}
       <section className="min-h-screen relative flex items-center overflow-hidden pt-20 pb-32">
         {/* Animated background elements */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 z-10"></div>
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] z-0"></div>
+        <div className="absolute inset-0 bg-[#0a0b15] z-10"></div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.04] z-0"></div>
         
-        {/* Animated gradient orbs */}
-        <motion.div 
-          className="absolute left-1/2 top-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[100px] z-0"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.6, 0.5]
+        {/* Animated stars/space background */}
+        <div className="absolute inset-0 overflow-hidden z-[5]">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{
+                width: Math.random() * 3 + 1 + "px",
+                height: Math.random() * 3 + 1 + "px",
+                top: Math.random() * 100 + "%",
+                left: Math.random() * 100 + "%",
+              }}
+              animate={{
+                opacity: [0.1, 0.8, 0.1],
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: Math.random() * 5 + 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Rocket animations */}
+        <motion.div
+          className="absolute z-[6] opacity-30"
+          style={{
+            top: "15%",
+            right: "10%",
           }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div 
-          className="absolute -top-10 -right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[80px] z-0"
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 0.7, 0.5]
+            y: [0, -20, 0],
+            rotate: [0, 5, 0],
           }}
           transition={{
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 1
           }}
-        />
-        <motion.div 
-          className="absolute -bottom-10 -left-10 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[80px] z-0"
+        >
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 16.5L3 18L4.5 19.5L6 18L4.5 16.5Z" fill="#6d28d9" />
+            <path d="M13 5C13 4.44772 13.4477 4 14 4H15C15.5523 4 16 4.44772 16 5V6C16 6.55228 15.5523 7 15 7H14C13.4477 7 13 6.55228 13 6V5Z" fill="#6d28d9" />
+            <path d="M9 10V12M12 7V13M15 10V12" stroke="#6d28d9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 21C7.8 16.28 5.5 12.5 5.5 9.17C5.5 4.6 9.33 2 12 2C14.67 2 18.5 4.6 18.5 9.17C18.5 12.5 16.2 16.28 12 21Z" stroke="#6d28d9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.div>
+        
+        <motion.div
+          className="absolute z-[6] opacity-30"
+          style={{
+            bottom: "20%",
+            left: "15%",
+          }}
           animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.5, 0.6, 0.5]
+            y: [0, 20, 0],
+            rotate: [0, -5, 0],
           }}
           transition={{
-            duration: 12,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
+            delay: 2,
           }}
-        />
+        >
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 16.5L3 18L4.5 19.5L6 18L4.5 16.5Z" fill="#6d28d9" />
+            <path d="M13 5C13 4.44772 13.4477 4 14 4H15C15.5523 4 16 4.44772 16 5V6C16 6.55228 15.5523 7 15 7H14C13.4477 7 13 6.55228 13 6V5Z" fill="#6d28d9" />
+            <path d="M9 10V12M12 7V13M15 10V12" stroke="#6d28d9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 21C7.8 16.28 5.5 12.5 5.5 9.17C5.5 4.6 9.33 2 12 2C14.67 2 18.5 4.6 18.5 9.17C18.5 12.5 16.2 16.28 12 21Z" stroke="#6d28d9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.div>
         
         <div className="relative z-20 container mx-auto px-4 pt-10">
           <motion.div 
-            className="max-w-4xl mx-auto text-center mb-16"
+            className="max-w-4xl mx-auto text-center mb-8"
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
           >
-            <motion.div variants={fadeIn} className="mb-6">
-              <span className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-primary/10 text-primary mb-4">
-                <Sparkles className="mr-2 h-4 w-4" />
-                The Future of Collaboration is Here
+            <motion.div variants={fadeIn} className="mb-2">
+              <span className="inline-flex items-center px-4 py-2 text-sm font-medium text-white mb-4">
+                ESCHOOL.AI
               </span>
             </motion.div>
             
             <motion.h1 
               variants={fadeIn}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-primary"
+              className="text-4xl md:text-6xl font-bold mb-6 text-white"
             >
-              Connect, Create &<br />
+              Find your Team Members and<br />
               <motion.span 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-                className="relative inline-block text-foreground"
+                transition={{ delay: 0.5, duration: 1.5 }}
+                className="relative inline-block"
               >
-                Launch Your Ideas
-                <motion.span 
-                  className="absolute bottom-0 left-0 w-full h-1 bg-primary"
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ delay: 0.7, duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-                />
+                Grow your Startup Idea
               </motion.span>
             </motion.h1>
             
-            <motion.p 
-              variants={fadeIn}
-              className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
-            >
-              eSchool.ai brings together innovators, learners, and creators to build remarkable projects and acquire new skills in a collaborative environment.
-            </motion.p>
-            
             <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button 
-                className="h-14 px-8 text-lg font-medium rounded-xl group relative overflow-hidden"
+                className="h-12 px-8 text-lg font-medium bg-[#f6c000] hover:bg-[#e6b000] text-black rounded-md"
                 onClick={() => navigate("/auth")}
               >
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-600 to-primary transition-all duration-300 transform group-hover:translate-x-full opacity-30"></span>
                 <span className="relative flex items-center">
-                  Get Started
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Button>
-              <Button 
-                variant="outline" 
-                className="h-14 px-8 text-lg font-medium rounded-xl group"
-                onClick={() => navigate("/auth")}
-              >
-                <span className="flex items-center">
-                  Explore Projects
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <ChevronRight className="ml-2 h-5 w-5" />
-                  </motion.div>
+                  Join eSchool
                 </span>
               </Button>
             </motion.div>
+            
+            {/* User circles */}
+            <motion.div 
+              variants={fadeIn}
+              className="flex justify-center mb-2"
+            >
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-[#0a0b15] bg-[#d8d8d8] overflow-hidden relative">
+                    <img 
+                      src={`https://randomuser.me/api/portraits/men/${i+10}.jpg`}
+                      alt="User"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+            
+            <motion.p 
+              variants={fadeIn}
+              className="text-[#ccc] mb-6"
+            >
+              <span className="font-bold">77,004 action takers</span> have joined eSchool
+            </motion.p>
+          </motion.div>
+          
+          {/* "From Idea to Funded Startup" Path */}
+          <motion.div
+            className="relative w-full mx-auto mt-12 mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            <div className="relative bg-gradient-to-r from-purple-900/40 via-purple-700/40 to-purple-900/40 rounded-xl p-8 overflow-hidden">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMwLTkuOTQtOC4wNi0xOC0xOC0xOHY2YzYuNjMgMCAxMiA1LjM3IDEyIDEyaC02YzAgMy4zMS0yLjY5IDYtNiA2djZjNi42MyAwIDEyLTUuMzcgMTItMTJoNnptLTYgMTJjLTMuMzEgMC02IDIuNjktNiA2aDZ2LTZ6IiBmaWxsLW9wYWNpdHk9Ii4xIiBmaWxsPSIjZmZmIi8+PC9nPjwvc3ZnPg==')] opacity-10"></div>
+              
+              <div className="flex flex-col md:flex-row items-center justify-center text-center">
+                <div className="flex items-center justify-center mb-4 md:mb-0">
+                  <span className="text-[#f6c000] font-bold text-xl mr-2">From</span>
+                  <motion.span className="text-[#f6c000] font-bold text-2xl mr-2"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    Idea
+                  </motion.span>
+                  <span className="text-white text-xl mr-2">to</span>
+                  <span className="text-[#f6c000] font-bold text-xl mr-2">Funded</span>
+                  <motion.span className="text-[#f6c000] font-bold text-2xl"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+                  >
+                    Startup
+                  </motion.span>
+                </div>
+                
+                <div className="mx-8 text-white opacity-60">or</div>
+                
+                <div className="flex items-center text-center">
+                  <motion.span className="text-[#f6c000] font-bold text-xl mr-2"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: 1 }}
+                  >
+                    Build
+                  </motion.span>
+                  <span className="text-white text-xl mr-2">or</span>
+                  <motion.span className="text-[#f6c000] font-bold text-xl mr-2"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: 1.5 }}
+                  >
+                    Join
+                  </motion.span>
+                  <span className="text-white text-xl">Your</span>
+                  <motion.span className="text-[#f6c000] font-bold text-2xl ml-2"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: 2 }}
+                  >
+                    Dream Team
+                  </motion.span>
+                </div>
+              </div>
+              
+              <div className="text-center mt-4 text-white/70 text-sm">
+                Kickstart your journey with the right team, advice and investor exposure - All in one place.
+              </div>
+            </div>
           </motion.div>
 
           {/* Floating card-based mockup */}
@@ -432,6 +523,98 @@ export default function LandingPage() {
               </motion.div>
             </div>
           </motion.div>
+        </div>
+      </section>
+      
+      {/* Two Options Section */}
+      <section className="py-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[#0a0b15] z-0"></div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] z-0"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* I have an idea */}
+            <motion.div 
+              className="bg-purple-900/30 rounded-xl p-8 border border-purple-800/30 hover:border-[#f6c000]/50 transition-all duration-300 cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => navigate("/auth")}
+            >
+              <div className="flex items-center mb-6">
+                <div className="w-10 h-10 bg-[#f6c000] rounded-full flex items-center justify-center mr-4">
+                  <Lightbulb className="h-5 w-5 text-black" />
+                </div>
+                <h3 className="text-xl font-bold text-[#f6c000]">I have an idea</h3>
+              </div>
+              
+              <div className="space-y-6 text-white/80">
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1 w-6 h-6 flex-shrink-0 flex items-center justify-center bg-purple-800/50 rounded-full text-[#f6c000]">
+                    1
+                  </div>
+                  <p className="text-sm">Create a project card</p>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1 w-6 h-6 flex-shrink-0 flex items-center justify-center bg-purple-800/50 rounded-full text-[#f6c000]">
+                    2
+                  </div>
+                  <p className="text-sm">Select team members with roles</p>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1 w-6 h-6 flex-shrink-0 flex items-center justify-center bg-purple-800/50 rounded-full text-[#f6c000]">
+                    3
+                  </div>
+                  <p className="text-sm">Turn vision into a funded startup together</p>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* I want to join a project */}
+            <motion.div 
+              className="bg-purple-900/30 rounded-xl p-8 border border-purple-800/30 hover:border-[#f6c000]/50 transition-all duration-300 cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => navigate("/auth")}
+            >
+              <div className="flex items-center mb-6">
+                <div className="w-10 h-10 bg-[#f6c000] rounded-full flex items-center justify-center mr-4">
+                  <Users className="h-5 w-5 text-black" />
+                </div>
+                <h3 className="text-xl font-bold text-[#f6c000]">I want to join a project</h3>
+              </div>
+              
+              <div className="space-y-6 text-white/80">
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1 w-6 h-6 flex-shrink-0 flex items-center justify-center bg-purple-800/50 rounded-full text-[#f6c000]">
+                    1
+                  </div>
+                  <p className="text-sm">Browse interesting projects</p>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1 w-6 h-6 flex-shrink-0 flex items-center justify-center bg-purple-800/50 rounded-full text-[#f6c000]">
+                    2
+                  </div>
+                  <p className="text-sm">Apply to your favorite team with skills</p>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1 w-6 h-6 flex-shrink-0 flex items-center justify-center bg-purple-800/50 rounded-full text-[#f6c000]">
+                    3
+                  </div>
+                  <p className="text-sm">Make a difference in new team from day one</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
