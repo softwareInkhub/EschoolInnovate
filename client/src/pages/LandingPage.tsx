@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import Tilt from "react-parallax-tilt";
 import CountUp from "react-countup";
 import FAQSection from "@/components/FAQSection";
-import BlogSection from "@/components/BlogSection";
+
 import { 
   GitMerge, 
   Users, 
@@ -1085,10 +1085,7 @@ export default function LandingPage() {
       
       {/* FAQ Section */}
       <FAQSection />
-      
-      {/* Blog Section */}
-      <BlogSection />
-      
+
       {/* India-specific callout */}
       <section className="py-16 bg-gradient-to-b from-[#0a0b15] to-[#170d30] relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04] bg-grid-pattern"></div>
