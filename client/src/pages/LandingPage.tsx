@@ -134,7 +134,7 @@ export default function LandingPage() {
   return (
     <div className="bg-[#0a0b15]">
       {/* Hero Section */}
-      <section className="min-h-screen relative flex items-center overflow-hidden pt-20 pb-32">
+      <section className="min-h-[85vh] md:min-h-screen relative flex items-center overflow-hidden pt-16 md:pt-20 pb-20 md:pb-32">
         {/* Animated background elements */}
         <div className="absolute inset-0 bg-[#0a0b15] z-10"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.04] z-0"></div>
@@ -230,9 +230,9 @@ export default function LandingPage() {
             
             <motion.h1 
               variants={fadeIn}
-              className="text-4xl md:text-6xl font-bold mb-6 text-white"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white leading-tight"
             >
-              Find your Team Members and<br />
+              Find your Team Members<br className="hidden sm:block" /> and<br className="sm:hidden" />
               <motion.span 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -287,21 +287,21 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            <div className="relative bg-gradient-to-r from-purple-900/40 via-purple-700/40 to-purple-900/40 rounded-xl p-8 overflow-hidden">
+            <div className="relative bg-gradient-to-r from-purple-900/40 via-purple-700/40 to-purple-900/40 rounded-xl p-4 sm:p-6 md:p-8 overflow-hidden">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMwLTkuOTQtOC4wNi0xOC0xOC0xOHY2YzYuNjMgMCAxMiA1LjM3IDEyIDEyaC02YzAgMy4zMS0yLjY5IDYtNiA2djZjNi42MyAwIDEyLTUuMzcgMTItMTJoNnptLTYgMTJjLTMuMzEgMC02IDIuNjktNiA2aDZ2LTZ6IiBmaWxsLW9wYWNpdHk9Ii4xIiBmaWxsPSIjZmZmIi8+PC9nPjwvc3ZnPg==')] opacity-10"></div>
               
               <div className="flex flex-col md:flex-row items-center justify-center text-center">
-                <div className="flex items-center justify-center mb-4 md:mb-0">
-                  <span className="text-[#f6c000] font-bold text-xl mr-2">From</span>
-                  <motion.span className="text-[#f6c000] font-bold text-2xl mr-2"
+                <div className="flex flex-wrap items-center justify-center mb-4 md:mb-0">
+                  <span className="text-[#f6c000] font-bold text-base sm:text-xl mr-1 sm:mr-2">From</span>
+                  <motion.span className="text-[#f6c000] font-bold text-xl sm:text-2xl mr-1 sm:mr-2"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
                     Idea
                   </motion.span>
-                  <span className="text-white text-xl mr-2">to</span>
-                  <span className="text-[#f6c000] font-bold text-xl mr-2">Funded</span>
-                  <motion.span className="text-[#f6c000] font-bold text-2xl"
+                  <span className="text-white text-base sm:text-xl mr-1 sm:mr-2">to</span>
+                  <span className="text-[#f6c000] font-bold text-base sm:text-xl mr-1 sm:mr-2">Funded</span>
+                  <motion.span className="text-[#f6c000] font-bold text-xl sm:text-2xl"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
                   >
@@ -309,24 +309,24 @@ export default function LandingPage() {
                   </motion.span>
                 </div>
                 
-                <div className="mx-8 text-white opacity-60">or</div>
+                <div className="mx-4 my-2 md:my-0 md:mx-8 text-white opacity-60">or</div>
                 
-                <div className="flex items-center text-center">
-                  <motion.span className="text-[#f6c000] font-bold text-xl mr-2"
+                <div className="flex flex-wrap items-center justify-center text-center">
+                  <motion.span className="text-[#f6c000] font-bold text-base sm:text-xl mr-1 sm:mr-2"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: 1 }}
                   >
                     Build
                   </motion.span>
-                  <span className="text-white text-xl mr-2">or</span>
-                  <motion.span className="text-[#f6c000] font-bold text-xl mr-2"
+                  <span className="text-white text-base sm:text-xl mr-1 sm:mr-2">or</span>
+                  <motion.span className="text-[#f6c000] font-bold text-base sm:text-xl mr-1 sm:mr-2"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: 1.5 }}
                   >
                     Join
                   </motion.span>
-                  <span className="text-white text-xl">Your</span>
-                  <motion.span className="text-[#f6c000] font-bold text-2xl ml-2"
+                  <span className="text-white text-base sm:text-xl">Your</span>
+                  <motion.span className="text-[#f6c000] font-bold text-xl sm:text-2xl ml-1 sm:ml-2"
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: 2 }}
                   >
@@ -335,7 +335,7 @@ export default function LandingPage() {
                 </div>
               </div>
               
-              <div className="text-center mt-4 text-white/70 text-sm">
+              <div className="text-center mt-4 text-white/70 text-xs sm:text-sm px-2">
                 Kickstart your journey with the right team, advice and investor exposure - All in one place.
               </div>
             </div>
@@ -368,44 +368,44 @@ export default function LandingPage() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-12 h-[380px] md:h-[420px] overflow-hidden">
-                  {/* Sidebar */}
-                  <div className="col-span-3 border-r border-border p-4 bg-muted/30">
-                    <div className="flex items-center gap-2 mb-5">
-                      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
-                        <User className="h-4 w-4" />
+                <div className="grid grid-cols-12 h-[300px] sm:h-[350px] md:h-[420px] overflow-hidden">
+                  {/* Sidebar - Hidden on very small screens */}
+                  <div className="hidden sm:block col-span-3 border-r border-border p-2 sm:p-4 bg-muted/30">
+                    <div className="flex items-center gap-2 mb-3 sm:mb-5">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-primary flex items-center justify-center text-white">
+                        <User className="h-3 w-3 sm:h-4 sm:w-4" />
                       </div>
-                      <div className="text-sm font-medium">Dylan Cooper</div>
+                      <div className="text-xs sm:text-sm font-medium">Dylan Cooper</div>
                     </div>
                     
-                    <div className="space-y-3">
-                      <div className="p-2 rounded-md bg-primary/10 text-primary text-sm flex items-center">
-                        <Globe className="h-4 w-4 mr-2" />
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="p-1.5 sm:p-2 rounded-md bg-primary/10 text-primary text-xs sm:text-sm flex items-center">
+                        <Globe className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                         <span>Dashboard</span>
                       </div>
-                      <div className="p-2 rounded-md text-sm flex items-center text-muted-foreground">
-                        <Code className="h-4 w-4 mr-2" />
+                      <div className="p-1.5 sm:p-2 rounded-md text-xs sm:text-sm flex items-center text-muted-foreground">
+                        <Code className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                         <span>Projects</span>
                       </div>
-                      <div className="p-2 rounded-md text-sm flex items-center text-muted-foreground">
-                        <Briefcase className="h-4 w-4 mr-2" />
+                      <div className="p-1.5 sm:p-2 rounded-md text-xs sm:text-sm flex items-center text-muted-foreground">
+                        <Briefcase className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                         <span>Applications</span>
                       </div>
-                      <div className="p-2 rounded-md text-sm flex items-center text-muted-foreground">
-                        <GraduationCap className="h-4 w-4 mr-2" />
+                      <div className="p-1.5 sm:p-2 rounded-md text-xs sm:text-sm flex items-center text-muted-foreground">
+                        <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                         <span>Learning</span>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Main content */}
-                  <div className="col-span-9 p-6 overflow-y-auto">
-                    <div className="mb-6">
-                      <h2 className="text-2xl font-bold mb-2">Featured Projects</h2>
-                      <p className="text-muted-foreground text-sm">Discover trending projects to join</p>
+                  {/* Main content - Takes full width on small screens */}
+                  <div className="col-span-12 sm:col-span-9 p-4 sm:p-6 overflow-y-auto">
+                    <div className="mb-4 sm:mb-6">
+                      <h2 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2">Featured Projects</h2>
+                      <p className="text-muted-foreground text-xs sm:text-sm">Discover trending projects to join</p>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
                       {[
                         {
                           title: "AI-Powered Finance Assistant",
@@ -436,9 +436,9 @@ export default function LandingPage() {
                           progress: 80
                         }
                       ].map((project, index) => (
-                        <div key={index} className="bg-card border border-border rounded-lg p-4 hover:border-primary/50 hover:shadow-lg transition-all">
-                          <h3 className="font-medium mb-1 line-clamp-1">{project.title}</h3>
-                          <div className="text-xs text-muted-foreground mb-3">{project.category}</div>
+                        <div key={index} className="bg-card border border-border rounded-lg p-3 sm:p-4 hover:border-primary/50 hover:shadow-lg transition-all">
+                          <h3 className="font-medium mb-1 line-clamp-1 text-sm sm:text-base">{project.title}</h3>
+                          <div className="text-xs text-muted-foreground mb-2 sm:mb-3">{project.category}</div>
                           
                           <div className="w-full h-1.5 bg-muted rounded-full mb-2">
                             <div 

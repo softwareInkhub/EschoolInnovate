@@ -32,11 +32,35 @@ function Router() {
           <AuthPage />
         </Route>
         
-        {/* Landing page - accessible to everyone */}
-        <Route path="/">
+        {/* Public pages */}
+        <Route path="/explore">
           <Navbar />
           <main className="flex-1">
-            <LandingPage />
+            <ExplorePage />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/faq">
+          <Navbar />
+          <main className="flex-1">
+            <FAQPage />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/blogs">
+          <Navbar />
+          <main className="flex-1">
+            <BlogPage />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/advanced-features">
+          <Navbar />
+          <main className="flex-1">
+            <AdvancedFeaturesPage />
           </main>
           <Footer />
         </Route>
@@ -98,37 +122,11 @@ function Router() {
           <Footer />
         </Route>
         
-        <Route path="/explore">
+        {/* Landing page as root route - accessible to everyone */}
+        <Route path="/">
           <Navbar />
           <main className="flex-1">
-            <ExplorePage />
-          </main>
-          <Footer />
-        </Route>
-        
-        {/* FAQ Page */}
-        <Route path="/faq">
-          <Navbar />
-          <main className="flex-1">
-            <FAQPage />
-          </main>
-          <Footer />
-        </Route>
-        
-        {/* Blog Page */}
-        <Route path="/blogs">
-          <Navbar />
-          <main className="flex-1">
-            <BlogPage />
-          </main>
-          <Footer />
-        </Route>
-        
-        {/* Advanced Features Page */}
-        <Route path="/advanced-features">
-          <Navbar />
-          <main className="flex-1">
-            <AdvancedFeaturesPage />
+            <LandingPage />
           </main>
           <Footer />
         </Route>
