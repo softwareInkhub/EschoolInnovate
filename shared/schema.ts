@@ -96,10 +96,115 @@ export const schools = pgTable("schools", {
   image: text("image"),
   category: text("category").notNull(),
   courseCount: integer("course_count").default(0),
+  instructorsCount: integer("instructors_count").default(0),
+  studentsCount: integer("students_count").default(0),
+  featured: boolean("featured").default(false),
+  rating: integer("rating").default(0),
+  categories: jsonb("categories").$type<string[]>(),
+  logo: text("logo"),
+  banner: text("banner"),
+  established: text("established"),
+  location: text("location"),
+  socialLinks: jsonb("social_links").$type<{website?: string, twitter?: string, linkedin?: string, youtube?: string}>(),
 });
 
 export const insertSchoolSchema = createInsertSchema(schools).omit({
   id: true,
+});
+
+// Course model
+export const courses = pgTable("courses", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  thumbnail: text("thumbnail"),
+  banner: text("banner"),
+  introVideo: text("intro_video"),
+  duration: integer("duration").notNull(), // in minutes
+  lessonsCount: integer("lessons_count").default(0),
+  schoolId: integer("school_id").notNull(),
+  instructorId: integer("instructor_id").notNull(),
+  level: text("level").notNull(), // beginner, intermediate, advanced
+  category: text("category").notNull(),
+  tags: jsonb("tags").$type<string[]>(),
+  price: integer("price"),
+  discountedPrice: integer("discounted_price"),
+  rating: integer("rating").default(0),
+  ratingCount: integer("rating_count").default(0),
+  enrolledCount: integer("enrolled_count").default(0),
+  featured: boolean("featured").default(false),
+  popular: boolean("popular").default(false),
+  isNew: boolean("is_new").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  outcomes: jsonb("outcomes").$type<string[]>(),
+  requirements: jsonb("requirements").$type<string[]>(),
+  language: text("language").default("English"),
+  certificate: boolean("certificate").default(false),
+});
+
+export const insertCourseSchema = createInsertSchema(courses).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  lessonsCount: true,
+  rating: true,
+  ratingCount: true,
+  enrolledCount: true,
+});
+
+// Module model
+export const modules = pgTable("modules", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  courseId: integer("course_id").notNull(),
+  order: integer("order").notNull(),
+});
+
+export const insertModuleSchema = createInsertSchema(modules).omit({
+  id: true,
+});
+
+// Lesson model
+export const lessons = pgTable("lessons", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  moduleId: integer("module_id").notNull(),
+  order: integer("order").notNull(),
+  duration: integer("duration").notNull(), // in minutes
+  type: text("type").notNull(), // video, article, quiz, project
+  content: text("content"),
+  videoUrl: text("video_url"),
+  attachments: jsonb("attachments").$type<{name: string, url: string, type: string}[]>(),
+  preview: boolean("preview").default(false),
+});
+
+export const insertLessonSchema = createInsertSchema(lessons).omit({
+  id: true,
+});
+
+// Instructor model
+export const instructors = pgTable("instructors", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  title: text("title").notNull(),
+  bio: text("bio"),
+  avatar: text("avatar"),
+  userId: integer("user_id"),
+  schoolId: integer("school_id"),
+  coursesCount: integer("courses_count").default(0),
+  studentsCount: integer("students_count").default(0),
+  rating: integer("rating").default(0),
+  socialLinks: jsonb("social_links").$type<{website?: string, twitter?: string, linkedin?: string, youtube?: string}>(),
+});
+
+export const insertInstructorSchema = createInsertSchema(instructors).omit({
+  id: true,
+  coursesCount: true,
+  studentsCount: true,
+  rating: true,
 });
 
 // Type definitions
@@ -120,6 +225,18 @@ export type InsertApplication = z.infer<typeof insertApplicationSchema>;
 
 export type School = typeof schools.$inferSelect;
 export type InsertSchool = z.infer<typeof insertSchoolSchema>;
+
+export type Course = typeof courses.$inferSelect;
+export type InsertCourse = z.infer<typeof insertCourseSchema>;
+
+export type Module = typeof modules.$inferSelect;
+export type InsertModule = z.infer<typeof insertModuleSchema>;
+
+export type Lesson = typeof lessons.$inferSelect;
+export type InsertLesson = z.infer<typeof insertLessonSchema>;
+
+export type Instructor = typeof instructors.$inferSelect;
+export type InsertInstructor = z.infer<typeof insertInstructorSchema>;
 
 // Extended schemas for validations
 export const projectFormSchema = insertProjectSchema.extend({
