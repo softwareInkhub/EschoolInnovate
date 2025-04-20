@@ -876,7 +876,7 @@ export default function LandingPage() {
           </motion.div>
           
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -884,25 +884,25 @@ export default function LandingPage() {
           >
             {[
               {
-                icon: <Code className="h-6 w-6 text-primary" />,
+                icon: <Code className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "TechAcademy",
                 description: "Advanced courses in programming, AI, and machine learning",
                 courses: 24
               },
               {
-                icon: <Briefcase className="h-6 w-6 text-primary" />,
+                icon: <Briefcase className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "Business Hub",
                 description: "Startup fundamentals, marketing, and growth strategies",
                 courses: 18
               },
               {
-                icon: <Lightbulb className="h-6 w-6 text-primary" />,
+                icon: <Lightbulb className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "Design Master",
                 description: "UX/UI design principles and practical applications",
                 courses: 15
               },
               {
-                icon: <Shield className="h-6 w-6 text-primary" />,
+                icon: <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />,
                 title: "Innovation Lab",
                 description: "Product development and innovation frameworks",
                 courses: 12
@@ -922,19 +922,19 @@ export default function LandingPage() {
                   className="h-full"
                 >
                   <div className="bg-card hover:bg-card/80 border border-border hover:border-primary/30 rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col shadow-md hover:shadow-xl">
-                    <div className="p-6 border-b border-border group-hover:border-primary/20 transition-colors">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors">
+                    <div className="p-4 sm:p-6 border-b border-border group-hover:border-primary/20 transition-colors">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-3 sm:mb-4 transition-colors">
                         {school.icon}
                       </div>
-                      <h3 className="text-xl font-bold mb-2">{school.title}</h3>
-                      <p className="text-muted-foreground mb-2">{school.description}</p>
+                      <h3 className="text-base sm:text-xl font-bold mb-1 sm:mb-2">{school.title}</h3>
+                      <p className="text-xs sm:text-sm md:text-base text-muted-foreground mb-1 sm:mb-2">{school.description}</p>
                     </div>
                     
-                    <div className="p-6 mt-auto">
+                    <div className="p-3 sm:p-4 md:p-6 mt-auto">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-primary">{school.courses} Courses</span>
-                        <div className="rounded-full bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
-                          <ArrowUpRight className="h-4 w-4 text-primary" />
+                        <span className="text-xs sm:text-sm text-primary">{school.courses} Courses</span>
+                        <div className="rounded-full bg-primary/10 p-1.5 sm:p-2 group-hover:bg-primary/20 transition-colors">
+                          <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                         </div>
                       </div>
                     </div>

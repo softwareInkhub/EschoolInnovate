@@ -1017,11 +1017,12 @@ const FAQSection = () => {
       // Always check the question text
       if (faq.question.toLowerCase().includes(searchQuery.toLowerCase())) return true;
       
-      // Only check string answers
+      // Handle string answers
       if (typeof faq.answer === 'string' && faq.answer.toLowerCase().includes(searchQuery.toLowerCase())) {
         return true;
       }
       
+      // For JSX/React element answers we can't search content - just return false
       return false;
     })
   );
