@@ -569,11 +569,11 @@ const FAQSection = () => {
       questions: [
         {
           id: "learning-schools",
-          question: "What learning schools are available on eSchool.ai?",
+          question: "What learning schools are available on escool.ai?",
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai offers a diverse range of specialized schools to help you develop skills crucial for success in India's startup ecosystem:
+                escool.ai offers a diverse range of specialized schools to help you develop skills crucial for success in India's startup ecosystem:
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
@@ -737,7 +737,7 @@ const FAQSection = () => {
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai's courses are designed to provide both practical skills and recognized credentials that can significantly boost your career prospects in India's competitive startup ecosystem.
+                escool.ai's courses are designed to provide both practical skills and recognized credentials that can significantly boost your career prospects in India's competitive startup ecosystem.
               </p>
               
               <div className="mt-4">
@@ -746,10 +746,10 @@ const FAQSection = () => {
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <h5 className="font-medium flex items-center mb-2">
                       <Award className="h-5 w-5 text-[#f6c000] mr-2" />
-                      eSchool.ai Credentials
+                      escool.ai Credentials
                     </h5>
                     <p className="text-sm">
-                      Upon course completion, you'll receive eSchool.ai digital certificates that outline specific skills mastered and projects completed. These can be shared directly to LinkedIn or other professional platforms.
+                      Upon course completion, you'll receive escool.ai digital certificates that outline specific skills mastered and projects completed. These can be shared directly to LinkedIn or other professional platforms.
                     </p>
                   </div>
                   <div className="bg-muted/30 p-4 rounded-lg">
@@ -788,7 +788,7 @@ const FAQSection = () => {
                   <div className="grid grid-cols-3 border-b border-border">
                     <div className="p-3 font-medium text-sm border-r border-border">Benefit</div>
                     <div className="p-3 font-medium text-sm border-r border-border">Traditional Courses</div>
-                    <div className="p-3 font-medium text-sm">eSchool.ai Courses</div>
+                    <div className="p-3 font-medium text-sm">escool.ai Courses</div>
                   </div>
                   
                   <div className="grid grid-cols-3 border-b border-border">
@@ -846,13 +846,13 @@ const FAQSection = () => {
               <div className="bg-primary/5 p-4 rounded-lg border border-primary/20 mt-6">
                 <h4 className="font-medium mb-2">India Advantage</h4>
                 <p className="text-sm">
-                  Our courses are specifically designed to address skills gaps in India's job market, with particular focus on emerging sectors like fintech, healthtech, edtech, and clean energy. According to our research, professionals with eSchool.ai certifications show a 32% higher interview success rate and 28% higher starting salaries when applying to Indian startups.
+                  Our courses are specifically designed to address skills gaps in India's job market, with particular focus on emerging sectors like fintech, healthtech, edtech, and clean energy. According to our research, professionals with escool.ai certifications show a 32% higher interview success rate and 28% higher starting salaries when applying to Indian startups.
                 </p>
               </div>
               
               <blockquote className="border-l-4 border-[#f6c000] pl-4 italic text-muted-foreground mt-6">
                 <p className="text-sm">
-                  "The practical, project-based learning at eSchool.ai helped me transition from a traditional IT role to leading product development at a fintech startup in Bangalore. The certification was valuable, but the actual skills and connections I gained were invaluable."
+                  "The practical, project-based learning at escool.ai helped me transition from a traditional IT role to leading product development at a fintech startup in Bangalore. The certification was valuable, but the actual skills and connections I gained were invaluable."
                 </p>
                 <footer className="text-sm font-medium mt-2">
                   - Priya Sharma, Product Manager at PayNow India
@@ -869,11 +869,11 @@ const FAQSection = () => {
       questions: [
         {
           id: "funding-opportunities",
-          question: "What funding opportunities are available through eSchool.ai?",
+          question: "What funding opportunities are available through escool.ai?",
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai connects promising Indian startups with funding opportunities through several channels designed to address different stages of growth:
+                escool.ai connects promising Indian startups with funding opportunities through several channels designed to address different stages of growth:
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
