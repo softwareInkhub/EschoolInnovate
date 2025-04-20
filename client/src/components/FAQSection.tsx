@@ -1085,7 +1085,7 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-[#ccc] mb-8">
-            Find answers to common questions about eSchool.ai and how we're transforming India's startup ecosystem
+            Find answers to common questions about escool.ai and how we're transforming India's startup ecosystem
           </p>
           
           <div className="relative max-w-md mx-auto mb-6">

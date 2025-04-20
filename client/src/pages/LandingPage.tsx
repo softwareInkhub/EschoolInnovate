@@ -224,7 +224,7 @@ export default function LandingPage() {
           >
             <motion.div variants={fadeIn} className="mb-2">
               <span className="inline-flex items-center px-4 py-2 text-sm font-medium text-white mb-4">
-                ESCHOOL.AI
+                ESCOOL.AI
               </span>
             </motion.div>
             
@@ -249,7 +249,7 @@ export default function LandingPage() {
                 onClick={() => navigate("/auth")}
               >
                 <span className="relative flex items-center">
-                  Join eSchool
+                  Join escool.ai
                 </span>
               </Button>
             </motion.div>
@@ -276,7 +276,7 @@ export default function LandingPage() {
               variants={fadeIn}
               className="text-[#ccc] mb-6"
             >
-              <span className="font-bold">77,004 action takers</span> have joined eSchool
+              <span className="font-bold">77,004 action takers</span> have joined escool.ai
             </motion.p>
           </motion.div>
           
