@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import { motion } from "framer-motion";
 import { 
   Accordion,
@@ -14,6 +14,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+// Define types for FAQ data structure
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: ReactNode | string;
+}
+
+interface FAQCategory {
+  category: string;
+  icon: ReactNode;
+  questions: FAQItem[];
+}
+
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
@@ -27,7 +40,7 @@ const FAQSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
   
-  const allFaqs = [
+  const allFaqs: FAQCategory[] = [
     {
       category: "General",
       icon: <HelpCircle className="h-5 w-5" />,
@@ -1010,7 +1023,7 @@ const FAQSection = () => {
     },
   ];
   
-  const filteredFaqs = allFaqs.flatMap(category => 
+  const filteredFaqs: FAQItem[] = allFaqs.flatMap(category => 
     category.questions.filter(faq => {
       if (searchQuery === '') return true;
       
