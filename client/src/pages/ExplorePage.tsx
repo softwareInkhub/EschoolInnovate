@@ -162,6 +162,7 @@ export default function ExplorePage() {
     teamSize: "all"
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [, navigate] = useLocation();
   
   // Fetch projects data
   const { data: projects, isLoading, error } = useProjects();
@@ -518,7 +519,12 @@ export default function ExplorePage() {
           <div className="mb-16">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-xl font-bold">Featured Schools</h3>
-              <Button variant="ghost" size="sm" className="gap-1 text-primary">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="gap-1 text-primary"
+                onClick={() => navigate("/schools")}
+              >
                 <span>View all schools</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -526,7 +532,11 @@ export default function ExplorePage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredSchools.filter(school => school.featured).map((school) => (
-                <Card key={school.id} className="hover:shadow-md transition-shadow border-2 hover:border-primary/30 cursor-pointer">
+                <Card 
+                  key={school.id} 
+                  className="hover:shadow-md transition-shadow border-2 hover:border-primary/30 cursor-pointer"
+                  onClick={() => navigate(`/schools/${school.id}`)}
+                >
                   <CardHeader className="pb-2">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -556,7 +566,15 @@ export default function ExplorePage() {
                     </div>
                   </CardContent>
                   <CardFooter className="pt-2 border-t">
-                    <Button variant="ghost" size="sm" className="w-full justify-between">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-between"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering the card's onClick
+                        navigate(`/schools/${school.id}`);
+                      }}
+                    >
                       <span>View Courses</span>
                       <ChevronRight className="h-4 w-4" />
                     </Button>
