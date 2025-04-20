@@ -563,8 +563,13 @@ export class DynamoStorage implements IStorage {
       instructorsCount: school.instructorsCount ?? 0,
       studentsCount: school.studentsCount ?? 0,
       rating: school.rating ?? 0,
-      categories: school.categories || null,
-      socialLinks: school.socialLinks || null
+      categories: Array.isArray(school.categories) ? (school.categories as any[]).map(c => String(c)) : null,
+      socialLinks: school.socialLinks ? { 
+        website: school.socialLinks.website as string | undefined,
+        twitter: school.socialLinks.twitter as string | undefined,
+        linkedin: school.socialLinks.linkedin as string | undefined, 
+        youtube: school.socialLinks.youtube as string | undefined
+      } : null
     };
     
     await docClient.send(
@@ -696,9 +701,9 @@ export class DynamoStorage implements IStorage {
       banner: course.banner || null,
       thumbnail: course.thumbnail || null,
       introVideo: course.introVideo || null,
-      tags: course.tags || null,
-      outcomes: course.outcomes || null,
-      requirements: course.requirements || null,
+      tags: Array.isArray(course.tags) ? (course.tags as any[]).map(t => String(t)) : null,
+      outcomes: Array.isArray(course.outcomes) ? (course.outcomes as any[]).map(o => String(o)) : null,
+      requirements: Array.isArray(course.requirements) ? (course.requirements as any[]).map(r => String(r)) : null,
       rating: 0,
       ratingCount: 0,
       enrolledCount: 0,
@@ -804,7 +809,14 @@ export class DynamoStorage implements IStorage {
       description: lesson.description || null,
       content: lesson.content || null,
       videoUrl: lesson.videoUrl || null,
-      attachments: lesson.attachments || null,
+      attachments: Array.isArray(lesson.attachments) ? 
+        (lesson.attachments as any[]).map(attachment => {
+          return { 
+            name: String(attachment.name || ''), 
+            url: String(attachment.url || ''), 
+            type: String(attachment.type || '')
+          };
+        }) : null,
       preview: lesson.preview ?? false
     };
     
@@ -868,7 +880,12 @@ export class DynamoStorage implements IStorage {
       coursesCount: 0,
       studentsCount: 0,
       rating: 0,
-      socialLinks: instructor.socialLinks || null
+      socialLinks: instructor.socialLinks ? {
+        website: typeof instructor.socialLinks.website === 'string' ? instructor.socialLinks.website : undefined,
+        twitter: typeof instructor.socialLinks.twitter === 'string' ? instructor.socialLinks.twitter : undefined,
+        linkedin: typeof instructor.socialLinks.linkedin === 'string' ? instructor.socialLinks.linkedin : undefined,
+        youtube: typeof instructor.socialLinks.youtube === 'string' ? instructor.socialLinks.youtube : undefined
+      } : null
     };
     
     await docClient.send(
