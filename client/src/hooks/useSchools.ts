@@ -1,69 +1,103 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { queryClient, apiRequest } from '@/lib/queryClient';
-import { School, InsertSchool } from '@shared/schema';
+import { useQuery } from "@tanstack/react-query";
+import { School, Course, Instructor } from "@shared/schema";
 
-// Hook for fetching all schools
+interface EnrichedCourse extends Course {
+  instructor: Instructor;
+  modules: Array<{
+    id: number;
+    title: string;
+    description: string | null;
+    courseId: number;
+    order: number;
+    lessons: Array<{
+      id: number;
+      title: string;
+      description: string | null;
+      moduleId: number;
+      order: number;
+      duration: number;
+      type: string;
+      content: string | null;
+      videoUrl: string | null;
+      attachments: Array<{ name: string; url: string; type: string }> | null;
+      preview: boolean | null;
+    }>;
+  }>;
+}
+
 export function useSchools() {
   return useQuery<School[]>({
-    queryKey: ['/api/schools'],
+    queryKey: ["/api/schools"],
   });
 }
 
-// Hook for fetching a single school
-export function useSchool(id: number | string | undefined) {
+export function useFeaturedSchools() {
+  return useQuery<School[]>({
+    queryKey: ["/api/schools/featured"],
+  });
+}
+
+export function useSchool(id: number | null) {
   return useQuery<School>({
-    queryKey: [`/api/schools/${id}`],
+    queryKey: ["/api/schools", id],
     enabled: !!id,
   });
 }
 
-// Hook for creating a new school
-export function useCreateSchool() {
-  return useMutation({
-    mutationFn: (schoolData: InsertSchool) => {
-      return apiRequest('POST', '/api/schools', schoolData);
-    },
-    onSuccess: () => {
-      // Invalidate schools query to trigger a refetch
-      queryClient.invalidateQueries({ queryKey: ['/api/schools'] });
-    },
+export function useSchoolCourses(schoolId: number | null) {
+  return useQuery<Course[]>({
+    queryKey: ["/api/schools", schoolId, "courses"],
+    enabled: !!schoolId,
   });
 }
 
-// Hook for filtering schools by category
-export function useFilteredSchools(category: string = '') {
-  const { data: schools, isLoading, error } = useSchools();
-  
-  const filteredSchools = category 
-    ? schools?.filter(school => school.category === category)
-    : schools;
-
-  return {
-    schools: filteredSchools || [],
-    isLoading,
-    error,
-    categories: schools 
-      ? [...new Set(schools.map(school => school.category))]
-      : [],
-  };
+export function useSchoolInstructors(schoolId: number | null) {
+  return useQuery<Instructor[]>({
+    queryKey: ["/api/schools", schoolId, "instructors"],
+    enabled: !!schoolId,
+  });
 }
 
-// Hook for paginating schools
-export function usePaginatedSchools(itemsPerPage: number = 4) {
-  const { data: schools, isLoading, error } = useSchools();
-  
-  const totalPages = schools ? Math.ceil(schools.length / itemsPerPage) : 0;
-  
-  const getPageItems = (page: number) => {
-    const startIndex = (page - 1) * itemsPerPage;
-    return schools?.slice(startIndex, startIndex + itemsPerPage) || [];
-  };
+export function useCourses() {
+  return useQuery<Course[]>({
+    queryKey: ["/api/courses"],
+  });
+}
 
-  return {
-    schools,
-    isLoading,
-    error,
-    totalPages,
-    getPageItems,
-  };
+export function useFeaturedCourses() {
+  return useQuery<Course[]>({
+    queryKey: ["/api/courses/featured"],
+  });
+}
+
+export function usePopularCourses() {
+  return useQuery<Course[]>({
+    queryKey: ["/api/courses/popular"],
+  });
+}
+
+export function useNewCourses() {
+  return useQuery<Course[]>({
+    queryKey: ["/api/courses/new"],
+  });
+}
+
+export function useCourse(id: number | null) {
+  return useQuery<EnrichedCourse>({
+    queryKey: ["/api/courses", id],
+    enabled: !!id,
+  });
+}
+
+export function useInstructors() {
+  return useQuery<Instructor[]>({
+    queryKey: ["/api/instructors"],
+  });
+}
+
+export function useInstructor(id: number | null) {
+  return useQuery<Instructor>({
+    queryKey: ["/api/instructors", id],
+    enabled: !!id,
+  });
 }

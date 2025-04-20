@@ -11,6 +11,7 @@ import AuthPage from "@/pages/auth-page";
 import LandingPage from "@/pages/LandingPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import SchoolsPage from "@/pages/SchoolsPage";
+import SchoolDetailPage from "@/pages/SchoolDetailPage";
 import FeaturesShowcase from "@/pages/FeaturesShowcase";
 import CompetitionPage from "@/pages/CompetitionPage";
 import ExplorePage from "@/pages/ExplorePage";
@@ -93,7 +94,15 @@ function Router() {
         <Route path="/schools">
           <Navbar />
           <main className="flex-1">
-            <ProtectedRoute path="/schools" component={SchoolsPage} />
+            <SchoolsPage />
+          </main>
+          <Footer />
+        </Route>
+        
+        <Route path="/schools/:id">
+          <Navbar />
+          <main className="flex-1">
+            <SchoolsPage />
           </main>
           <Footer />
         </Route>
