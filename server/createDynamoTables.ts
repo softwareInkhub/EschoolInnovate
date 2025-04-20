@@ -7,7 +7,8 @@ import {
   AttributeDefinition,
   KeySchemaElement,
   KeyType,
-  ProjectionType
+  ProjectionType,
+  CreateTableCommandInput
 } from "@aws-sdk/client-dynamodb";
 
 async function createDynamoTables() {
@@ -55,7 +56,7 @@ async function createDynamoTables() {
         KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
         AttributeDefinitions: [
           { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "featured", AttributeType: "BOOL" } as AttributeDefinition,
+          { AttributeName: "featured", AttributeType: "S" } as AttributeDefinition, // Using S type for boolean
           { AttributeName: "createdBy", AttributeType: "N" } as AttributeDefinition
         ],
         GlobalSecondaryIndexes: [
@@ -88,10 +89,10 @@ async function createDynamoTables() {
       name: "escool_roles",
       schema: {
         TableName: "escool_roles",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "projectId", AttributeType: "N" }
+          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
+          { AttributeName: "projectId", AttributeType: "N" } as AttributeDefinition
         ],
         GlobalSecondaryIndexes: [
           {
@@ -114,11 +115,11 @@ async function createDynamoTables() {
       name: "escool_team_members",
       schema: {
         TableName: "escool_team_members",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "projectId", AttributeType: "N" },
-          { AttributeName: "userId", AttributeType: "N" }
+          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
+          { AttributeName: "projectId", AttributeType: "N" } as AttributeDefinition,
+          { AttributeName: "userId", AttributeType: "N" } as AttributeDefinition
         ],
         GlobalSecondaryIndexes: [
           {
@@ -188,8 +189,8 @@ async function createDynamoTables() {
         TableName: "escool_schools",
         KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "featured", AttributeType: "BOOL" }
+          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
+          { AttributeName: "featured", AttributeType: "S" } as AttributeDefinition // Using S type for boolean
         ],
         GlobalSecondaryIndexes: [
           {
@@ -214,9 +215,9 @@ async function createDynamoTables() {
         TableName: "escool_courses",
         KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "featured", AttributeType: "BOOL" },
-          { AttributeName: "schoolId", AttributeType: "N" }
+          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
+          { AttributeName: "featured", AttributeType: "S" } as AttributeDefinition, // Using S type for boolean
+          { AttributeName: "schoolId", AttributeType: "N" } as AttributeDefinition
         ],
         GlobalSecondaryIndexes: [
           {
