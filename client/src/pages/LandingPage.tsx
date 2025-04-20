@@ -1,12 +1,9 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Particles from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import type { Engine } from "@tsparticles/engine";
 import Tilt from "react-parallax-tilt";
 import CountUp from "react-countup";
 import { 
@@ -90,79 +87,7 @@ const WaveBottom = ({ className = "", fill = "currentColor" }) => (
   </div>
 );
 
-// Particles animation options
-const particlesOptions = {
-  particles: {
-    number: {
-      value: 50,
-      density: {
-        enable: true,
-        value_area: 800
-      }
-    },
-    color: {
-      value: "#8b5cf6"
-    },
-    shape: {
-      type: "circle",
-    },
-    opacity: {
-      value: 0.3,
-      random: true,
-      anim: {
-        enable: true,
-        speed: 1,
-        opacity_min: 0.1,
-        sync: false
-      }
-    },
-    size: {
-      value: 3,
-      random: true,
-      anim: {
-        enable: true,
-        speed: 2,
-        size_min: 0.1,
-        sync: false
-      }
-    },
-    move: {
-      enable: true,
-      speed: 1,
-      direction: "none",
-      random: true,
-      straight: false,
-      out_mode: "out",
-      bounce: false,
-    }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: {
-        enable: true,
-        mode: "grab"
-      },
-      onclick: {
-        enable: true,
-        mode: "push"
-      },
-      resize: true
-    },
-    modes: {
-      grab: {
-        distance: 140,
-        line_linked: {
-          opacity: 0.5
-        }
-      },
-      push: {
-        particles_nb: 3
-      }
-    }
-  },
-  retina_detect: true
-};
+// Let's define the particles options inside the component to avoid hook errors
 
 // Counter component using the react-countup library
 const CounterAnimation = ({ end, duration = 2 }: { end: number, duration?: number }) => {
@@ -192,10 +117,7 @@ export default function LandingPage() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
   
-  // Particle animation initialization (moved inside component as it uses hooks)
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine);
-  }, []);
+  // Animation-related state and effects
 
   // If user is logged in, redirect to /projects
   useEffect(() => {
@@ -208,23 +130,49 @@ export default function LandingPage() {
     <div className="bg-background">
       {/* Hero Section */}
       <section className="min-h-screen relative flex items-center overflow-hidden pt-20 pb-32">
-        {/* Particles animation */}
-        <div className="absolute inset-0 z-0">
-          <Particles
-            id="tsparticles"
-            className="absolute inset-0"
-            init={particlesInit}
-            options={particlesOptions}
-          />
-        </div>
-        
-        {/* Background elements */}
+        {/* Animated background elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 z-10"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] z-0"></div>
         
-        <div className="absolute left-1/2 top-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[100px] z-0"></div>
-        <div className="absolute -top-10 -right-10 w-[500px] h-[500px] bg-violet-500/5 rounded-full blur-[80px] z-0"></div>
-        <div className="absolute -bottom-10 -left-10 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[80px] z-0"></div>
+        {/* Animated gradient orbs */}
+        <motion.div 
+          className="absolute left-1/2 top-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[100px] z-0"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.5, 0.6, 0.5]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute -top-10 -right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[80px] z-0"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.5, 0.7, 0.5]
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        <motion.div 
+          className="absolute -bottom-10 -left-10 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[80px] z-0"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.5, 0.6, 0.5]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
         
         <div className="relative z-20 container mx-auto px-4 pt-10">
           <motion.div 
@@ -537,10 +485,12 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+        <WaveBottom fill="currentColor" className="absolute bottom-0 left-0 w-full" />
       </section>
 
       {/* Features section */}
       <section className="py-24 relative overflow-hidden">
+        <WaveTop fill="currentColor" className="absolute top-0 left-0 w-full" />
         <div className="container mx-auto px-4">
           <motion.div 
             className="text-center max-w-3xl mx-auto mb-20"
@@ -712,10 +662,12 @@ export default function LandingPage() {
             </motion.div>
           </div>
         </div>
+        <WaveBottom fill="currentColor" className="absolute bottom-0 left-0 w-full" />
       </section>
 
       {/* Schools/Partners Section */}
       <section className="py-24 bg-muted/20 relative overflow-hidden">
+        <WaveTop fill="currentColor" className="absolute top-0 left-0 w-full" />
         <div className="container mx-auto px-4">
           <motion.div 
             className="text-center max-w-3xl mx-auto mb-16"
@@ -773,7 +725,15 @@ export default function LandingPage() {
                 className="group"
                 variants={fadeIn}
               >
-                <div className="bg-card hover:bg-card/80 border border-border hover:border-primary/30 rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col shadow-md hover:shadow-xl">
+                <Tilt 
+                  tiltMaxAngleX={5} 
+                  tiltMaxAngleY={5} 
+                  perspective={1000}
+                  scale={1.02}
+                  transitionSpeed={1500}
+                  className="h-full"
+                >
+                  <div className="bg-card hover:bg-card/80 border border-border hover:border-primary/30 rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col shadow-md hover:shadow-xl">
                   <div className="p-6 border-b border-border group-hover:border-primary/20 transition-colors">
                     <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center mb-4 transition-colors">
                       {school.icon}
@@ -791,6 +751,7 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
+                </Tilt>
               </motion.div>
             ))}
           </motion.div>
@@ -817,6 +778,7 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="py-24 relative overflow-hidden">
+        <WaveTop fill="currentColor" className="absolute top-0 left-0 w-full" />
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]"></div>
         <div className="absolute left-1/2 top-1/2 w-[800px] h-[800px] -translate-x-1/2 -translate-y-1/2 bg-primary/5 rounded-full blur-[100px] z-0"></div>
         
