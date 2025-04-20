@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 
 // Types and interfaces
 type TooltipVisibility = "all" | "essential" | "none";
@@ -113,14 +113,14 @@ export function HelpProvider({
     localStorage.setItem("seen-tooltips", JSON.stringify(Array.from(seenTooltips)));
   }, [seenTooltips]);
 
-  // Methods
-  const markTooltipAsSeen = (tooltipId: string) => {
+  // Methods - memoized to prevent unnecessary re-renders
+  const markTooltipAsSeen = useCallback((tooltipId: string) => {
     setSeenTooltips((prev) => {
       const newSet = new Set(prev);
       newSet.add(tooltipId);
       return newSet;
     });
-  };
+  }, []);
 
   const resetSeenTooltips = () => {
     setSeenTooltips(new Set<string>());
@@ -141,7 +141,8 @@ export function HelpProvider({
     return tooltips[tooltipId]?.isEssential || false;
   };
 
-  const shouldShowTooltip = (tooltipId: string) => {
+  // Memoize the shouldShowTooltip function to avoid unnecessary re-renders
+  const shouldShowTooltip = useCallback((tooltipId: string) => {
     // Already seen this tooltip
     if (seenTooltips.has(tooltipId)) {
       return false;
@@ -155,8 +156,10 @@ export function HelpProvider({
         return isTooltipImportant(tooltipId);
       case "none":
         return false;
+      default:
+        return false;
     }
-  };
+  }, [seenTooltips, tooltipVisibility, isTooltipImportant]);
 
   const value = {
     tooltipVisibility,

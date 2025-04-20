@@ -76,11 +76,14 @@ export default function ContextualHelp({
       isEssential,
       section,
       priority,
-      character: getCharacter()
+      // Use context-based character or user preference
+      character: characterPreference === "random" 
+        ? (contextToCharacterMap[context] || getRandomCharacter())
+        : characterPreference
     };
     
     addTooltip(id, tooltipData);
-  }, [id, text, context, isEssential, section, priority, addTooltip]);
+  }, [id, text, context, isEssential, section, priority, addTooltip, characterPreference]);
 
   // Mark tooltip as seen when component unmounts
   useEffect(() => {
@@ -88,22 +91,6 @@ export default function ContextualHelp({
       markTooltipAsSeen(id);
     };
   }, [id, markTooltipAsSeen]);
-
-  // Determine character based on context and preference
-  function getCharacter(): string {
-    if (characterPreference === "random") {
-      return getRandomCharacter();
-    }
-    
-    if (characterPreference !== "random") {
-      return characterPreference;
-    }
-    
-    return contextToCharacterMap[context] || DEFAULT_CHARACTER;
-  }
-
-  // Get final character type
-  const characterType = useMemo(() => getCharacter(), [characterPreference, context]);
 
   // Determine if we should show this tooltip
   const showTooltip = shouldShowTooltip(id);
@@ -118,10 +105,15 @@ export default function ContextualHelp({
     return children;
   }
 
+  // Get the character for the tooltip display 
+  const displayCharacter = characterPreference === "random" 
+    ? (contextToCharacterMap[context] || getRandomCharacter())
+    : characterPreference;
+
   return (
     <HelpTooltip
       text={text}
-      character={characterType as any}
+      character={displayCharacter as any}
       position={finalPosition}
       width={width}
       delay={delay}
