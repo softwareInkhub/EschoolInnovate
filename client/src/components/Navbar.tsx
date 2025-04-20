@@ -19,7 +19,12 @@ import {
   User,
   Menu,
   LogOut,
-  HelpCircle
+  HelpCircle,
+  Rocket,
+  Code,
+  BookOpen,
+  GraduationCap,
+  TrendingUp
 } from 'lucide-react';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -54,13 +59,16 @@ export default function Navbar() {
             </div>
             <div className="ml-6 hidden md:flex space-x-2">
               <Link href="/explore">
-                <Button variant="default" className="bg-primary hover:bg-primary/90">EXPLORE</Button>
+                <Button variant="ghost">Explore</Button>
               </Link>
               <Link href="/schools">
-                <Button variant="ghost">SCHOOLS</Button>
+                <Button variant="ghost">Schools</Button>
               </Link>
               <Link href="/competitions">
-                <Button variant="ghost">COMPETITION</Button>
+                <Button variant="ghost">Competition</Button>
+              </Link>
+              <Link href="/projects">
+                <Button variant="ghost">Projects</Button>
               </Link>
             </div>
           </div>
@@ -180,24 +188,55 @@ export default function Navbar() {
                     </div>
                   )}
                   
-                  <Link href={user ? "/explore" : "/"} className="text-lg font-medium">
-                    Home
-                  </Link>
-                  <Link href="/dashboard" className="text-lg font-medium">
-                    Dashboard
-                  </Link>
-                  <Link href="/schools" className="text-lg font-medium">
-                    Schools
-                  </Link>
-                  <Link href="/competitions" className="text-lg font-medium">
-                    Competitions
-                  </Link>
-                  <Link href="/faq" className="text-lg font-medium">
-                    FAQs & Feedback
-                  </Link>
-                  <Link href="/blogs" className="text-lg font-medium">
-                    Blogs
-                  </Link>
+                  <div className="mb-4">
+                    <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase">Main Navigation</p>
+                    <div className="space-y-2">
+                      <Link href={user ? "/explore" : "/"} className="flex items-center text-base font-medium">
+                        <Rocket className="h-4 w-4 mr-2" />
+                        Home
+                      </Link>
+                      <Link href="/dashboard" className="flex items-center text-base font-medium">
+                        <Users className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Link>
+                      <Link href="/projects" className="flex items-center text-base font-medium">
+                        <Code className="h-4 w-4 mr-2" />
+                        Projects
+                      </Link>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase">Education</p>
+                    <div className="space-y-2">
+                      <Link href="/schools" className="flex items-center text-base font-medium">
+                        <BookOpen className="h-4 w-4 mr-2" />
+                        Schools
+                      </Link>
+                      <Link href="/courses" className="flex items-center text-base font-medium">
+                        <GraduationCap className="h-4 w-4 mr-2" />
+                        Courses
+                      </Link>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase">Community</p>
+                    <div className="space-y-2">
+                      <Link href="/competitions" className="flex items-center text-base font-medium">
+                        <TrendingUp className="h-4 w-4 mr-2" />
+                        Competitions
+                      </Link>
+                      <Link href="/blogs" className="flex items-center text-base font-medium">
+                        <BookOpen className="h-4 w-4 mr-2" />
+                        Blogs
+                      </Link>
+                      <Link href="/faq" className="flex items-center text-base font-medium">
+                        <HelpCircle className="h-4 w-4 mr-2" />
+                        FAQs & Feedback
+                      </Link>
+                    </div>
+                  </div>
                   
                   <div className="pt-4 border-t border-border">
                     {user ? (
@@ -214,6 +253,7 @@ export default function Navbar() {
                         className="w-full"
                         onClick={() => navigate("/auth")}
                       >
+                        <User className="h-4 w-4 mr-2" />
                         Login
                       </Button>
                     )}
