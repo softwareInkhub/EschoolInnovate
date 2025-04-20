@@ -480,7 +480,7 @@ export default function LandingPage() {
               </motion.div>
               
               <motion.div 
-                className="absolute -bottom-10 -left-10 bg-card shadow-xl rounded-xl border border-border p-4 w-52 z-30"
+                className="absolute bottom-4 left-4 md:-bottom-10 md:-left-10 bg-card shadow-xl rounded-xl border border-border p-4 w-52 z-30"
                 initial={{ opacity: 0, x: -20, y: -20 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
