@@ -187,13 +187,24 @@ export class DynamoStorage implements IStorage {
       ...project,
       id,
       createdAt: now,
-      featured: false, // Default
+      isFeatured: false, // Default value using the correct property name
+      banner: project.banner || null,
+      website: project.website || null,
+      problem: project.problem || null,
+      market: project.market || null,
+      competition: project.competition || null
+    };
+    
+    // Store featured as 'true' or 'false' string in DynamoDB for the GSI
+    const dynamoProject = {
+      ...newProject,
+      featured: 'false' // For the GSI index in DynamoDB
     };
     
     await docClient.send(
       new PutCommand({
         TableName: TABLE_NAMES.PROJECTS,
-        Item: newProject,
+        Item: dynamoProject,
       })
     );
     
@@ -279,6 +290,8 @@ export class DynamoStorage implements IStorage {
     const newRole: Role = {
       ...role,
       id,
+      description: role.description || null,
+      isOpen: role.isOpen ?? true
     };
     
     await docClient.send(
@@ -390,6 +403,8 @@ export class DynamoStorage implements IStorage {
       ...teamMember,
       id,
       joinedAt: now,
+      roleId: teamMember.roleId || null,
+      isFounder: teamMember.isFounder ?? false
     };
     
     await docClient.send(
@@ -454,6 +469,7 @@ export class DynamoStorage implements IStorage {
       id,
       createdAt: now,
       status: "pending", // Default
+      message: application.message || null
     };
     
     await docClient.send(
@@ -537,6 +553,18 @@ export class DynamoStorage implements IStorage {
     const newSchool: School = {
       ...school,
       id,
+      banner: school.banner || null,
+      image: school.image || null,
+      logo: school.logo || null,
+      established: school.established || null,
+      location: school.location || null,
+      featured: school.featured ?? false,
+      courseCount: school.courseCount ?? 0,
+      instructorsCount: school.instructorsCount ?? 0,
+      studentsCount: school.studentsCount ?? 0,
+      rating: school.rating ?? 0,
+      categories: school.categories || null,
+      socialLinks: school.socialLinks || null
     };
     
     await docClient.send(
@@ -583,19 +611,19 @@ export class DynamoStorage implements IStorage {
   }
 
   async getPopularCourses(limit: number = 10): Promise<Course[]> {
-    // Sort by enrollment count or views
+    // Sort by enrolled count or views
     const result = await docClient.send(
       new ScanCommand({
         TableName: TABLE_NAMES.COURSES,
-        FilterExpression: "attribute_exists(enrollmentCount)",
+        FilterExpression: "attribute_exists(enrolledCount)",
         Limit: limit,
       })
     );
     
-    // Sort in-memory by enrollment count
+    // Sort in-memory by enrolled count
     const courses = (result.Items || []) as Course[];
     return courses.sort((a, b) => 
-      (b.enrollmentCount || 0) - (a.enrollmentCount || 0)
+      (b.enrolledCount || 0) - (a.enrolledCount || 0)
     ).slice(0, limit);
   }
 
@@ -664,6 +692,24 @@ export class DynamoStorage implements IStorage {
       ...course,
       id,
       createdAt: now,
+      updatedAt: now,
+      banner: course.banner || null,
+      thumbnail: course.thumbnail || null,
+      introVideo: course.introVideo || null,
+      tags: course.tags || null,
+      outcomes: course.outcomes || null,
+      requirements: course.requirements || null,
+      rating: 0,
+      ratingCount: 0,
+      enrolledCount: 0,
+      lessonsCount: 0,
+      featured: course.featured ?? false,
+      popular: course.popular ?? false,
+      isNew: course.isNew ?? true,
+      price: course.price || null,
+      discountedPrice: course.discountedPrice || null,
+      language: course.language || "English",
+      certificate: course.certificate ?? false
     };
     
     await docClient.send(
@@ -709,6 +755,7 @@ export class DynamoStorage implements IStorage {
     const newModule: Module = {
       ...module,
       id,
+      description: module.description || null
     };
     
     await docClient.send(
@@ -754,6 +801,11 @@ export class DynamoStorage implements IStorage {
     const newLesson: Lesson = {
       ...lesson,
       id,
+      description: lesson.description || null,
+      content: lesson.content || null,
+      videoUrl: lesson.videoUrl || null,
+      attachments: lesson.attachments || null,
+      preview: lesson.preview ?? false
     };
     
     await docClient.send(
@@ -809,6 +861,14 @@ export class DynamoStorage implements IStorage {
     const newInstructor: Instructor = {
       ...instructor,
       id,
+      avatar: instructor.avatar || null,
+      bio: instructor.bio || null,
+      userId: instructor.userId || null,
+      schoolId: instructor.schoolId || null, 
+      coursesCount: 0,
+      studentsCount: 0,
+      rating: 0,
+      socialLinks: instructor.socialLinks || null
     };
     
     await docClient.send(
