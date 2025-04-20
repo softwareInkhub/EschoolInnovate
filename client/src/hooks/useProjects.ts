@@ -147,6 +147,22 @@ export function useApplyToProject(projectId: number) {
   });
 }
 
+// Directly join a project/startup team
+export function useJoinProject(projectId: number) {
+  return useMutation({
+    mutationFn: async (data: { roleId?: number | null }) => {
+      const response = await apiRequest("POST", `/api/projects/${projectId}/join`, data);
+      return await response.json();
+    },
+    onSuccess: () => {
+      // Invalidate relevant queries to update UI
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/team`] });
+      queryClient.invalidateQueries({ queryKey: ["/api/projects"] });
+    },
+  });
+}
+
 // Accept/reject application
 export function useUpdateApplicationStatus() {
   return useMutation({

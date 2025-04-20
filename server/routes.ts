@@ -194,6 +194,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to submit application" });
     }
   });
+  
+  // Direct join team (without application process)
+  app.post("/api/projects/:id/join", async (req, res) => {
+    try {
+      const projectId = parseInt(req.params.id);
+      if (isNaN(projectId)) {
+        return res.status(400).json({ error: "Invalid project ID" });
+      }
+
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Check if project has reached max team size
+      if (project.teamSize >= project.maxTeamSize) {
+        return res.status(400).json({ error: "This project has reached its maximum team size" });
+      }
+      
+      // Get authenticated user
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ error: "You must be logged in to join a project" });
+      }
+      
+      const userId = req.user.id;
+      
+      // Check if user is already a team member
+      const existingTeamMembers = await storage.getTeamMembers(projectId);
+      const isAlreadyMember = existingTeamMembers.some(member => member.userId === userId);
+      
+      if (isAlreadyMember) {
+        return res.status(400).json({ error: "You are already a member of this team" });
+      }
+      
+      // Create team member record
+      const { roleId } = req.body;
+      
+      const teamMember = await storage.createTeamMember({
+        projectId,
+        userId,
+        roleId: roleId || null,
+        isFounder: false
+      });
+      
+      // Update project team size
+      await storage.updateProject(projectId, {
+        teamSize: project.teamSize + 1
+      });
+      
+      res.status(201).json(teamMember);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to join team" });
+    }
+  });
 
   // Schools routes
   app.get("/api/schools", async (_req, res) => {

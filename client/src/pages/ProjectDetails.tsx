@@ -1,4 +1,4 @@
-import { useProject, useProjectRoles, useProjectTeam } from '@/hooks/useProjects';
+import { useProject, useProjectRoles, useProjectTeam, useJoinProject } from '@/hooks/useProjects';
 import { useParams } from 'wouter';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
