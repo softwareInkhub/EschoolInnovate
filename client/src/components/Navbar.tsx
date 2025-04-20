@@ -49,8 +49,12 @@ export default function Navbar() {
               </Link>
             </div>
             <div className="ml-6 hidden md:flex space-x-2">
-              <Button variant="default" className="bg-primary hover:bg-primary/90">EXPLORE</Button>
-              <Button variant="ghost">COMPETITION</Button>
+              <Link href="/projects">
+                <Button variant="default" className="bg-primary hover:bg-primary/90">EXPLORE</Button>
+              </Link>
+              <Link href="/competitions">
+                <Button variant="ghost">COMPETITION</Button>
+              </Link>
             </div>
           </div>
           
@@ -157,6 +161,9 @@ export default function Navbar() {
                   </Link>
                   <Link href="/dashboard" className="text-lg font-medium">
                     Dashboard
+                  </Link>
+                  <Link href="/competitions" className="text-lg font-medium">
+                    Competitions
                   </Link>
                   <Link href="/faq" className="text-lg font-medium">
                     FAQs & Feedback

@@ -197,16 +197,8 @@ export default function CompetitionPage() {
     setExpandedCompetition(expandedCompetition === id ? null : id);
   };
 
-  // If user is not logged in, redirect to auth page
-  useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-    }
-  }, [user, navigate]);
-
-  if (!user) {
-    return null; // Return null to avoid flashes of content before redirect
-  }
+  // We'll allow viewing without being logged in, but certain actions will require login
+  const isLoggedIn = !!user;
 
   return (
     <div className="bg-background min-h-screen pb-20">
@@ -407,10 +399,14 @@ export default function CompetitionPage() {
                             className="text-sm"
                             onClick={(e) => {
                               e.stopPropagation();
-                              // Handle apply
+                              if (!isLoggedIn) {
+                                navigate("/auth");
+                              } else {
+                                // Handle apply for logged in users
+                              }
                             }}
                           >
-                            Apply Now
+                            {isLoggedIn ? 'Apply Now' : 'Login to Apply'}
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
@@ -503,10 +499,14 @@ export default function CompetitionPage() {
                               className="w-full"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // Handle apply action
+                                if (!isLoggedIn) {
+                                  navigate("/auth");
+                                } else {
+                                  // Handle apply action for logged in users
+                                }
                               }}
                             >
-                              Apply for this Competition
+                              {isLoggedIn ? 'Apply for this Competition' : 'Login to Apply'}
                               <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                           </div>
@@ -547,8 +547,17 @@ export default function CompetitionPage() {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button className="rounded-xl">
-                    Create Competition
+                  <Button 
+                    className="rounded-xl"
+                    onClick={() => {
+                      if (!isLoggedIn) {
+                        navigate("/auth");
+                      } else {
+                        // Handle create competition
+                      }
+                    }}
+                  >
+                    {isLoggedIn ? 'Create Competition' : 'Login to Create'}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                   <Button variant="outline" className="rounded-xl">
