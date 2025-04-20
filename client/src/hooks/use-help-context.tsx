@@ -126,20 +126,29 @@ export function HelpProvider({
     setSeenTooltips(new Set<string>());
   };
 
-  const addTooltip = (tooltipId: string, tooltipData: TooltipData) => {
-    setTooltips((prev) => ({
-      ...prev,
-      [tooltipId]: tooltipData,
-    }));
-  };
+  const addTooltip = useCallback((tooltipId: string, tooltipData: TooltipData) => {
+    setTooltips((prev) => {
+      // Only update if tooltip doesn't exist or has changed
+      const existing = prev[tooltipId];
+      if (existing && 
+          JSON.stringify(existing) === JSON.stringify(tooltipData)) {
+        return prev; // No change needed
+      }
+      
+      return {
+        ...prev,
+        [tooltipId]: tooltipData,
+      };
+    });
+  }, []);
 
   const getTooltip = (tooltipId: string) => {
     return tooltips[tooltipId];
   };
 
-  const isTooltipImportant = (tooltipId: string) => {
+  const isTooltipImportant = useCallback((tooltipId: string) => {
     return tooltips[tooltipId]?.isEssential || false;
-  };
+  }, [tooltips]);
 
   // Memoize the shouldShowTooltip function to avoid unnecessary re-renders
   const shouldShowTooltip = useCallback((tooltipId: string) => {

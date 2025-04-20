@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import HelpTooltip from "./HelpTooltip";
 import { useHelpContext, TooltipData } from "@/hooks/use-help-context";
 
@@ -20,9 +20,6 @@ const contextToCharacterMap: Record<string, string> = {
   technical: "guru"
 };
 
-// Default character for unknown contexts
-const DEFAULT_CHARACTER = "guide";
-
 // Character randomizer
 const characters = ["tutor", "mentor", "coach", "guide", "buddy", "guru", "expert", "wizard"];
 function getRandomCharacter(): string {
@@ -42,6 +39,14 @@ interface ContextualHelpProps {
   section?: string;
   priority?: number;
   children: React.ReactNode;
+}
+
+// Simple function to get character based on preference and context
+function getCharacterForContext(preference: string, context: string): string {
+  if (preference === "random") {
+    return contextToCharacterMap[context] || getRandomCharacter();
+  }
+  return preference;
 }
 
 export default function ContextualHelp({
@@ -67,8 +72,11 @@ export default function ContextualHelp({
     interactiveMode
   } = useHelpContext();
 
-  // Register this tooltip with the context
+  // Register tooltip once when component mounts
   useEffect(() => {
+    // Character is determined once at registration time
+    const character = getCharacterForContext(characterPreference, context);
+    
     const tooltipData: TooltipData = {
       id,
       text,
@@ -76,39 +84,36 @@ export default function ContextualHelp({
       isEssential,
       section,
       priority,
-      // Use context-based character or user preference
-      character: characterPreference === "random" 
-        ? (contextToCharacterMap[context] || getRandomCharacter())
-        : characterPreference
+      character
     };
     
     addTooltip(id, tooltipData);
-  }, [id, text, context, isEssential, section, priority, addTooltip, characterPreference]);
-
-  // Mark tooltip as seen when component unmounts
-  useEffect(() => {
+    
+    // Only mark as seen when unmounting
     return () => {
       markTooltipAsSeen(id);
     };
-  }, [id, markTooltipAsSeen]);
+  }, [
+    id, 
+    text, 
+    context, 
+    isEssential, 
+    section, 
+    priority, 
+    characterPreference, 
+    addTooltip, 
+    markTooltipAsSeen
+  ]);
 
-  // Determine if we should show this tooltip
-  const showTooltip = shouldShowTooltip(id);
-
-  // Determine position (use context preference if set to auto)
-  const finalPosition = position || (tooltipPosition === "auto" ? "top" : tooltipPosition);
-
-  // Determine if interactive mode is enabled
-  const finalInteractive = interactive !== undefined ? interactive : interactiveMode;
-
-  if (!showTooltip) {
+  // Check if tooltip should be shown
+  if (!shouldShowTooltip(id)) {
     return children;
   }
 
-  // Get the character for the tooltip display 
-  const displayCharacter = characterPreference === "random" 
-    ? (contextToCharacterMap[context] || getRandomCharacter())
-    : characterPreference;
+  // Derive final values for tooltip display
+  const finalPosition = position || (tooltipPosition === "auto" ? "top" : tooltipPosition);
+  const finalInteractive = interactive !== undefined ? interactive : interactiveMode;
+  const displayCharacter = getCharacterForContext(characterPreference, context);
 
   return (
     <HelpTooltip
