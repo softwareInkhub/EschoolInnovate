@@ -174,18 +174,39 @@ export class DynamoStorage implements IStorage {
   }
 
   async getFeaturedProjects(): Promise<Project[]> {
-    const result = await docClient.send(
-      new QueryCommand({
-        TableName: TABLE_NAMES.PROJECTS,
-        IndexName: "FeaturedIndex",
-        KeyConditionExpression: "featured = :featured",
-        ExpressionAttributeValues: {
-          ":featured": true,
-        },
-      })
-    );
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
     
-    return (result.Items || []) as Project[];
+    try {
+      // First attempt to use the GSI with featured attribute
+      const result = await docClient.send(
+        new QueryCommand({
+          TableName: TABLE_NAMES.PROJECTS,
+          IndexName: "FeaturedIndex",
+          KeyConditionExpression: "featured = :featured",
+          ExpressionAttributeValues: {
+            ":featured": "true", // In DynamoDB we're using string "true"/"false" for GSI
+          },
+        })
+      );
+      
+      return (result.Items || []) as Project[];
+    } catch (error) {
+      console.error("Error querying featured projects with GSI:", error);
+      
+      // Fallback: use scan with filter for isFeatured
+      const result = await docClient.send(
+        new ScanCommand({
+          TableName: TABLE_NAMES.PROJECTS,
+          FilterExpression: "isFeatured = :isFeatured",
+          ExpressionAttributeValues: {
+            ":isFeatured": true
+          },
+        })
+      );
+      
+      return (result.Items || []) as Project[];
+    }
   }
 
   async createProject(project: InsertProject): Promise<Project> {
@@ -531,18 +552,39 @@ export class DynamoStorage implements IStorage {
   }
 
   async getFeaturedSchools(): Promise<School[]> {
-    const result = await docClient.send(
-      new QueryCommand({
-        TableName: TABLE_NAMES.SCHOOLS,
-        IndexName: "FeaturedIndex",
-        KeyConditionExpression: "featured = :featured",
-        ExpressionAttributeValues: {
-          ":featured": true,
-        },
-      })
-    );
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
     
-    return (result.Items || []) as School[];
+    try {
+      // First attempt to use the GSI with featured attribute
+      const result = await docClient.send(
+        new QueryCommand({
+          TableName: TABLE_NAMES.SCHOOLS,
+          IndexName: "FeaturedIndex",
+          KeyConditionExpression: "featured = :featured",
+          ExpressionAttributeValues: {
+            ":featured": "true", // In DynamoDB we're using string "true"/"false" for GSI
+          },
+        })
+      );
+      
+      return (result.Items || []) as School[];
+    } catch (error) {
+      console.error("Error querying featured schools with GSI:", error);
+      
+      // Fallback: use scan with filter for isFeatured
+      const result = await docClient.send(
+        new ScanCommand({
+          TableName: TABLE_NAMES.SCHOOLS,
+          FilterExpression: "isFeatured = :isFeatured",
+          ExpressionAttributeValues: {
+            ":isFeatured": true
+          },
+        })
+      );
+      
+      return (result.Items || []) as School[];
+    }
   }
 
   async getSchool(id: number): Promise<School | undefined> {
@@ -642,19 +684,41 @@ export class DynamoStorage implements IStorage {
   }
 
   async getFeaturedCourses(limit: number = 10): Promise<Course[]> {
-    const result = await docClient.send(
-      new QueryCommand({
-        TableName: TABLE_NAMES.COURSES,
-        IndexName: "FeaturedIndex",
-        KeyConditionExpression: "featured = :featured",
-        ExpressionAttributeValues: {
-          ":featured": true,
-        },
-        Limit: limit,
-      })
-    );
+    // Make sure tables are initialized before accessing
+    await this.initializeTables();
     
-    return (result.Items || []).slice(0, limit) as Course[];
+    try {
+      // First attempt to use the GSI with featured attribute
+      const result = await docClient.send(
+        new QueryCommand({
+          TableName: TABLE_NAMES.COURSES,
+          IndexName: "FeaturedIndex",
+          KeyConditionExpression: "featured = :featured",
+          ExpressionAttributeValues: {
+            ":featured": "true", // In DynamoDB we're using string "true"/"false" for GSI
+          },
+          Limit: limit,
+        })
+      );
+      
+      return (result.Items || []).slice(0, limit) as Course[];
+    } catch (error) {
+      console.error("Error querying featured courses with GSI:", error);
+      
+      // Fallback: use scan with filter for featured
+      const result = await docClient.send(
+        new ScanCommand({
+          TableName: TABLE_NAMES.COURSES,
+          FilterExpression: "featured = :featured",
+          ExpressionAttributeValues: {
+            ":featured": true
+          },
+          Limit: limit,
+        })
+      );
+      
+      return (result.Items || []).slice(0, limit) as Course[];
+    }
   }
 
   async getNewCourses(limit: number = 10): Promise<Course[]> {
