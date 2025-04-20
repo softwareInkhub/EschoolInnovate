@@ -56,6 +56,9 @@ export default function Navbar() {
               <Link href="/explore">
                 <Button variant="default" className="bg-primary hover:bg-primary/90">EXPLORE</Button>
               </Link>
+              <Link href="/schools">
+                <Button variant="ghost">SCHOOLS</Button>
+              </Link>
               <Link href="/competitions">
                 <Button variant="ghost">COMPETITION</Button>
               </Link>
@@ -182,6 +185,9 @@ export default function Navbar() {
                   </Link>
                   <Link href="/dashboard" className="text-lg font-medium">
                     Dashboard
+                  </Link>
+                  <Link href="/schools" className="text-lg font-medium">
+                    Schools
                   </Link>
                   <Link href="/competitions" className="text-lg font-medium">
                     Competitions
