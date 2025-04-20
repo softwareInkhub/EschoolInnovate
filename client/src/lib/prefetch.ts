@@ -7,42 +7,31 @@ import { queryClient } from "./queryClient";
 const criticalDataUrls = [
   "/api/schools/featured",
   "/api/projects/featured",
-  "/api/user", // Will return 401 for unauthenticated users, but the query is still registered
 ];
 
-// Data that should be prefetched when visiting specific routes
+// Basic map of routes to API endpoints
 const routeSpecificData: Record<string, string[]> = {
   "/schools": ["/api/schools"],
-  "/projects": ["/api/projects"],
+  "/projects": ["/api/projects"], 
   "/competitions": ["/api/competitions"],
-  "/courses": ["/api/courses/featured", "/api/courses/popular", "/api/courses/new"],
 };
 
 /**
  * Prefetches critical data that's needed for most page loads
- * This should be called early in the app lifecycle, ideally during idle time
  */
 export function prefetchCriticalData() {
   if (typeof window === 'undefined') return;
 
-  // Mark performance for tracking
-  if (typeof performance !== 'undefined') {
-    performance.mark('prefetch-start');
-  }
-
-  // Prefetch the critical data
-  criticalDataUrls.forEach((url) => {
-    queryClient.prefetchQuery({
-      queryKey: [url],
-      staleTime: 1000 * 60 * 5, // 5 minutes
+  // Prefetch the critical data with a short timeout to let
+  // the initial page render complete first
+  setTimeout(() => {
+    criticalDataUrls.forEach((url) => {
+      queryClient.prefetchQuery({
+        queryKey: [url],
+        staleTime: 1000 * 60 * 2, // 2 minutes
+      });
     });
-  });
-
-  // Measure performance
-  if (typeof performance !== 'undefined') {
-    performance.mark('prefetch-end');
-    performance.measure('data-prefetching', 'prefetch-start', 'prefetch-end');
-  }
+  }, 100);
 }
 
 /**
@@ -55,26 +44,14 @@ export function prefetchRouteData(route: string) {
   
   // Find data to prefetch for this route
   const dataToPrefetch = routeSpecificData[baseRoute] || [];
-  
   if (dataToPrefetch.length === 0) return;
   
   // Prefetch all the data for this route
   dataToPrefetch.forEach((url) => {
     queryClient.prefetchQuery({
       queryKey: [url],
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 2, // 2 minutes
     });
-  });
-}
-
-/**
- * Given a list of possible routes, prefetch data for all of them
- * Used for prefetching data for routes that might be navigated to next
- * @param routes List of routes that might be visited
- */
-export function prefetchProbableRoutes(routes: string[]) {
-  routes.forEach(route => {
-    prefetchRouteData(route);
   });
 }
 
@@ -86,6 +63,6 @@ export function prefetchProbableRoutes(routes: string[]) {
 export function prefetchResourceById(resourceType: string, id: string | number) {
   queryClient.prefetchQuery({
     queryKey: [`/api/${resourceType}s/${id}`],
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 2, // 2 minutes
   });
 }

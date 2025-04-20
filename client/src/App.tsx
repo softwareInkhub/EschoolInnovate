@@ -14,17 +14,17 @@ import Footer from "@/components/Footer";
 import LandingPage from "@/pages/LandingPage";
 import AuthPage from "@/pages/auth-page";
 import NotFound from "@/pages/not-found";
+import ExplorePage from "@/pages/ExplorePage";
+import SchoolsPage from "@/pages/SchoolsPage";
+import ProjectsPage from "@/pages/ProjectsPage";
+import CompetitionPage from "@/pages/CompetitionPage";
 
-// Lazy load non-critical components
+// Lazy load less critical components
 const Home = lazy(() => import("@/pages/Home"));
 const ProjectDetails = lazy(() => import("@/pages/ProjectDetails"));
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
-const ProjectsPage = lazy(() => import("@/pages/ProjectsPage"));
-const SchoolsPage = lazy(() => import("@/pages/SchoolsPage"));
 const SchoolDetailPage = lazy(() => import("@/pages/SchoolDetailPage"));
 const FeaturesShowcase = lazy(() => import("@/pages/FeaturesShowcase"));
-const CompetitionPage = lazy(() => import("@/pages/CompetitionPage"));
-const ExplorePage = lazy(() => import("@/pages/ExplorePage"));
 const FAQPage = lazy(() => import("@/pages/FAQPage"));
 const BlogPage = lazy(() => import("@/pages/BlogPage"));
 const AdvancedFeaturesPage = lazy(() => import("@/pages/AdvancedFeaturesPage"));
@@ -37,9 +37,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => (
   <>
     <Navbar />
     <main className="flex-1">
-      <Suspense fallback={<PageLoading />}>
-        {children}
-      </Suspense>
+      {children}
     </main>
     <Footer />
   </>
