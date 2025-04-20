@@ -106,6 +106,8 @@ export class DynamoStorage implements IStorage {
       ...user,
       id,
       createdAt: now,
+      avatar: user.avatar || null,
+      bio: user.bio || null
     };
     
     await docClient.send(

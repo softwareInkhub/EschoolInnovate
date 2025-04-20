@@ -22,26 +22,48 @@ async function createDynamoTables() {
 
   // Get existing tables to avoid recreating
   const { TableNames = [] } = await client.send(new ListTablesCommand({}));
-  const tablesToCreate = [
+  console.log("Existing tables:", TableNames);
+
+  // Helper function to create AttributeDefinition
+  const createAttrDef = (name: string, type: ScalarAttributeType): AttributeDefinition => ({
+    AttributeName: name,
+    AttributeType: type
+  });
+
+  // Helper function to create KeySchemaElement
+  const createKeySchema = (name: string, keyType: KeyType): KeySchemaElement => ({
+    AttributeName: name,
+    KeyType: keyType
+  });
+
+  // Helper function to create standard GSI
+  const createGSI = (
+    name: string, 
+    hashKey: string,
+    projectionType: ProjectionType = "ALL"
+  ): GlobalSecondaryIndex => ({
+    IndexName: name,
+    KeySchema: [createKeySchema(hashKey, "HASH")],
+    Projection: { ProjectionType: projectionType },
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5
+    }
+  });
+
+  // Define tables to create with proper types
+  const tablesToCreate: { name: string, schema: CreateTableCommandInput }[] = [
     {
       name: "escool_users",
       schema: {
         TableName: "escool_users",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "username", AttributeType: "S" } as AttributeDefinition
+          createAttrDef("id", "N"),
+          createAttrDef("username", "S")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "UsernameIndex",
-            KeySchema: [{ AttributeName: "username", KeyType: "HASH" } as KeySchemaElement],
-            Projection: { ProjectionType: "ALL" as ProjectionType },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("UsernameIndex", "username")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -53,31 +75,15 @@ async function createDynamoTables() {
       name: "escool_projects",
       schema: {
         TableName: "escool_projects",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "featured", AttributeType: "S" } as AttributeDefinition, // Using S type for boolean
-          { AttributeName: "createdBy", AttributeType: "N" } as AttributeDefinition
+          createAttrDef("id", "N"),
+          createAttrDef("featured", "S"), // Using S type for boolean
+          createAttrDef("createdBy", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "FeaturedIndex",
-            KeySchema: [{ AttributeName: "featured", KeyType: "HASH" } as KeySchemaElement],
-            Projection: { ProjectionType: "ALL" as ProjectionType },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          },
-          {
-            IndexName: "CreatedByIndex",
-            KeySchema: [{ AttributeName: "createdBy", KeyType: "HASH" } as KeySchemaElement],
-            Projection: { ProjectionType: "ALL" as ProjectionType },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("FeaturedIndex", "featured"),
+          createGSI("CreatedByIndex", "createdBy")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -89,21 +95,13 @@ async function createDynamoTables() {
       name: "escool_roles",
       schema: {
         TableName: "escool_roles",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "projectId", AttributeType: "N" } as AttributeDefinition
+          createAttrDef("id", "N"),
+          createAttrDef("projectId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "ProjectIdIndex",
-            KeySchema: [{ AttributeName: "projectId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("ProjectIdIndex", "projectId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -115,31 +113,15 @@ async function createDynamoTables() {
       name: "escool_team_members",
       schema: {
         TableName: "escool_team_members",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" } as KeySchemaElement],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "projectId", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "userId", AttributeType: "N" } as AttributeDefinition
+          createAttrDef("id", "N"),
+          createAttrDef("projectId", "N"),
+          createAttrDef("userId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "ProjectIdIndex",
-            KeySchema: [{ AttributeName: "projectId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          },
-          {
-            IndexName: "UserIdIndex",
-            KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("ProjectIdIndex", "projectId"),
+          createGSI("UserIdIndex", "userId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -151,31 +133,15 @@ async function createDynamoTables() {
       name: "escool_applications",
       schema: {
         TableName: "escool_applications",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "projectId", AttributeType: "N" },
-          { AttributeName: "userId", AttributeType: "N" }
+          createAttrDef("id", "N"),
+          createAttrDef("projectId", "N"),
+          createAttrDef("userId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "ProjectIdIndex",
-            KeySchema: [{ AttributeName: "projectId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          },
-          {
-            IndexName: "UserIdIndex",
-            KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("ProjectIdIndex", "projectId"),
+          createGSI("UserIdIndex", "userId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -187,21 +153,13 @@ async function createDynamoTables() {
       name: "escool_schools",
       schema: {
         TableName: "escool_schools",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "featured", AttributeType: "S" } as AttributeDefinition // Using S type for boolean
+          createAttrDef("id", "N"),
+          createAttrDef("featured", "S") // Using S type for boolean
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "FeaturedIndex",
-            KeySchema: [{ AttributeName: "featured", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("FeaturedIndex", "featured")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -213,31 +171,15 @@ async function createDynamoTables() {
       name: "escool_courses",
       schema: {
         TableName: "escool_courses",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" } as AttributeDefinition,
-          { AttributeName: "featured", AttributeType: "S" } as AttributeDefinition, // Using S type for boolean
-          { AttributeName: "schoolId", AttributeType: "N" } as AttributeDefinition
+          createAttrDef("id", "N"),
+          createAttrDef("featured", "S"), // Using S type for boolean
+          createAttrDef("schoolId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "FeaturedIndex",
-            KeySchema: [{ AttributeName: "featured", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          },
-          {
-            IndexName: "SchoolIdIndex",
-            KeySchema: [{ AttributeName: "schoolId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("FeaturedIndex", "featured"),
+          createGSI("SchoolIdIndex", "schoolId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -249,21 +191,13 @@ async function createDynamoTables() {
       name: "escool_modules",
       schema: {
         TableName: "escool_modules",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "courseId", AttributeType: "N" }
+          createAttrDef("id", "N"),
+          createAttrDef("courseId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "CourseIdIndex",
-            KeySchema: [{ AttributeName: "courseId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("CourseIdIndex", "courseId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -275,21 +209,13 @@ async function createDynamoTables() {
       name: "escool_lessons",
       schema: {
         TableName: "escool_lessons",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "moduleId", AttributeType: "N" }
+          createAttrDef("id", "N"),
+          createAttrDef("moduleId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "ModuleIdIndex",
-            KeySchema: [{ AttributeName: "moduleId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("ModuleIdIndex", "moduleId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
@@ -301,21 +227,13 @@ async function createDynamoTables() {
       name: "escool_instructors",
       schema: {
         TableName: "escool_instructors",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+        KeySchema: [createKeySchema("id", "HASH")],
         AttributeDefinitions: [
-          { AttributeName: "id", AttributeType: "N" },
-          { AttributeName: "schoolId", AttributeType: "N" }
+          createAttrDef("id", "N"),
+          createAttrDef("schoolId", "N")
         ],
         GlobalSecondaryIndexes: [
-          {
-            IndexName: "SchoolIdIndex",
-            KeySchema: [{ AttributeName: "schoolId", KeyType: "HASH" }],
-            Projection: { ProjectionType: "ALL" },
-            ProvisionedThroughput: {
-              ReadCapacityUnits: 5,
-              WriteCapacityUnits: 5
-            }
-          }
+          createGSI("SchoolIdIndex", "schoolId")
         ],
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,
