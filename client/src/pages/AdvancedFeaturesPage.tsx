@@ -93,75 +93,6 @@ export default function AdvancedFeaturesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0b15] to-[#121224]">
-      {/* Building the Future banner section */}
-      <div className="py-12 bg-gradient-to-r from-[#0a0b15] to-[#170d30] relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 opacity-[0.04] bg-grid-pattern"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="md:w-1/2">
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#f6c000]/20 mr-4">
-                    <Globe className="h-5 w-5 text-[#f6c000]" />
-                  </div>
-                  <span className="text-[#f6c000] font-medium">Made for India</span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-                  Building the Future of <br/>Indian Innovation
-                </h2>
-                <p className="text-[#ccc] mb-6">
-                  eSchool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
-                </p>
-
-                <div className="hidden md:block">
-                  <Button 
-                    className="h-12 px-6 bg-[#f6c000] hover:bg-[#e6b000] text-black rounded-md"
-                    onClick={() => navigate("/auth")}
-                  >
-                    Join the Movement
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="md:w-1/2">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
-                    <div className="text-2xl font-bold text-[#f6c000] mb-1">100+</div>
-                    <div className="text-xs text-white/70">Cities across India</div>
-                  </div>
-                  <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
-                    <div className="text-2xl font-bold text-[#f6c000] mb-1">50K+</div>
-                    <div className="text-xs text-white/70">Indian entrepreneurs</div>
-                  </div>
-                  <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
-                    <div className="text-2xl font-bold text-[#f6c000] mb-1">₹120Cr+</div>
-                    <div className="text-xs text-white/70">Funding facilitated</div>
-                  </div>
-                  <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
-                    <div className="text-2xl font-bold text-[#f6c000] mb-1">28+</div>
-                    <div className="text-xs text-white/70">State innovation hubs</div>
-                  </div>
-                </div>
-                
-                <div className="block md:hidden mt-6">
-                  <Button 
-                    className="w-full h-12 px-6 bg-[#f6c000] hover:bg-[#e6b000] text-black rounded-md"
-                    onClick={() => navigate("/auth")}
-                  >
-                    Join the Movement
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
       <div className="container mx-auto px-4 py-16">
         {/* Header */}
         <motion.div 
@@ -200,6 +131,76 @@ export default function AdvancedFeaturesPage() {
               />
             </motion.div>
           ))}
+        </div>
+
+        {/* Building the Future of Indian Innovation section */}
+        <div className="py-16 my-10 relative overflow-hidden border-y border-white/10">
+          <div className="absolute inset-0 bg-[#0f1020] opacity-60"></div>
+          <div className="absolute inset-0 opacity-5 bg-grid-pattern"></div>
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div 
+              className="max-w-5xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="md:w-1/2">
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#f6c000]/20 mr-4">
+                      <Globe className="h-5 w-5 text-[#f6c000]" />
+                    </div>
+                    <span className="text-[#f6c000] font-medium">Made for India</span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                    Building the Future of <br/>Indian Innovation
+                  </h2>
+                  <p className="text-[#ccc] mb-6">
+                    eSchool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
+                  </p>
+
+                  <div className="hidden md:block">
+                    <Button 
+                      className="h-12 px-6 bg-[#f6c000] hover:bg-[#e6b000] text-black rounded-md"
+                      onClick={() => navigate("/auth")}
+                    >
+                      Join the Movement
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="md:w-1/2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
+                      <div className="text-2xl font-bold text-[#f6c000] mb-1">100+</div>
+                      <div className="text-xs text-white/70">Cities across India</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
+                      <div className="text-2xl font-bold text-[#f6c000] mb-1">50K+</div>
+                      <div className="text-xs text-white/70">Indian entrepreneurs</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
+                      <div className="text-2xl font-bold text-[#f6c000] mb-1">₹120Cr+</div>
+                      <div className="text-xs text-white/70">Funding facilitated</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
+                      <div className="text-2xl font-bold text-[#f6c000] mb-1">28+</div>
+                      <div className="text-xs text-white/70">State innovation hubs</div>
+                    </div>
+                  </div>
+                  
+                  <div className="block md:hidden mt-6">
+                    <Button 
+                      className="w-full h-12 px-6 bg-[#f6c000] hover:bg-[#e6b000] text-black rounded-md"
+                      onClick={() => navigate("/auth")}
+                    >
+                      Join the Movement
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         {/* CTA Section */}
