@@ -102,7 +102,7 @@ function Router() {
         <Route path="/schools/:id">
           <Navbar />
           <main className="flex-1">
-            <SchoolsPage />
+            <SchoolDetailPage />
           </main>
           <Footer />
         </Route>
