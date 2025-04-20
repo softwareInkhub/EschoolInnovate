@@ -59,16 +59,16 @@ export default function Navbar() {
             </div>
             <div className="ml-6 hidden md:flex space-x-2">
               <Link href="/explore">
-                <Button variant="ghost">Explore</Button>
+                <Button variant="ghost" className="transform-gpu transition-gpu hover:scale-105 duration-200">Explore</Button>
               </Link>
               <Link href="/schools">
-                <Button variant="ghost">Schools</Button>
+                <Button variant="ghost" className="transform-gpu transition-gpu hover:scale-105 duration-200">Schools</Button>
               </Link>
               <Link href="/competitions">
-                <Button variant="ghost">Competition</Button>
+                <Button variant="ghost" className="transform-gpu transition-gpu hover:scale-105 duration-200">Competition</Button>
               </Link>
               <Link href="/projects">
-                <Button variant="ghost">Projects</Button>
+                <Button variant="ghost" className="transform-gpu transition-gpu hover:scale-105 duration-200">Projects</Button>
               </Link>
             </div>
           </div>
