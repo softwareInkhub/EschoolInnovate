@@ -113,7 +113,7 @@ export default function AuthPage() {
       >
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:text-left">
-            <h1 className="text-3xl font-bold mb-2">Welcome to <span className="text-primary">eSchool.ai</span></h1>
+            <h1 className="text-3xl font-bold mb-2">Welcome to <span className="text-primary">escool.ai</span></h1>
             <p className="text-muted-foreground">Sign in to your account or create a new one to get started</p>
           </div>
           
@@ -186,7 +186,7 @@ export default function AuthPage() {
               </div>
             </div>
             <p className="text-sm italic">
-              "eSchool.ai helped me connect with an amazing team of developers. Together we built a product that now has over 10,000 users!"
+              "escool.ai helped me connect with an amazing team of developers. Together we built a product that now has over 10,000 users!"
             </p>
           </div>
         </div>
@@ -213,7 +213,7 @@ function LoginForm() {
       onSuccess: () => {
         toast({
           title: "Login successful",
-          description: "Welcome back to eSchool.ai!",
+          description: "Welcome back to escool.ai!",
         });
         navigate("/explore");
       }
@@ -310,7 +310,7 @@ function RegisterForm() {
       onSuccess: () => {
         toast({
           title: "Registration successful",
-          description: "Welcome to eSchool.ai!",
+          description: "Welcome to escool.ai!",
         });
         navigate("/explore");
       }
