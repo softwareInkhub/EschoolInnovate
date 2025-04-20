@@ -204,22 +204,35 @@ export default function ExplorePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Tabs defaultValue="projects" className="w-full" onValueChange={setMainTab}>
-              <TabsList className="w-full grid grid-cols-3 mb-8">
-                <TabsTrigger value="projects" className="text-base py-3">
-                  <Rocket className="h-4 w-4 mr-2" />
-                  Projects & Startups
-                </TabsTrigger>
-                <TabsTrigger value="learning" className="text-base py-3">
-                  <GraduationCap className="h-4 w-4 mr-2" />
-                  Learning Platform
-                </TabsTrigger>
-                <TabsTrigger value="funding" className="text-base py-3">
-                  <DollarSign className="h-4 w-4 mr-2" />
-                  Funding
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="w-full flex flex-wrap justify-center gap-4">
+              <Button 
+                variant={mainTab === "projects" ? "default" : "outline"} 
+                size="lg"
+                className="text-base py-6 gap-2 w-full sm:w-auto"
+                onClick={() => setMainTab("projects")}
+              >
+                <Rocket className="h-5 w-5" />
+                Projects & Startups
+              </Button>
+              <Button 
+                variant={mainTab === "learning" ? "default" : "outline"} 
+                size="lg"
+                className="text-base py-6 gap-2 w-full sm:w-auto"
+                onClick={() => setMainTab("learning")}
+              >
+                <GraduationCap className="h-5 w-5" />
+                Learning Platform
+              </Button>
+              <Button 
+                variant={mainTab === "funding" ? "default" : "outline"} 
+                size="lg"
+                className="text-base py-6 gap-2 w-full sm:w-auto"
+                onClick={() => setMainTab("funding")}
+              >
+                <DollarSign className="h-5 w-5" />
+                Funding
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
