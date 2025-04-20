@@ -540,7 +540,7 @@ function getTutorialSteps(tutorialId: string): TutorialStep[] {
         {
           id: "project-intro",
           title: "Create Your Project",
-          description: "Let's walk through the process of creating a new project on eSchool.ai.",
+          description: "Let's walk through the process of creating a new project on escool.ai.",
           position: "bottom"
         },
         {

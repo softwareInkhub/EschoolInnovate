@@ -32,7 +32,7 @@ const BlogSection = () => {
   const blogPosts = [
     {
       id: 1,
-      title: "How eSchool.ai is Transforming India's Startup Ecosystem",
+      title: "How escool.ai is Transforming India's Startup Ecosystem",
       excerpt: "Discover how our platform is bridging the gap between ideas, talent, and funding to empower a new generation of Indian entrepreneurs.",
       image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2970&q=80",
       date: "April 15, 2025",
@@ -49,7 +49,7 @@ const BlogSection = () => {
     {
       id: 2,
       title: "Tier 2 and 3 Cities: The New Frontier of Indian Innovation",
-      excerpt: "Why smaller Indian cities are becoming hotbeds of entrepreneurial activity and how eSchool.ai is helping tap into this vast talent pool.",
+      excerpt: "Why smaller Indian cities are becoming hotbeds of entrepreneurial activity and how escool.ai is helping tap into this vast talent pool.",
       image: "https://images.unsplash.com/photo-1596276020230-e3505f55769f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2970&q=80",
       date: "April 12, 2025",
       readTime: "6 min read",
@@ -97,7 +97,7 @@ const BlogSection = () => {
     {
       id: 5,
       title: "Building a Bridge Between Academia and Industry in India",
-      excerpt: "How eSchool.ai is connecting universities, research institutions, and startups to foster innovation and tech transfer across India.",
+      excerpt: "How escool.ai is connecting universities, research institutions, and startups to foster innovation and tech transfer across India.",
       image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2970&q=80",
       date: "April 2, 2025",
       readTime: "6 min read",
@@ -113,7 +113,7 @@ const BlogSection = () => {
     {
       id: 6,
       title: "Women Entrepreneurs: The Rising Force in India's Startup Scene",
-      excerpt: "Celebrating the achievements of women founders and examining how eSchool.ai is helping address gender gaps in the Indian startup ecosystem.",
+      excerpt: "Celebrating the achievements of women founders and examining how escool.ai is helping address gender gaps in the Indian startup ecosystem.",
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2688&q=80",
       date: "March 28, 2025",
       readTime: "7 min read",
@@ -129,7 +129,7 @@ const BlogSection = () => {
     {
       id: 7,
       title: "The Role of Government Initiatives in Supporting Indian Startups",
-      excerpt: "A deep dive into how programs like Startup India are creating opportunities and how eSchool.ai helps founders navigate them.",
+      excerpt: "A deep dive into how programs like Startup India are creating opportunities and how escool.ai helps founders navigate them.",
       image: "https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2946&q=80",
       date: "March 25, 2025",
       readTime: "8 min read",
@@ -221,7 +221,7 @@ const BlogSection = () => {
             Insights & Stories
           </h2>
           <p className="text-lg text-[#ccc] mb-8">
-            Discover how eSchool.ai is transforming India's startup landscape through collaboration, learning, and innovation
+            Discover how escool.ai is transforming India's startup landscape through collaboration, learning, and innovation
           </p>
         </motion.div>
         
