@@ -49,7 +49,7 @@ export default function Navbar() {
                 </svg>
               </div>
               <Link href={user ? "/explore" : "/"} className="text-xl font-bold text-white">
-                eSchool.ai
+                escool.ai
               </Link>
             </div>
             <div className="ml-6 hidden md:flex space-x-2">

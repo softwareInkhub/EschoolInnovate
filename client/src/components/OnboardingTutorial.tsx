@@ -447,7 +447,7 @@ function getTutorialSteps(tutorialId: string): TutorialStep[] {
       return [
         {
           id: "intro",
-          title: "Welcome to eSchool.ai!",
+          title: "Welcome to escool.ai!",
           description: "This quick tutorial will guide you through the main features of our platform. Let's get started!",
           position: "bottom",
           hint: "You can exit this tutorial at any time by clicking the X button in the top right."
@@ -522,7 +522,7 @@ function getTutorialSteps(tutorialId: string): TutorialStep[] {
         {
           id: "complete",
           title: "You're All Set!",
-          description: "You've completed the tour of eSchool.ai. You're now ready to start exploring projects and learning new skills!",
+          description: "You've completed the tour of escool.ai. You're now ready to start exploring projects and learning new skills!",
           actions: [
             { 
               text: "Start Exploring",

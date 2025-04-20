@@ -16,7 +16,7 @@ export default function Footer() {
               </svg>
             </div>
             <Link href="/" className="text-lg font-bold">
-              eSchool.ai
+              escool.ai
             </Link>
           </div>
           
@@ -28,7 +28,7 @@ export default function Footer() {
               Terms and Conditions
             </Link>
             <a 
-              href="https://discord.gg/eschool" 
+              href="https://discord.gg/escool" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-muted-foreground hover:text-foreground px-3 py-1 text-sm"
@@ -39,7 +39,7 @@ export default function Footer() {
         </div>
         
         <div className="mt-4 text-center text-muted-foreground text-xs">
-          &copy; {currentYear} eSchool.ai - All rights reserved
+          &copy; {currentYear} escool.ai - All rights reserved
         </div>
       </div>
     </footer>
