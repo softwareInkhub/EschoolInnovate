@@ -624,9 +624,9 @@ export default function LandingPage() {
       </section>
 
       {/* Stats section */}
-      <section className="py-20 bg-muted/20 relative">
+      <section className="py-14 sm:py-16 md:py-20 bg-muted/20 relative">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {[
               { 
                 label: "Active Projects", 

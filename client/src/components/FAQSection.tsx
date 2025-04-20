@@ -1105,11 +1105,11 @@ const FAQSection = () => {
           )}
           
           {searchQuery === "" ? (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8">
               {allFaqs.map((category, idx) => (
                 <motion.div
                   key={idx}
-                  className={`p-4 rounded-lg cursor-pointer flex items-center justify-center flex-col text-center border transition-colors
+                  className={`p-3 sm:p-4 rounded-lg cursor-pointer flex items-center justify-center flex-col text-center border transition-colors
                     ${activeQuestion?.startsWith(category.category.toLowerCase()) 
                       ? 'bg-primary/10 border-primary' 
                       : 'border-border bg-card hover:border-primary/50'
@@ -1120,10 +1120,10 @@ const FAQSection = () => {
                   transition={{ delay: idx * 0.1, duration: 0.5 }}
                   onClick={() => setActiveQuestion(category.category.toLowerCase())}
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 sm:mb-3">
                     {category.icon}
                   </div>
-                  <h4 className="font-medium">{category.category}</h4>
+                  <h4 className="text-sm sm:text-base font-medium">{category.category}</h4>
                   <p className="text-xs text-muted-foreground mt-1">
                     {category.questions.length} questions
                   </p>
