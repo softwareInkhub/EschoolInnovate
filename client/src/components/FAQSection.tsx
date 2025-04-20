@@ -113,7 +113,7 @@ const FAQSection = () => {
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai is designed for a diverse range of individuals within the Indian innovation ecosystem:
+                escool.ai is designed for a diverse range of individuals within the Indian innovation ecosystem:
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start">
@@ -158,18 +158,18 @@ const FAQSection = () => {
                 </li>
               </ul>
               <p className="text-sm text-muted-foreground italic mt-4">
-                Note: While eSchool.ai is focused on the Indian startup ecosystem, we welcome participants from around the world interested in connecting with Indian innovation.
+                Note: While escool.ai is focused on the Indian startup ecosystem, we welcome participants from around the world interested in connecting with Indian innovation.
               </p>
             </div>
           )
         },
         {
           id: "does-it-cost",
-          question: "Does it cost anything to use eSchool.ai?",
+          question: "Does it cost anything to use escool.ai?",
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai offers a tiered membership structure to accommodate different needs:
+                escool.ai offers a tiered membership structure to accommodate different needs:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
                 <div className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
@@ -271,7 +271,7 @@ const FAQSection = () => {
           answer: (
             <div className="space-y-4">
               <p>
-                Finding the right team members for your startup is crucial for success. eSchool.ai helps you connect with qualified professionals through:
+                Finding the right team members for your startup is crucial for success. escool.ai helps you connect with qualified professionals through:
               </p>
               <ol className="space-y-4 mt-4">
                 <li className="flex">
@@ -321,7 +321,7 @@ const FAQSection = () => {
           answer: (
             <div className="space-y-4">
               <p>
-                Joining an exciting startup project on eSchool.ai is straightforward:
+                Joining an exciting startup project on escool.ai is straightforward:
               </p>
               <div className="grid grid-cols-1 gap-4 mt-4">
                 <div className="border border-border rounded-lg p-4 flex">
@@ -374,7 +374,7 @@ const FAQSection = () => {
           answer: (
             <div className="space-y-4">
               <p>
-                After forming or joining a team on eSchool.ai, here's how to effectively get started:
+                After forming or joining a team on escool.ai, here's how to effectively get started:
               </p>
               
               <div className="mt-4 space-y-6">
@@ -448,7 +448,7 @@ const FAQSection = () => {
                   India-Specific Resources
                 </h4>
                 <p className="text-sm">
-                  eSchool.ai provides specialized resources for Indian startups including:
+                  escool.ai provides specialized resources for Indian startups including:
                 </p>
                 <ul className="mt-2 space-y-1">
                   <li className="text-sm flex items-center">
@@ -474,7 +474,7 @@ const FAQSection = () => {
           answer: (
             <div className="space-y-4">
               <p>
-                Equity distribution is a critical aspect of any startup. eSchool.ai facilitates fair and transparent equity arrangements through:
+                Equity distribution is a critical aspect of any startup. escool.ai facilitates fair and transparent equity arrangements through:
               </p>
               
               <div className="bg-muted/30 p-5 rounded-lg mt-4">
@@ -555,7 +555,7 @@ const FAQSection = () => {
               
               <div className="bg-[#f6c000]/5 p-4 rounded-lg border border-[#f6c000]/20 mt-6">
                 <p className="text-sm italic">
-                  <span className="font-semibold">Important Note:</span> While eSchool.ai provides tools and guidance, we recommend consulting with a legal professional familiar with Indian startup law before finalizing any equity arrangements. Regulations vary across states in India and are subject to change.
+                  <span className="font-semibold">Important Note:</span> While escool.ai provides tools and guidance, we recommend consulting with a legal professional familiar with Indian startup law before finalizing any equity arrangements. Regulations vary across states in India and are subject to change.
                 </p>
               </div>
             </div>
