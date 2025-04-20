@@ -47,6 +47,8 @@ export default function ProjectDetails() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [applyingForRoleId, setApplyingForRoleId] = useState<number | null>(null);
+  const [selectedRoleId, setSelectedRoleId] = useState<number | null>(null);
+  const [showJoinConfirmation, setShowJoinConfirmation] = useState(false);
   const projectId = parseInt(id || "0");
   
   // Get project data
@@ -57,6 +59,9 @@ export default function ProjectDetails() {
   
   // Get team members data
   const { data: teamMembers, isLoading: isLoadingTeam } = useProjectTeam(projectId);
+  
+  // Join project mutation
+  const joinProjectMutation = useJoinProject(projectId);
   
   // Form for application
   const form = useForm<FormValues>({
@@ -278,15 +283,30 @@ export default function ProjectDetails() {
                     ) : (
                       <Button 
                         className="w-full" 
-                        disabled={project.teamSize >= project.maxTeamSize || !user}
-                        onClick={() => {
+                        disabled={project.teamSize >= project.maxTeamSize || !user || joinProjectMutation.isPending}
+                        onClick={async () => {
                           if (!user) {
                             window.location.href = '/auth';
+                          } else if (project.teamSize < project.maxTeamSize) {
+                            try {
+                              await joinProjectMutation.mutateAsync({ roleId: null });
+                              toast({
+                                title: "Success!",
+                                description: "You've joined the team successfully.",
+                              });
+                            } catch (error) {
+                              toast({
+                                title: "Failed to join team",
+                                description: error instanceof Error ? error.message : "Please try again",
+                                variant: "destructive",
+                              });
+                            }
                           }
                         }}
                       >
                         {!user ? "Login to Join" : 
-                          project.teamSize >= project.maxTeamSize ? "Team Full" : "Join Now"}
+                          project.teamSize >= project.maxTeamSize ? "Team Full" : 
+                          joinProjectMutation.isPending ? "Joining..." : "Join Now"}
                       </Button>
                     )}
                   </div>
@@ -356,6 +376,103 @@ export default function ProjectDetails() {
             
             <TabsContent value="team">
               <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-semibold">Team Members ({teamMembers?.length || 0}/{project.maxTeamSize})</h3>
+                  
+                  {project.teamSize < project.maxTeamSize && user && !showJoinConfirmation && (
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex items-center gap-1"
+                      onClick={() => setShowJoinConfirmation(true)}
+                    >
+                      <PlusCircle className="h-4 w-4" />
+                      <span>Join Team</span>
+                    </Button>
+                  )}
+                </div>
+                
+                {showJoinConfirmation && (
+                  <Card className="mb-4 border-primary/50 bg-primary/5">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">Join this project</CardTitle>
+                      <CardDescription>
+                        Select a role and join the team immediately
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {roles && roles.length > 0 ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {roles.map(role => (
+                              <div 
+                                key={role.id}
+                                className={`border rounded-md p-3 cursor-pointer transition-all ${
+                                  selectedRoleId === role.id 
+                                    ? 'border-primary bg-primary/10' 
+                                    : 'hover:border-primary/50'
+                                }`}
+                                onClick={() => setSelectedRoleId(role.id)}
+                              >
+                                <h4 className="font-medium">{role.title}</h4>
+                                {role.description && (
+                                  <p className="text-sm text-muted-foreground mt-1">{role.description}</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            Join as a general team member since there are no specific roles defined.
+                          </p>
+                        )}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-end gap-2">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowJoinConfirmation(false);
+                          setSelectedRoleId(null);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        disabled={joinProjectMutation.isPending}
+                        onClick={async () => {
+                          try {
+                            await joinProjectMutation.mutateAsync({
+                              roleId: selectedRoleId
+                            });
+                            toast({
+                              title: "Success!",
+                              description: "You've joined the team successfully.",
+                            });
+                            setShowJoinConfirmation(false);
+                            setSelectedRoleId(null);
+                          } catch (error) {
+                            toast({
+                              title: "Failed to join team",
+                              description: error instanceof Error ? error.message : "Please try again",
+                              variant: "destructive",
+                            });
+                          }
+                        }}
+                      >
+                        {joinProjectMutation.isPending ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Joining...
+                          </>
+                        ) : (
+                          "Join Team"
+                        )}
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                )}
+                
                 {isLoadingTeam ? (
                   <div className="flex flex-col gap-4 py-2">
                     <div className="h-16 bg-muted-foreground/10 rounded animate-pulse" />
@@ -365,6 +482,15 @@ export default function ProjectDetails() {
                   <div className="text-center py-6">
                     <Users className="mx-auto h-10 w-10 text-muted-foreground/50 mb-2" />
                     <p className="text-muted-foreground">No team members yet</p>
+                    {!user && (
+                      <Button
+                        variant="link"
+                        onClick={() => window.location.href = '/auth'}
+                        className="mt-2"
+                      >
+                        Login to join this team
+                      </Button>
+                    )}
                   </div>
                 ) : (
                   <div className="flex flex-col gap-4 py-2">
@@ -372,12 +498,12 @@ export default function ProjectDetails() {
                       <div key={member.id} className="flex items-center gap-3">
                         <Avatar className="h-14 w-14 bg-muted-foreground/20 rounded-md border">
                           <AvatarFallback>
-                            {member.user?.username?.charAt(0).toUpperCase() || 'U'}
+                            {String(member.userId).slice(0, 2).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="font-medium">
-                            {member.user?.username || 'Team Member'}
+                            User #{member.userId}
                           </div>
                           <Badge variant="secondary" className="mt-1">
                             {member.roleId ? 
