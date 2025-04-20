@@ -33,9 +33,41 @@ import { useAuth } from '@/hooks/use-auth';
 import HelpSettingsModal from '@/components/HelpSettingsModal';
 import ContextualHelp from '@/components/ContextualHelp';
 
+// AutoCollapseLink component that will close the mobile menu when clicked
+type AutoCollapseLinkProps = {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+  setMobileMenuOpen: (open: boolean) => void;
+};
+
+const AutoCollapseLink = ({ 
+  href,
+  children,
+  className,
+  onClick,
+  setMobileMenuOpen
+}: AutoCollapseLinkProps) => {
+  const handleClick = () => {
+    // Close the mobile menu
+    setMobileMenuOpen(false);
+    
+    // Execute any additional onClick handlers
+    if (onClick) onClick();
+  };
+
+  return (
+    <Link href={href} className={className} onClick={handleClick}>
+      {children}
+    </Link>
+  );
+};
+
 export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location, navigate] = useLocation();
   const { user, logoutMutation } = useAuth();
   
@@ -163,7 +195,7 @@ export default function Navbar() {
           
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Menu className="h-6 w-6" />
@@ -191,50 +223,87 @@ export default function Navbar() {
                   <div className="mb-4">
                     <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase">Main Navigation</p>
                     <div className="space-y-2">
-                      <Link href={user ? "/explore" : "/"} className="flex items-center text-base font-medium">
+                      <AutoCollapseLink 
+                        href={user ? "/explore" : "/"} 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <Rocket className="h-4 w-4 mr-2" />
                         Home
-                      </Link>
-                      <Link href="/dashboard" className="flex items-center text-base font-medium">
+                      </AutoCollapseLink>
+                      
+                      <AutoCollapseLink 
+                        href="/dashboard" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <Users className="h-4 w-4 mr-2" />
                         Dashboard
-                      </Link>
-                      <Link href="/projects" className="flex items-center text-base font-medium">
+                      </AutoCollapseLink>
+                      
+                      <AutoCollapseLink 
+                        href="/projects" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <Code className="h-4 w-4 mr-2" />
                         Projects
-                      </Link>
+                      </AutoCollapseLink>
                     </div>
                   </div>
                   
                   <div className="mb-4">
                     <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase">Education</p>
                     <div className="space-y-2">
-                      <Link href="/schools" className="flex items-center text-base font-medium">
+                      <AutoCollapseLink 
+                        href="/schools" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <BookOpen className="h-4 w-4 mr-2" />
                         Schools
-                      </Link>
-                      <Link href="/courses" className="flex items-center text-base font-medium">
+                      </AutoCollapseLink>
+                      
+                      <AutoCollapseLink 
+                        href="/courses" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <GraduationCap className="h-4 w-4 mr-2" />
                         Courses
-                      </Link>
+                      </AutoCollapseLink>
                     </div>
                   </div>
                   
                   <div className="mb-4">
                     <p className="text-xs text-muted-foreground mb-2 font-semibold uppercase">Community</p>
                     <div className="space-y-2">
-                      <Link href="/competitions" className="flex items-center text-base font-medium">
+                      <AutoCollapseLink 
+                        href="/competitions" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <TrendingUp className="h-4 w-4 mr-2" />
                         Competitions
-                      </Link>
-                      <Link href="/blogs" className="flex items-center text-base font-medium">
+                      </AutoCollapseLink>
+                      
+                      <AutoCollapseLink 
+                        href="/blogs" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <BookOpen className="h-4 w-4 mr-2" />
                         Blogs
-                      </Link>
-                      <Link href="/faq" className="flex items-center text-base font-medium">
+                      </AutoCollapseLink>
+                      
+                      <AutoCollapseLink 
+                        href="/faq" 
+                        className="flex items-center text-base font-medium"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
                         <HelpCircle className="h-4 w-4 mr-2" />
                         FAQs & Feedback
-                      </Link>
+                      </AutoCollapseLink>
                     </div>
                   </div>
                   
@@ -243,7 +312,10 @@ export default function Navbar() {
                       <Button 
                         className="w-full" 
                         variant="destructive"
-                        onClick={() => logoutMutation.mutate()}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          logoutMutation.mutate();
+                        }}
                       >
                         <LogOut className="h-4 w-4 mr-2" />
                         Logout
@@ -251,7 +323,10 @@ export default function Navbar() {
                     ) : (
                       <Button 
                         className="w-full"
-                        onClick={() => navigate("/auth")}
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          navigate("/auth");
+                        }}
                       >
                         <User className="h-4 w-4 mr-2" />
                         Login
