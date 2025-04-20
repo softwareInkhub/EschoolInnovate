@@ -26,9 +26,11 @@ import { useQuery } from '@tanstack/react-query';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/use-auth';
 import HelpSettingsModal from '@/components/HelpSettingsModal';
+import ContextualHelp from '@/components/ContextualHelp';
 
 export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [location, navigate] = useLocation();
   const { user, logoutMutation } = useAuth();
   
@@ -87,6 +89,23 @@ export default function Navbar() {
             <Button variant="ghost" size="icon">
               <Users className="h-5 w-5" />
             </Button>
+            
+            {/* Help Button with Tooltip */}
+            <ContextualHelp
+              id="help-button-tooltip"
+              text="Click here to customize your help experience and manage tooltip settings"
+              context="general"
+              position="bottom"
+            >
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="text-primary"
+                onClick={() => setIsHelpModalOpen(true)}
+              >
+                <HelpCircle className="h-5 w-5" />
+              </Button>
+            </ContextualHelp>
             
             {user ? (
               <DropdownMenu open={isUserMenuOpen} onOpenChange={setIsUserMenuOpen}>
@@ -199,6 +218,12 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+      
+      {/* Help Settings Modal */}
+      <HelpSettingsModal 
+        isOpen={isHelpModalOpen}
+        onClose={() => setIsHelpModalOpen(false)}
+      />
     </nav>
   );
 }
