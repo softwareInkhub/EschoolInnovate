@@ -49,7 +49,9 @@ function Router() {
       <Switch>
         {/* Authentication page route - directly loaded */}
         <Route path="/auth">
-          <AuthPage />
+          <PageLayout>
+            <AuthPage />
+          </PageLayout>
         </Route>
         
         {/* Public pages */}

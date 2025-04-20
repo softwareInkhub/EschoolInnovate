@@ -103,7 +103,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-[calc(100vh-8rem)] flex flex-col md:flex-row">
       {/* Left panel (Form) */}
       <motion.div 
         className="w-full md:w-1/2 flex-shrink-0 flex items-center justify-center p-6 md:p-12 bg-background"
@@ -141,7 +141,7 @@ export default function AuthPage() {
       
       {/* Right panel (Details) */}
       <motion.div 
-        className="w-full md:w-1/2 bg-gradient-to-br from-primary/10 via-background to-primary/5 relative hidden md:flex items-center justify-center overflow-hidden"
+        className="w-full md:w-1/2 bg-gradient-to-br from-primary/10 via-background to-primary/5 relative flex md:flex items-center justify-center overflow-hidden"
         initial="hidden"
         animate="visible"
         variants={fadeInRight}
