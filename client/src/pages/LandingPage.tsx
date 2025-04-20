@@ -364,7 +364,7 @@ export default function LandingPage() {
                       <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     </div>
-                    <div className="mx-auto text-xs font-medium">eSchool.ai Platform</div>
+                    <div className="mx-auto text-xs font-medium">escool.ai Platform</div>
                   </div>
                 </div>
                 
@@ -694,7 +694,7 @@ export default function LandingPage() {
               Everything You Need to Succeed
             </h2>
             <p className="text-lg text-muted-foreground">
-              eSchool.ai provides all the tools necessary for successful collaboration and learning in one integrated platform.
+              escool.ai provides all the tools necessary for successful collaboration and learning in one integrated platform.
             </p>
           </motion.div>
           
@@ -1120,7 +1120,7 @@ export default function LandingPage() {
                   Building the Future of <br/>Indian Innovation
                 </h2>
                 <p className="text-[#ccc] mb-6">
-                  eSchool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
+                  escool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
                 </p>
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start">
@@ -1183,7 +1183,7 @@ export default function LandingPage() {
                     </div>
                     
                     <div className="mt-5 p-4 bg-gradient-to-r from-[#f6c000]/10 to-primary/10 rounded-lg">
-                      <h4 className="font-medium text-white mb-2">eSchool.ai India Impact</h4>
+                      <h4 className="font-medium text-white mb-2">escool.ai India Impact</h4>
                       <p className="text-sm text-white/70 mb-3">
                         Supporting the next generation of Indian startups that are solving local problems with global potential
                       </p>

@@ -47,11 +47,11 @@ const FAQSection = () => {
       questions: [
         {
           id: "what-is-eschool",
-          question: "What is eSchool.ai?",
+          question: "What is escool.ai?",
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai is India's premier platform that brings together innovators, entrepreneurs, and skilled professionals to collaborate on startups and innovative projects. We're creating a unique ecosystem where ideas meet talent, and dreams transform into successful ventures.
+                escool.ai is India's premier platform that brings together innovators, entrepreneurs, and skilled professionals to collaborate on startups and innovative projects. We're creating a unique ecosystem where ideas meet talent, and dreams transform into successful ventures.
               </p>
               <p>
                 Our platform serves two primary purposes:
@@ -61,18 +61,18 @@ const FAQSection = () => {
                 <li>A learning hub with various schools (tech, business, design) where members can acquire new skills relevant to today's startup ecosystem</li>
               </ul>
               <p>
-                eSchool.ai is designed to address the unique challenges of the Indian startup ecosystem by facilitating meaningful connections and providing resources for growth.
+                escool.ai is designed to address the unique challenges of the Indian startup ecosystem by facilitating meaningful connections and providing resources for growth.
               </p>
             </div>
           )
         },
         {
           id: "how-is-it-different",
-          question: "How is eSchool.ai different from other platforms?",
+          question: "How is escool.ai different from other platforms?",
           answer: (
             <div className="space-y-4">
               <p>
-                eSchool.ai stands apart from other platforms in several key ways:
+                escool.ai stands apart from other platforms in several key ways:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-muted/30 p-4 rounded-lg flex items-start">
@@ -109,7 +109,7 @@ const FAQSection = () => {
         },
         {
           id: "who-can-use",
-          question: "Who can use eSchool.ai?",
+          question: "Who can use escool.ai?",
           answer: (
             <div className="space-y-4">
               <p>
