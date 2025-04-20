@@ -15,7 +15,17 @@ import {
   Globe, 
   Twitter, 
   Linkedin, 
-  Youtube 
+  Youtube,
+  Search,
+  Filter,
+  MessageSquare,
+  Clock,
+  Sparkles,
+  ChevronDown,
+  ChevronUp,
+  Bookmark,
+  CheckCircle,
+  GraduationCap
 } from "lucide-react";
 import { 
   Card, 
@@ -31,6 +41,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { 
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion";
 
 export default function SchoolDetailPage() {
   const [, params] = useRoute("/schools/:id");
@@ -285,7 +302,130 @@ export default function SchoolDetailPage() {
                 </Card>
               </div>
               
+              {/* Student Testimonials */}
               <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Student Testimonials</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="bg-gradient-to-br from-amber-500/5 to-amber-500/10 border-none shadow-md">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center gap-4 mb-4">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src="https://randomuser.me/api/portraits/women/44.jpg" />
+                          <AvatarFallback className="bg-amber-500/20 text-amber-700">SG</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h4 className="font-semibold">Shreya Gupta</h4>
+                          <p className="text-sm text-muted-foreground">Software Engineer</p>
+                        </div>
+                      </div>
+                      <div className="mb-3 flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star 
+                            key={star} 
+                            className="h-4 w-4 fill-amber-500 text-amber-500" 
+                          />
+                        ))}
+                      </div>
+                      <p className="italic text-muted-foreground">
+                        "The courses at {school.name} transformed my career. The instructors were incredibly knowledgeable and the hands-on projects prepared me for real-world challenges. I landed a job at a top tech company within a month after completing my certification."
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="bg-gradient-to-br from-amber-500/5 to-amber-500/10 border-none shadow-md">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center gap-4 mb-4">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src="https://randomuser.me/api/portraits/men/47.jpg" />
+                          <AvatarFallback className="bg-amber-500/20 text-amber-700">AK</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h4 className="font-semibold">Arjun Kumar</h4>
+                          <p className="text-sm text-muted-foreground">Product Manager</p>
+                        </div>
+                      </div>
+                      <div className="mb-3 flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star 
+                            key={star} 
+                            className={`h-4 w-4 ${star <= 4 ? "fill-amber-500 text-amber-500" : "text-muted-foreground"}`} 
+                          />
+                        ))}
+                      </div>
+                      <p className="italic text-muted-foreground">
+                        "What sets {school.name} apart is the community and networking opportunities. I connected with industry professionals and fellow learners who helped me navigate my career transition. The curriculum is practical and directly applicable to industry needs."
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Frequently Asked Questions */}
+              <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="text-left">
+                      How are the courses structured?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-muted-foreground">
+                        Our courses are structured into modules, each containing multiple lessons. They include video lectures, hands-on projects, quizzes, and assignments. You'll have access to instructors and a community of fellow learners for support and collaboration.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger className="text-left">
+                      Do I get a certificate upon completion?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-muted-foreground">
+                        Yes, most courses offer a certificate of completion. Some advanced courses also provide industry-recognized certifications that can enhance your resume and professional profile.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-3">
+                    <AccordionTrigger className="text-left">
+                      What kind of support is available to students?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-muted-foreground">
+                        We provide multiple support channels including direct access to instructors, teaching assistants, a community forum, and regular live Q&A sessions. Our student success team is also available to help with any technical or administrative issues.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                  
+                  <AccordionItem value="item-4">
+                    <AccordionTrigger className="text-left">
+                      Are there any prerequisites for joining courses?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-muted-foreground">
+                        Prerequisites vary by course. Beginner courses typically have no prerequisites, while intermediate and advanced courses may require some prior knowledge or experience. Each course page clearly lists any prerequisites needed.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+
+              {/* Call to Action */}
+              <div className="mt-8 bg-gradient-to-r from-amber-500/20 to-amber-600/20 p-6 rounded-xl text-center">
+                <h3 className="text-xl font-bold mb-2">Ready to transform your skills with {school.name}?</h3>
+                <p className="text-muted-foreground mb-4">Join thousands of successful learners and advance your career</p>
+                <Button 
+                  size="lg"
+                  onClick={() => setActiveTab("courses")}
+                  className="bg-amber-500 hover:bg-amber-600 text-black"
+                >
+                  Browse Courses
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Featured Courses */}
+              <div className="mt-12">
                 <h2 className="text-2xl font-bold mb-4">Featured Courses</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {isLoadingCourses ? (
@@ -384,18 +524,62 @@ export default function SchoolDetailPage() {
             </TabsContent>
             
             <TabsContent value="courses" className="mt-6">
-              <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-2xl font-bold">All Courses</h2>
+              {/* Course Search and Filters Section */}
+              <div className="mb-8">
+                <div className="flex flex-col md:flex-row gap-4 mb-6">
+                  <div className="relative flex-1">
+                    <Input
+                      placeholder="Search courses by title, category or keyword..."
+                      className="pl-10"
+                    />
+                    <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="icon" className="h-10 w-10">
+                      <Filter className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-10">
+                      <GraduationCap className="mr-2 h-4 w-4" />
+                      Level
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-10">
+                      <Clock className="mr-2 h-4 w-4" />
+                      Duration
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 className="text-2xl font-bold">All Courses ({courses?.length || 0})</h2>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="text-amber-500 border-amber-500 bg-amber-500/10">
                     Most Popular
                   </Button>
                   <Button variant="outline" size="sm">
                     Newest
                   </Button>
+                  <Button variant="outline" size="sm">
+                    Price: Low to High
+                  </Button>
                 </div>
               </div>
               
+              {/* Course Categories */}
+              <div className="mb-6 flex flex-wrap gap-2">
+                <Badge variant="outline" className="px-3 py-1 bg-amber-500/10 border-amber-500 text-amber-500">
+                  All Categories
+                </Badge>
+                {courses && Array.from(new Set(courses.map(course => course.category))).map((category, index) => (
+                  <Badge key={index} variant="outline" className="px-3 py-1">
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+              
+              {/* Course Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {isLoadingCourses ? (
                   Array.from({ length: 6 }).map((_, i) => (
@@ -416,22 +600,36 @@ export default function SchoolDetailPage() {
                   ))
                 ) : courses && courses.length > 0 ? (
                   courses.map(course => (
-                    <Card key={course.id} className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+                    <Card key={course.id} className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col group">
                       <div className="relative aspect-video w-full overflow-hidden">
                         <img 
                           src={course.thumbnail || "https://images.unsplash.com/photo-1593720213428-28a5b9e94613"} 
                           alt={course.title} 
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        {course.isNew && (
-                          <Badge variant="secondary" className="absolute top-2 right-2 bg-amber-500/90 text-black">
-                            New
-                          </Badge>
-                        )}
+                        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <Button variant="secondary" size="sm" className="bg-amber-500 text-black hover:bg-amber-600">
+                            Preview Course
+                          </Button>
+                        </div>
+                        <div className="absolute top-2 right-2 flex gap-1">
+                          {course.isNew && (
+                            <Badge variant="secondary" className="bg-amber-500/90 text-black">
+                              New
+                            </Badge>
+                          )}
+                          {course.popular && (
+                            <Badge variant="secondary" className="bg-rose-500/90 text-white">
+                              Popular
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
-                          <CardTitle className="text-xl font-bold">{course.title}</CardTitle>
+                          <CardTitle className="text-xl font-bold group-hover:text-amber-500 transition-colors">
+                            {course.title}
+                          </CardTitle>
                           {course.rating && (
                             <div className="flex items-center gap-1 bg-amber-500/20 p-1 px-2 rounded-md">
                               <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
@@ -439,42 +637,69 @@ export default function SchoolDetailPage() {
                             </div>
                           )}
                         </div>
-                        <CardDescription>{course.category}</CardDescription>
+                        <CardDescription className="flex items-center gap-1">
+                          <Badge variant="outline" className="font-normal">
+                            {course.category}
+                          </Badge>
+                          {course.certificate && (
+                            <Badge variant="outline" className="font-normal border-green-500 text-green-500">
+                              Certificate
+                            </Badge>
+                          )}
+                        </CardDescription>
                       </CardHeader>
                       <CardContent className="pb-2 flex-grow">
                         <p className="text-sm text-muted-foreground line-clamp-2">
                           {course.description}
                         </p>
                         
-                        <div className="mt-4 flex justify-between items-center text-sm">
+                        <div className="mt-4 flex flex-wrap justify-between items-center text-sm gap-2">
                           <div className="flex items-center gap-2">
                             <BookOpen className="h-4 w-4 text-muted-foreground" />
                             <span>{Math.floor(course.duration / 60)} hrs</span>
+                            {course.lessonsCount && (
+                              <span className="text-muted-foreground">({course.lessonsCount} lessons)</span>
+                            )}
                           </div>
                           <Badge variant="outline" className="font-normal">
                             {course.level}
                           </Badge>
-                          {course.price && (
-                            <div className="font-semibold">
+                        </div>
+                        
+                        {course.price !== undefined && (
+                          <div className="mt-3 font-semibold flex justify-between items-center">
+                            <div>
                               {course.discountedPrice ? (
                                 <>
                                   <span className="line-through text-muted-foreground mr-1">₹{course.price}</span>
                                   <span className="text-amber-500">₹{course.discountedPrice}</span>
                                 </>
                               ) : (
-                                <span>₹{course.price}</span>
+                                <span className="text-amber-500">₹{course.price}</span>
                               )}
                             </div>
-                          )}
-                        </div>
+                            {course.enrolledCount && (
+                              <span className="text-xs text-muted-foreground">
+                                {course.enrolledCount}+ enrolled
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </CardContent>
-                      <CardFooter>
+                      <CardFooter className="grid grid-cols-2 gap-2">
                         <Button 
-                          className="w-full" 
+                          variant="outline"
+                          onClick={() => {}} 
+                          className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black"
+                        >
+                          <Bookmark className="mr-2 h-4 w-4" />
+                          Wishlist
+                        </Button>
+                        <Button 
                           onClick={() => navigate(`/courses/${course.id}`)}
                           variant="default"
                         >
-                          <span>View Course</span>
+                          <span>View</span>
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </CardFooter>
@@ -485,6 +710,104 @@ export default function SchoolDetailPage() {
                     <p className="text-muted-foreground">No courses available for this school yet.</p>
                   </div>
                 )}
+              </div>
+              
+              {/* Learning Paths */}
+              <div className="mt-12">
+                <h2 className="text-2xl font-bold mb-6">Learning Paths</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Card className="border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-amber-500/10">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <div className="bg-amber-500/20 p-2 rounded-full">
+                          <CheckCircle className="h-5 w-5 text-amber-500" />
+                        </div>
+                        Web Development Path
+                      </CardTitle>
+                      <CardDescription>Complete path to becoming a web developer</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <span className="font-semibold text-amber-600">1</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">HTML & CSS Fundamentals</p>
+                            <p className="text-xs text-muted-foreground">Learn the basics of web development</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <span className="font-semibold text-amber-600">2</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">JavaScript Essentials</p>
+                            <p className="text-xs text-muted-foreground">Master programming for the web</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <span className="font-semibold text-amber-600">3</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">React Development</p>
+                            <p className="text-xs text-muted-foreground">Build modern interfaces with React</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full">View Learning Path</Button>
+                    </CardFooter>
+                  </Card>
+                  
+                  <Card className="border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-amber-500/10">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <div className="bg-amber-500/20 p-2 rounded-full">
+                          <Sparkles className="h-5 w-5 text-amber-500" />
+                        </div>
+                        Data Science Path
+                      </CardTitle>
+                      <CardDescription>Master data science and machine learning</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <span className="font-semibold text-amber-600">1</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Python for Data Science</p>
+                            <p className="text-xs text-muted-foreground">Learn Python programming for data analysis</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <span className="font-semibold text-amber-600">2</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Data Analysis & Visualization</p>
+                            <p className="text-xs text-muted-foreground">Master data analysis techniques</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                            <span className="font-semibold text-amber-600">3</span>
+                          </div>
+                          <div>
+                            <p className="font-medium">Machine Learning Fundamentals</p>
+                            <p className="text-xs text-muted-foreground">Build and train ML models</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full">View Learning Path</Button>
+                    </CardFooter>
+                  </Card>
+                </div>
               </div>
             </TabsContent>
             
