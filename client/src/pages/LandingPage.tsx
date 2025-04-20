@@ -1083,6 +1083,145 @@ export default function LandingPage() {
         </div>
       </section>
       
+      {/* FAQ Section */}
+      <FAQSection />
+      
+      {/* Blog Section */}
+      <BlogSection />
+      
+      {/* India-specific callout */}
+      <section className="py-16 bg-gradient-to-b from-[#0a0b15] to-[#170d30] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.04] bg-grid-pattern"></div>
+        
+        {/* India map outline SVG */}
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-5">
+          <svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M300,10 C420,10 520,110 590,230 C540,280 500,350 510,430 C450,500 370,550 300,590 C230,550 150,500 90,430 C100,350 60,280 10,230 C80,110 180,10 300,10 Z" fill="white"/>
+          </svg>
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <motion.div 
+              className="flex flex-col md:flex-row items-center gap-10"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="md:w-1/2">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#f6c000]/20 mr-4">
+                    <MapPin className="h-5 w-5 text-[#f6c000]" />
+                  </div>
+                  <span className="text-[#f6c000] font-medium">Made for India</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                  Building the Future of <br/>Indian Innovation
+                </h2>
+                <p className="text-[#ccc] mb-6">
+                  eSchool.ai is designed specifically for India's unique startup ecosystem, addressing local challenges and opportunities while connecting talent across the country.
+                </p>
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-start">
+                    <div className="w-6 h-6 rounded-full bg-[#f6c000]/20 flex items-center justify-center mr-3 mt-0.5">
+                      <Check className="h-4 w-4 text-[#f6c000]" />
+                    </div>
+                    <div>
+                      <span className="font-medium text-white">Pan-India Network</span>
+                      <p className="text-sm text-[#ccc]">Connect with talent and opportunities across metros and tier 2/3 cities</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-6 h-6 rounded-full bg-[#f6c000]/20 flex items-center justify-center mr-3 mt-0.5">
+                      <Check className="h-4 w-4 text-[#f6c000]" />
+                    </div>
+                    <div>
+                      <span className="font-medium text-white">Local Ecosystem Integration</span>
+                      <p className="text-sm text-[#ccc]">Access to government schemes, regulations, and India-specific funding channels</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-6 h-6 rounded-full bg-[#f6c000]/20 flex items-center justify-center mr-3 mt-0.5">
+                      <Check className="h-4 w-4 text-[#f6c000]" />
+                    </div>
+                    <div>
+                      <span className="font-medium text-white">Vernacular Support</span>
+                      <p className="text-sm text-[#ccc]">Interface and resources available in multiple Indian languages</p>
+                    </div>
+                  </li>
+                </ul>
+                <Button 
+                  className="h-12 px-6 bg-[#f6c000] hover:bg-[#e6b000] text-black rounded-md"
+                  onClick={() => navigate("/auth")}
+                >
+                  Join the Movement
+                </Button>
+              </div>
+              
+              <div className="md:w-1/2">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-[#f6c000]/20 rounded-2xl blur-[50px]"></div>
+                  <div className="relative bg-[#0f0f1a]/80 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <div className="grid grid-cols-2 gap-5">
+                      <div className="bg-white/5 p-4 rounded-lg border border-white/10">
+                        <div className="text-2xl font-bold text-[#f6c000] mb-1">100+</div>
+                        <div className="text-xs text-white/70">Cities across India</div>
+                      </div>
+                      <div className="bg-white/5 p-4 rounded-lg border border-white/10">
+                        <div className="text-2xl font-bold text-[#f6c000] mb-1">50K+</div>
+                        <div className="text-xs text-white/70">Indian entrepreneurs</div>
+                      </div>
+                      <div className="bg-white/5 p-4 rounded-lg border border-white/10">
+                        <div className="text-2xl font-bold text-[#f6c000] mb-1">₹120Cr+</div>
+                        <div className="text-xs text-white/70">Funding facilitated</div>
+                      </div>
+                      <div className="bg-white/5 p-4 rounded-lg border border-white/10">
+                        <div className="text-2xl font-bold text-[#f6c000] mb-1">28+</div>
+                        <div className="text-xs text-white/70">State innovation hubs</div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-5 p-4 bg-gradient-to-r from-[#f6c000]/10 to-primary/10 rounded-lg">
+                      <h4 className="font-medium text-white mb-2">eSchool.ai India Impact</h4>
+                      <p className="text-sm text-white/70 mb-3">
+                        Supporting the next generation of Indian startups that are solving local problems with global potential
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex -space-x-2">
+                          {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="w-8 h-8 rounded-full border-2 border-[#170d30] overflow-hidden relative">
+                              <img 
+                                src={`https://randomuser.me/api/portraits/${i % 2 === 0 ? 'women' : 'men'}/${i+20}.jpg`}
+                                alt="User"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ))}
+                          <div className="w-8 h-8 rounded-full bg-[#f6c000]/20 flex items-center justify-center border-2 border-[#170d30] text-[#f6c000] text-xs font-bold">
+                            +12K
+                          </div>
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-[#f6c000] hover:text-[#f6c000] hover:bg-[#f6c000]/10"
+                        >
+                          <span className="flex items-center">
+                            Success Stories
+                            <ChevronRight className="h-4 w-4 ml-1" />
+                          </span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
       {/* The grid pattern is defined in the CSS */}
     </div>
   );

@@ -9,7 +9,7 @@ import {
 import { 
   HelpCircle, Plus, Minus, Search, MapPin, Users, BookOpen, CheckCircle2, PieChart,
   Lightbulb, GraduationCap, Code, Brush, Zap, Award, Building2, Verified, Blocks,
-  XCircle, CircleDashed, Briefcase, Seedling, BarChart3, Building, X, ChevronLeft
+  XCircle, CircleDashed, Briefcase, Sprout, BarChart3, Building, X, ChevronLeft
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -866,7 +866,7 @@ const FAQSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 <div className="bg-card border border-border rounded-lg p-5 hover:shadow-lg transition-all">
                   <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center mb-4">
-                    <Seedling className="h-6 w-6 text-green-500" />
+                    <Sprout className="h-6 w-6 text-green-500" />
                   </div>
                   <h4 className="font-bold text-lg mb-2">Seed Funding</h4>
                   <p className="text-sm text-muted-foreground mb-4">
