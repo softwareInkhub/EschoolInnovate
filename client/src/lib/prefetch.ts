@@ -1,58 +1,91 @@
-import { queryClient } from './queryClient';
+/**
+ * Data prefetching utilities for improved performance
+ */
+import { queryClient } from "./queryClient";
+
+// Common API endpoints that can be prefetched
+const criticalDataUrls = [
+  "/api/schools/featured",
+  "/api/projects/featured",
+  "/api/user", // Will return 401 for unauthenticated users, but the query is still registered
+];
+
+// Data that should be prefetched when visiting specific routes
+const routeSpecificData: Record<string, string[]> = {
+  "/schools": ["/api/schools"],
+  "/projects": ["/api/projects"],
+  "/competitions": ["/api/competitions"],
+  "/courses": ["/api/courses/featured", "/api/courses/popular", "/api/courses/new"],
+};
 
 /**
- * Prefetch important data when the app is idle
- * This improves perceived performance by loading data before users need it
+ * Prefetches critical data that's needed for most page loads
+ * This should be called early in the app lifecycle, ideally during idle time
  */
 export function prefetchCriticalData() {
-  // Use requestIdleCallback when browser is idle
-  const prefetch = () => {
-    // Prefetch featured schools for the landing and explore pages
+  if (typeof window === 'undefined') return;
+
+  // Mark performance for tracking
+  if (typeof performance !== 'undefined') {
+    performance.mark('prefetch-start');
+  }
+
+  // Prefetch the critical data
+  criticalDataUrls.forEach((url) => {
     queryClient.prefetchQuery({
-      queryKey: ['/api/schools/featured'],
+      queryKey: [url],
       staleTime: 1000 * 60 * 5, // 5 minutes
     });
-    
-    // Prefetch featured projects
-    queryClient.prefetchQuery({
-      queryKey: ['/api/projects/featured'],
-      staleTime: 1000 * 60 * 5, // 5 minutes
-    });
-  };
-  
-  // Use requestIdleCallback when available, fall back to setTimeout
-  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-    (window as any).requestIdleCallback(prefetch, { timeout: 5000 });
-  } else {
-    setTimeout(prefetch, 1000);
+  });
+
+  // Measure performance
+  if (typeof performance !== 'undefined') {
+    performance.mark('prefetch-end');
+    performance.measure('data-prefetching', 'prefetch-start', 'prefetch-end');
   }
 }
 
 /**
- * Prefetch data for a specific route
- * Call this function when hovering over a link to preload data
+ * Prefetches data for a specific route
+ * @param route The route being navigated to
  */
-export function prefetchRoute(route: string) {
-  switch (route) {
-    case '/schools':
-      queryClient.prefetchQuery({
-        queryKey: ['/api/schools'],
-        staleTime: 1000 * 60 * 5, // 5 minutes
-      });
-      break;
-    case '/projects':
-      queryClient.prefetchQuery({
-        queryKey: ['/api/projects'],
-        staleTime: 1000 * 60 * 5, // 5 minutes
-      });
-      break;
-    case '/competitions':
-      queryClient.prefetchQuery({
-        queryKey: ['/api/competitions'],
-        staleTime: 1000 * 60 * 5, // 5 minutes
-      });
-      break;
-    default:
-      break;
-  }
+export function prefetchRouteData(route: string) {
+  // Extract the base route (remove query params and hash)
+  const baseRoute = route.split('?')[0].split('#')[0];
+  
+  // Find data to prefetch for this route
+  const dataToPrefetch = routeSpecificData[baseRoute] || [];
+  
+  if (dataToPrefetch.length === 0) return;
+  
+  // Prefetch all the data for this route
+  dataToPrefetch.forEach((url) => {
+    queryClient.prefetchQuery({
+      queryKey: [url],
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    });
+  });
+}
+
+/**
+ * Given a list of possible routes, prefetch data for all of them
+ * Used for prefetching data for routes that might be navigated to next
+ * @param routes List of routes that might be visited
+ */
+export function prefetchProbableRoutes(routes: string[]) {
+  routes.forEach(route => {
+    prefetchRouteData(route);
+  });
+}
+
+/**
+ * Prefetches data for a specific resource by ID
+ * @param resourceType The type of resource (e.g., 'school', 'project')
+ * @param id The ID of the resource
+ */
+export function prefetchResourceById(resourceType: string, id: string | number) {
+  queryClient.prefetchQuery({
+    queryKey: [`/api/${resourceType}s/${id}`],
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 }
