@@ -275,15 +275,27 @@ export default function ExplorePage() {
             transition={{ delay: 0.3 }}
           >
             <div className="w-full flex flex-wrap justify-center gap-4">
-              <Button 
-                variant={mainTab === "projects" ? "default" : "outline"} 
-                size="lg"
-                className="text-base py-6 gap-2 w-full sm:w-auto"
-                onClick={() => setMainTab("projects")}
+              <ContextualHelp
+                id="explore-projects-tab"
+                text={[
+                  "Welcome to the Projects & Startups section! Here you can discover innovative ventures to join or support.",
+                  "Browse through projects by category, search for specific interests, or filter by project stage.",
+                  "Found something exciting? Click on a project card to view details and join the team!"
+                ]}
+                context="projects"
+                interactive={true}
+                isEssential={true}
               >
-                <Rocket className="h-5 w-5" />
-                Projects & Startups
-              </Button>
+                <Button 
+                  variant={mainTab === "projects" ? "default" : "outline"} 
+                  size="lg"
+                  className="text-base py-6 gap-2 w-full sm:w-auto"
+                  onClick={() => setMainTab("projects")}
+                >
+                  <Rocket className="h-5 w-5" />
+                  Projects & Startups
+                </Button>
+              </ContextualHelp>
               <Button 
                 variant={mainTab === "learning" ? "default" : "outline"} 
                 size="lg"

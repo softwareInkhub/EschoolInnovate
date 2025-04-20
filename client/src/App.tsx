@@ -17,6 +17,7 @@ import ExplorePage from "@/pages/ExplorePage";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/hooks/use-auth";
+import { HelpProvider } from "@/hooks/use-help-context";
 import { ProtectedRoute } from "@/lib/protected-route";
 
 function Router() {
@@ -120,8 +121,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <Toaster />
-          <Router />
+          <HelpProvider>
+            <Toaster />
+            <Router />
+          </HelpProvider>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
