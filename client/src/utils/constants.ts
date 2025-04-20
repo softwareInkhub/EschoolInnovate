@@ -87,7 +87,7 @@ export const NAV_LINKS = [
 export const FOOTER_LINKS = [
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms and Conditions" },
-  { href: "https://discord.gg/eschool", label: "Join our community!", external: true },
+  { href: "https://discord.gg/escool", label: "Join our community!", external: true },
 ];
 
 // About the platform text
