@@ -785,21 +785,61 @@ export default function SchoolsPartnershipPage() {
         
         <div className="container mx-auto px-4 relative z-10">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="flex justify-center mb-12">
-              <TabsList className="flex flex-col sm:grid w-full max-w-2xl sm:grid-cols-3 gap-2 sm:gap-0">
-                <TabsTrigger value="benefits" className="text-sm md:text-base py-3">
-                  <Zap className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+            <div className="mb-12">
+              {/* Custom mobile tabs */}
+              <div className="sm:hidden flex flex-col space-y-3 w-full">
+                <button
+                  onClick={() => setActiveTab("benefits")}
+                  className={`flex items-center justify-center py-3 px-4 rounded-md text-sm transition-all ${
+                    activeTab === "benefits" 
+                      ? "bg-[#f6c000] text-black font-medium" 
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
+                  <Zap className="mr-2 h-4 w-4" />
                   Partnership Benefits
-                </TabsTrigger>
-                <TabsTrigger value="programs" className="text-sm md:text-base py-3">
-                  <Rocket className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                </button>
+                <button
+                  onClick={() => setActiveTab("programs")}
+                  className={`flex items-center justify-center py-3 px-4 rounded-md text-sm transition-all ${
+                    activeTab === "programs" 
+                      ? "bg-[#f6c000] text-black font-medium" 
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
+                  <Rocket className="mr-2 h-4 w-4" />
                   Program Options
-                </TabsTrigger>
-                <TabsTrigger value="join" className="text-sm md:text-base py-3">
-                  <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                </button>
+                <button
+                  onClick={() => setActiveTab("join")}
+                  className={`flex items-center justify-center py-3 px-4 rounded-md text-sm transition-all ${
+                    activeTab === "join" 
+                      ? "bg-[#f6c000] text-black font-medium" 
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
+                  <Sparkles className="mr-2 h-4 w-4" />
                   How to Join
-                </TabsTrigger>
-              </TabsList>
+                </button>
+              </div>
+              
+              {/* Desktop tabs */}
+              <div className="hidden sm:flex justify-center">
+                <TabsList className="grid w-full max-w-2xl grid-cols-3">
+                  <TabsTrigger value="benefits" className="text-sm md:text-base">
+                    <Zap className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                    Partnership Benefits
+                  </TabsTrigger>
+                  <TabsTrigger value="programs" className="text-sm md:text-base">
+                    <Rocket className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                    Program Options
+                  </TabsTrigger>
+                  <TabsTrigger value="join" className="text-sm md:text-base">
+                    <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                    How to Join
+                  </TabsTrigger>
+                </TabsList>
+              </div>
             </div>
             
             {/* Benefits Content */}
@@ -944,50 +984,53 @@ export default function SchoolsPartnershipPage() {
                 </div>
                 
                 <div className="relative">
-                  {/* Vertical line */}
-                  <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#f6c000] via-purple-500 to-[#f6c000]/50 transform -translate-x-1/2"></div>
+                  {/* Vertical line - hidden on mobile, shown on md+ */}
+                  <div className="absolute hidden md:block left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#f6c000] via-purple-500 to-[#f6c000]/50 transform -translate-x-1/2"></div>
                   
-                  <div className="space-y-12">
+                  {/* Mobile timeline line */}
+                  <div className="absolute md:hidden left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#f6c000] via-purple-500 to-[#f6c000]/50"></div>
+                  
+                  <div className="space-y-8">
                     {[
                       {
                         title: "Submit Application",
                         description: "Fill out our partnership application form with information about your institution and goals.",
-                        icon: <Send className="h-6 w-6 text-[#0a0b15]" />
+                        icon: <Send className="h-5 w-5 md:h-6 md:w-6 text-[#0a0b15]" />
                       },
                       {
                         title: "Consultation",
                         description: "Our team will contact you to discuss your specific needs and partnership options.",
-                        icon: <MessageSquare className="h-6 w-6 text-[#0a0b15]" />
+                        icon: <MessageSquare className="h-5 w-5 md:h-6 md:w-6 text-[#0a0b15]" />
                       },
                       {
                         title: "Custom Proposal",
                         description: "Receive a tailored partnership proposal designed to meet your institution's objectives.",
-                        icon: <BookOpen className="h-6 w-6 text-[#0a0b15]" />
+                        icon: <BookOpen className="h-5 w-5 md:h-6 md:w-6 text-[#0a0b15]" />
                       },
                       {
                         title: "Onboarding",
                         description: "Once approved, our dedicated team will guide you through the implementation process.",
-                        icon: <Rocket className="h-6 w-6 text-[#0a0b15]" />
+                        icon: <Rocket className="h-5 w-5 md:h-6 md:w-6 text-[#0a0b15]" />
                       }
                     ].map((step, index) => (
                       <div key={index} className="relative">
-                        <div className="flex items-start gap-8">
+                        <div className="flex items-start gap-4 md:gap-8">
                           <div className="relative flex items-center justify-center z-10">
-                            <div className="w-16 h-16 rounded-full bg-[#f6c000] flex items-center justify-center shadow-lg">
+                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#f6c000] flex items-center justify-center shadow-lg">
                               {step.icon}
                             </div>
                           </div>
                           
                           <motion.div 
-                            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 flex-1"
+                            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 md:p-6 flex-1"
                             initial={{ opacity: 0, x: 20 }}
                             animate={formInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                           >
-                            <h3 className="text-xl font-semibold text-white mb-2">
+                            <h3 className="text-lg md:text-xl font-semibold text-white mb-1 md:mb-2">
                               Step {index + 1}: {step.title}
                             </h3>
-                            <p className="text-gray-300">{step.description}</p>
+                            <p className="text-gray-300 text-sm md:text-base">{step.description}</p>
                           </motion.div>
                         </div>
                       </div>
