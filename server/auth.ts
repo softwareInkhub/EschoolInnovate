@@ -28,14 +28,11 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
-  // Ensure session secret is provided in environment
-  if (!process.env.SESSION_SECRET) {
-    console.error("SESSION_SECRET environment variable is required");
-    process.exit(1);
-  }
+  // Use environment variable SESSION_SECRET if available, otherwise use a hardcoded development secret
+  const sessionSecret = process.env.SESSION_SECRET || "escool_development_secret_key_change_in_production";
 
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     store: dynamoStorage.sessionStore, // Use the session store from dynamoStorage

@@ -59,7 +59,7 @@ The application uses AWS DynamoDB and requires the following environment variabl
    AWS_ACCESS_KEY_ID=your_access_key_id
    AWS_SECRET_ACCESS_KEY=your_secret_access_key
    
-   # Required for session security (generate a random string)
+   # Recommended for session security in production (optional in development)
    SESSION_SECRET=random_string_for_session_security
    
    # Optional: AWS region (defaults to us-east-1 if not specified)
@@ -72,11 +72,13 @@ The application uses AWS DynamoDB and requires the following environment variabl
    # Required environment variables
    export AWS_ACCESS_KEY_ID=your_access_key_id
    export AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   
+   # Recommended for production environments
    export SESSION_SECRET=random_string_for_session_security
+   export NODE_ENV=production  # enables secure cookies
    
    # Optional environment variables
    export AWS_REGION=your_preferred_region  # defaults to us-east-1 if not set
-   export NODE_ENV=production  # set to production for secure cookies
    ```
 
 4. **Build the application**:
