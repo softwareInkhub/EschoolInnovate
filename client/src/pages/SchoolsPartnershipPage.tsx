@@ -35,7 +35,15 @@ import {
   ChevronRight,
   BarChart3,
   Target,
-  MessageSquare
+  MessageSquare,
+  Phone,
+  Mail,
+  Link2,
+  Share2,
+  Network,
+  GanttChartSquare,
+  Building,
+  Handshake
 } from "lucide-react";
 import { 
   Card, 
@@ -241,6 +249,108 @@ const programOptions = [
   }
 ];
 
+// Collaboration opportunities
+const collaborationOptions = [
+  {
+    icon: <GanttChartSquare className="h-10 w-10 text-[#f6c000]" />,
+    title: "Research Partnerships",
+    description: "Collaborate on cutting-edge research in educational technology, pedagogy, and learning sciences with our team of experts and industry partners.",
+    features: [
+      "Access to research grants and funding",
+      "Joint publication opportunities",
+      "Collaborative innovation labs",
+      "Student research internships"
+    ]
+  },
+  {
+    icon: <Handshake className="h-10 w-10 text-[#f6c000]" />,
+    title: "Industry Collaborations",
+    description: "Connect with leading corporations and startups looking to engage with talented students and faculty for projects, internships, and recruitment.",
+    features: [
+      "Corporate-sponsored hackathons",
+      "Industry mentorship programs",
+      "Applied research projects",
+      "Recruitment partnerships"
+    ]
+  },
+  {
+    icon: <BookOpen className="h-10 w-10 text-[#f6c000]" />,
+    title: "Content Co-creation",
+    description: "Develop high-quality educational content together with our instructional designers and learning experts to deliver exceptional learning experiences.",
+    features: [
+      "Co-branded course offerings",
+      "Shared intellectual property",
+      "Multi-format content development",
+      "Revenue sharing models"
+    ]
+  }
+];
+
+// Networking benefits
+const networkingBenefits = [
+  {
+    icon: <Building className="h-10 w-10 text-[#f6c000]" />,
+    title: "Institution Network",
+    description: "Join our growing network of 200+ educational institutions from across India, sharing best practices and collaborative opportunities."
+  },
+  {
+    icon: <Users className="h-10 w-10 text-[#f6c000]" />,
+    title: "Educator Community",
+    description: "Connect with thousands of educators, instructional designers, and education technology experts through our exclusive partner community."
+  },
+  {
+    icon: <Briefcase className="h-10 w-10 text-[#f6c000]" />,
+    title: "Industry Connections",
+    description: "Gain privileged access to our corporate partners looking for talent, collaborative projects, and educational partnerships."
+  },
+  {
+    icon: <Share2 className="h-10 w-10 text-[#f6c000]" />,
+    title: "Global Outreach",
+    description: "Expand your global presence through our international partnerships with universities and educational organizations worldwide."
+  }
+];
+
+// Why escool
+const whyEscoolReasons = [
+  {
+    icon: <Award className="h-8 w-8 text-[#f6c000]" />,
+    title: "Education Excellence",
+    description: "Our platform is built by educators for educators, with a deep understanding of pedagogical best practices and learning methodologies."
+  },
+  {
+    icon: <Rocket className="h-8 w-8 text-[#f6c000]" />,
+    title: "Technology Innovation",
+    description: "We leverage cutting-edge AI, data analytics, and interactive technologies to create engaging, effective learning experiences."
+  },
+  {
+    icon: <Users className="h-8 w-8 text-[#f6c000]" />,
+    title: "Learner-Centered Approach",
+    description: "Every feature of our platform is designed with the learner experience in mind, ensuring high engagement and completion rates."
+  },
+  {
+    icon: <TrendingUp className="h-8 w-8 text-[#f6c000]" />,
+    title: "Growth Focused",
+    description: "We're committed to helping our partners grow their educational impact, reach, and revenue through innovative solutions."
+  },
+  {
+    icon: <Globe className="h-8 w-8 text-[#f6c000]" />,
+    title: "India-First Mindset",
+    description: "Built specifically for the Indian educational landscape, addressing unique challenges and opportunities of our diverse education system."
+  }
+];
+
+// Contact information
+const contactInfo = {
+  phone: "+91 98765 43210",
+  email: "partnerships@escool.ai",
+  address: "91 Innovation Hub, Koramangala, Bangalore 560034, India",
+  socialLinks: [
+    { name: "LinkedIn", url: "https://linkedin.com" },
+    { name: "Twitter", url: "https://twitter.com" },
+    { name: "Facebook", url: "https://facebook.com" }
+  ]
+};
+
 // Counter animation component
 const CounterAnimation = ({ end, suffix = "", prefix = "", duration = 2.5 }: { 
   end: number, 
@@ -333,6 +443,26 @@ export default function SchoolsPartnershipPage() {
   });
   
   const { ref: formRef, inView: formInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2
+  });
+  
+  const { ref: collaborationRef, inView: collaborationInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2
+  });
+  
+  const { ref: contactRef, inView: contactInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2
+  });
+  
+  const { ref: whyEscoolRef, inView: whyEscoolInView } = useInView({
+    triggerOnce: true, 
+    threshold: 0.2
+  });
+  
+  const { ref: networkingRef, inView: networkingInView } = useInView({
     triggerOnce: true,
     threshold: 0.2
   });
