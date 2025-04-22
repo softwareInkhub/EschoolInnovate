@@ -1011,6 +1011,170 @@ export default function SchoolsPartnershipPage() {
         </div>
       </section>
       
+      {/* Why escool Section */}
+      <section className="py-16 md:py-24 bg-[#0a0b15] relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div
+            ref={whyEscoolRef}
+            initial="hidden"
+            animate={whyEscoolInView ? "visible" : "hidden"}
+            variants={staggerChildren}
+            className="max-w-7xl mx-auto"
+          >
+            <motion.div variants={fadeIn} className="text-center mb-16">
+              <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
+                Our Difference
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                Why Partner with <span className="text-[#f6c000]">escool.ai</span>?
+              </h2>
+              <p className="text-gray-300 max-w-3xl mx-auto">
+                Our platform is uniquely designed to address the challenges and opportunities facing Indian educational institutions today.
+              </p>
+            </motion.div>
+            
+            <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {whyEscoolReasons.map((reason, index) => (
+                <motion.div 
+                  key={index}
+                  variants={fadeIn}
+                  className="bg-white/5 rounded-lg p-6 border border-white/10 hover:border-[#f6c000]/30 transition-all duration-300 hover:bg-gradient-to-br hover:from-[#0c0c18] hover:to-[#0f1025]"
+                >
+                  <div className="bg-[#f6c000]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                    {reason.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{reason.title}</h3>
+                  <p className="text-gray-400">{reason.description}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+            
+            <motion.div variants={fadeIn} className="mt-12 flex justify-center">
+              <Button 
+                size="lg" 
+                className="bg-[#f6c000] hover:bg-[#e6b000] text-black"
+                onClick={scrollToPartners}
+              >
+                Become a Partner
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
+        <WaveDivider className="text-[#0c0c18] mt-16" />
+      </section>
+      
+      {/* Collaboration Opportunities Section */}
+      <section className="py-16 md:py-24 bg-[#0c0c18] relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div
+            ref={collaborationRef}
+            initial="hidden"
+            animate={collaborationInView ? "visible" : "hidden"}
+            variants={staggerChildren}
+            className="max-w-7xl mx-auto"
+          >
+            <motion.div variants={fadeIn} className="text-center mb-16">
+              <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
+                <Handshake className="mr-1 h-3 w-3" />
+                Collaborative Opportunities
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                Innovate and Grow Together
+              </h2>
+              <p className="text-gray-300 max-w-3xl mx-auto">
+                Join forces with escool.ai to create groundbreaking educational experiences and expand your institution's impact.
+              </p>
+            </motion.div>
+            
+            <motion.div variants={fadeIn} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {collaborationOptions.map((option, index) => (
+                <motion.div 
+                  key={index}
+                  variants={fadeIn}
+                  className="relative"
+                >
+                  <Tilt
+                    tiltMaxAngleX={5}
+                    tiltMaxAngleY={5}
+                    perspective={1000}
+                    scale={1.02}
+                    transitionSpeed={1500}
+                    className="h-full"
+                  >
+                    <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:border-[#f6c000]/30 transition-all duration-300">
+                      <div className="mb-4">{option.icon}</div>
+                      <h3 className="text-xl font-bold text-white mb-2">{option.title}</h3>
+                      <p className="text-gray-400 mb-6">{option.description}</p>
+                      
+                      <div className="space-y-2 mb-6">
+                        {option.features.map((feature, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <CheckCircle className="h-5 w-5 text-[#f6c000] flex-shrink-0 mt-0.5" />
+                            <span className="text-gray-300 text-sm">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                        Learn More
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </Tilt>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+        <WaveDivider className="text-[#0a0b15] mt-16" />
+      </section>
+      
+      {/* Networking Benefits Section */}
+      <section className="py-16 md:py-24 bg-[#0a0b15] relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div
+            ref={networkingRef}
+            initial="hidden"
+            animate={networkingInView ? "visible" : "hidden"}
+            variants={staggerChildren}
+            className="max-w-7xl mx-auto"
+          >
+            <motion.div variants={fadeIn} className="text-center mb-16">
+              <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
+                <Network className="mr-1 h-3 w-3" />
+                Networking Benefits
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                Connect with India's Educational Ecosystem
+              </h2>
+              <p className="text-gray-300 max-w-3xl mx-auto">
+                Gain access to a powerful network of educational institutions, industry partners, and innovation leaders across India.
+              </p>
+            </motion.div>
+            
+            <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+              {networkingBenefits.map((benefit, index) => (
+                <motion.div 
+                  key={index}
+                  variants={fadeIn}
+                  className="flex gap-6"
+                >
+                  <div className="bg-[#f6c000]/10 w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0">
+                    {benefit.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
+                    <p className="text-gray-400">{benefit.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+        <WaveDivider className="text-[#0c0c18] mt-16" />
+      </section>
+      
       {/* Testimonials Section */}
       <section className="py-16 md:py-24 bg-[#0c0c18] relative overflow-hidden">
         <WaveDivider className="text-[#0a0b15] absolute top-0 left-0 right-0" />
@@ -1454,6 +1618,119 @@ export default function SchoolsPartnershipPage() {
               </Button>
             </div>
           </div>
+        </motion.div>
+      </section>
+      
+      {/* Connect with Us Section */}
+      <section className="py-16 md:py-24 bg-[#0a0b15] relative overflow-hidden">
+        <motion.div
+          ref={contactRef}
+          className="container mx-auto px-4 max-w-7xl"
+          initial="hidden"
+          animate={contactInView ? "visible" : "hidden"}
+          variants={staggerChildren}
+        >
+          <motion.div variants={fadeIn} className="text-center mb-16">
+            <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
+              <MessageSquare className="mr-1 h-3 w-3" />
+              Connect with Us
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              Get in Touch with Our Partnership Team
+            </h2>
+            <p className="text-gray-300 max-w-3xl mx-auto">
+              Have questions or want to discuss partnership opportunities directly? Our dedicated team is ready to assist you.
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            variants={fadeIn}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          >
+            <Card className="bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#f6c000]/30 transition-all duration-300">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-[#f6c000]/10 flex items-center justify-center mb-4">
+                  <Phone className="h-6 w-6 text-[#f6c000]" />
+                </div>
+                <CardTitle className="text-white">Call Us</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Speak directly with our partnership team
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-[#f6c000] font-semibold text-lg">
+                  {contactInfo.phone}
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  Available Monday to Friday, 9am - 6pm IST
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                  Schedule a Call
+                </Button>
+              </CardFooter>
+            </Card>
+            
+            <Card className="bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#f6c000]/30 transition-all duration-300">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-[#f6c000]/10 flex items-center justify-center mb-4">
+                  <Mail className="h-6 w-6 text-[#f6c000]" />
+                </div>
+                <CardTitle className="text-white">Email Us</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Send us your inquiry anytime
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-[#f6c000] font-semibold text-lg break-all">
+                  {contactInfo.email}
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  We typically respond within 24 hours
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10" asChild>
+                  <a href={`mailto:${contactInfo.email}`}>
+                    Send Email
+                  </a>
+                </Button>
+              </CardFooter>
+            </Card>
+            
+            <Card className="bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#f6c000]/30 transition-all duration-300">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-[#f6c000]/10 flex items-center justify-center mb-4">
+                  <MapPin className="h-6 w-6 text-[#f6c000]" />
+                </div>
+                <CardTitle className="text-white">Visit Us</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Stop by our headquarters
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white font-medium">
+                  {contactInfo.address}
+                </p>
+                <div className="flex gap-3 mt-4">
+                  {contactInfo.socialLinks.map((link, index) => (
+                    <Button key={index} size="icon" variant="outline" className="rounded-full border-white/20 h-10 w-10 p-0" asChild>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer">
+                        <Link2 className="h-4 w-4" />
+                        <span className="sr-only">{link.name}</span>
+                      </a>
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                  Get Directions
+                </Button>
+              </CardFooter>
+            </Card>
+          </motion.div>
         </motion.div>
       </section>
       
