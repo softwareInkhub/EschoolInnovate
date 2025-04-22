@@ -786,16 +786,16 @@ export default function SchoolsPartnershipPage() {
         <div className="container mx-auto px-4 relative z-10">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex justify-center mb-12">
-              <TabsList className="grid w-full max-w-2xl md:grid-cols-3">
-                <TabsTrigger value="benefits" className="text-sm md:text-base">
+              <TabsList className="flex flex-col sm:grid w-full max-w-2xl sm:grid-cols-3 gap-2 sm:gap-0">
+                <TabsTrigger value="benefits" className="text-sm md:text-base py-3">
                   <Zap className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                   Partnership Benefits
                 </TabsTrigger>
-                <TabsTrigger value="programs" className="text-sm md:text-base">
+                <TabsTrigger value="programs" className="text-sm md:text-base py-3">
                   <Rocket className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                   Program Options
                 </TabsTrigger>
-                <TabsTrigger value="join" className="text-sm md:text-base">
+                <TabsTrigger value="join" className="text-sm md:text-base py-3">
                   <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                   How to Join
                 </TabsTrigger>
