@@ -1,6 +1,5 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { dynamoStorage } from "./dynamoStorage";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { 
@@ -9,10 +8,15 @@ import {
   insertUserSchema
 } from "@shared/schema";
 import { setupAuth } from "./auth";
+import { getStorage } from "./storageFactory";
+import { IStorage } from "./storage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Set up authentication
-  setupAuth(app);
+  // Get the appropriate storage implementation
+  const storage = await getStorage();
+  
+  // Set up authentication with the chosen storage
+  setupAuth(app, storage);
   
   // API base route
   app.get("/api/health", (_req, res) => {
@@ -22,7 +26,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Projects routes
   app.get("/api/projects", async (_req, res) => {
     try {
-      const projects = await dynamoStorage.getProjects();
+      const projects = await storage.getProjects();
       res.json(projects);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch projects" });
@@ -31,7 +35,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/projects/featured", async (_req, res) => {
     try {
-      const featuredProjects = await dynamoStorage.getFeaturedProjects();
+      const featuredProjects = await storage.getFeaturedProjects();
       res.json(featuredProjects);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch featured projects" });
@@ -45,7 +49,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid project ID" });
       }
 
-      const project = await dynamoStorage.getProject(projectId);
+      const project = await storage.getProject(projectId);
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
@@ -65,12 +69,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       delete projectData.roles;
       
       // Create the project
-      const project = await dynamoStorage.createProject(projectData);
+      const project = await storage.createProject(projectData);
       
       // Create roles if provided
       if (roles && roles.length > 0) {
         for (const role of roles) {
-          await dynamoStorage.createRole({
+          await storage.createRole({
             ...role,
             projectId: project.id
           });
@@ -78,7 +82,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Add the creator as a team member (founder)
-      await dynamoStorage.createTeamMember({
+      await storage.createTeamMember({
         projectId: project.id,
         userId: projectData.createdBy,
         roleId: null,
@@ -102,13 +106,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid project ID" });
       }
 
-      const project = await dynamoStorage.getProject(projectId);
+      const project = await storage.getProject(projectId);
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
 
       const projectData = projectFormSchema.partial().parse(req.body);
-      const updatedProject = await dynamoStorage.updateProject(projectId, projectData);
+      const updatedProject = await storage.updateProject(projectId, projectData);
       res.json(updatedProject);
     } catch (error) {
       if (error instanceof ZodError) {
@@ -127,7 +131,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid project ID" });
       }
 
-      const roles = await dynamoStorage.getRoles(projectId);
+      const roles = await storage.getRoles(projectId);
       res.json(roles);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch roles" });
@@ -253,7 +257,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Schools routes
   app.get("/api/schools", async (_req, res) => {
     try {
-      const schools = await dynamoStorage.getSchools();
+      const schools = await storage.getSchools();
       res.json(schools);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch schools" });
@@ -262,7 +266,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/schools/featured", async (_req, res) => {
     try {
-      const featuredSchools = await dynamoStorage.getFeaturedSchools();
+      const featuredSchools = await storage.getFeaturedSchools();
       res.json(featuredSchools);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch featured schools" });
@@ -276,7 +280,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid school ID" });
       }
 
-      const school = await dynamoStorage.getSchool(schoolId);
+      const school = await storage.getSchool(schoolId);
       if (!school) {
         return res.status(404).json({ error: "School not found" });
       }
@@ -294,7 +298,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid school ID" });
       }
 
-      const courses = await dynamoStorage.getSchoolCourses(schoolId);
+      const courses = await storage.getSchoolCourses(schoolId);
       res.json(courses);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch school courses" });
@@ -308,7 +312,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid school ID" });
       }
 
-      const instructors = await dynamoStorage.getSchoolInstructors(schoolId);
+      const instructors = await storage.getSchoolInstructors(schoolId);
       res.json(instructors);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch school instructors" });
@@ -318,7 +322,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Courses routes
   app.get("/api/courses", async (req, res) => {
     try {
-      const courses = await dynamoStorage.getCourses();
+      const courses = await storage.getCourses();
       res.json(courses);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch courses" });
@@ -327,7 +331,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/courses/featured", async (_req, res) => {
     try {
-      const featuredCourses = await dynamoStorage.getFeaturedCourses();
+      const featuredCourses = await storage.getFeaturedCourses();
       res.json(featuredCourses);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch featured courses" });
@@ -336,7 +340,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/courses/popular", async (_req, res) => {
     try {
-      const popularCourses = await dynamoStorage.getPopularCourses();
+      const popularCourses = await storage.getPopularCourses();
       res.json(popularCourses);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch popular courses" });
@@ -345,7 +349,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.get("/api/courses/new", async (_req, res) => {
     try {
-      const newCourses = await dynamoStorage.getNewCourses();
+      const newCourses = await storage.getNewCourses();
       res.json(newCourses);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch new courses" });
@@ -359,21 +363,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid course ID" });
       }
 
-      const course = await dynamoStorage.getCourse(courseId);
+      const course = await storage.getCourse(courseId);
       if (!course) {
         return res.status(404).json({ error: "Course not found" });
       }
 
       // Get instructor details
-      const instructor = await dynamoStorage.getInstructor(course.instructorId);
+      const instructor = await storage.getInstructor(course.instructorId);
       
       // Get modules for this course
-      const modules = await dynamoStorage.getModules(courseId);
+      const modules = await storage.getModules(courseId);
       
       // For each module, get its lessons
       const modulesWithLessons = await Promise.all(
         modules.map(async (module) => {
-          const lessons = await dynamoStorage.getLessons(module.id);
+          const lessons = await storage.getLessons(module.id);
           return { ...module, lessons };
         })
       );
@@ -399,13 +403,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid module ID" });
       }
 
-      const module = await dynamoStorage.getModule(moduleId);
+      const module = await storage.getModule(moduleId);
       if (!module) {
         return res.status(404).json({ error: "Module not found" });
       }
       
       // Get lessons for this module
-      const lessons = await dynamoStorage.getLessons(moduleId);
+      const lessons = await storage.getLessons(moduleId);
       
       // Combine module and lessons
       const enrichedModule = {
@@ -427,7 +431,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid lesson ID" });
       }
 
-      const lesson = await dynamoStorage.getLesson(lessonId);
+      const lesson = await storage.getLesson(lessonId);
       if (!lesson) {
         return res.status(404).json({ error: "Lesson not found" });
       }
@@ -441,7 +445,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Instructors routes
   app.get("/api/instructors", async (_req, res) => {
     try {
-      const instructors = await dynamoStorage.getInstructors();
+      const instructors = await storage.getInstructors();
       res.json(instructors);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch instructors" });
@@ -455,7 +459,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid instructor ID" });
       }
 
-      const instructor = await dynamoStorage.getInstructor(instructorId);
+      const instructor = await storage.getInstructor(instructorId);
       if (!instructor) {
         return res.status(404).json({ error: "Instructor not found" });
       }
@@ -470,7 +474,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/users", async (req, res) => {
     try {
       const userData = insertUserSchema.parse(req.body);
-      const user = await dynamoStorage.createUser(userData);
+      const user = await storage.createUser(userData);
       
       // Remove password before sending response
       const { password, ...userWithoutPassword } = user;
@@ -492,7 +496,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid user ID" });
       }
 
-      const user = await dynamoStorage.getUser(userId);
+      const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }

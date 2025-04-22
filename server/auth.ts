@@ -4,8 +4,8 @@ import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
-import { dynamoStorage } from "./dynamoStorage";
 import { User as SelectUser } from "@shared/schema";
+import { IStorage } from "./storage";
 
 declare global {
   namespace Express {
@@ -27,7 +27,7 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
-export function setupAuth(app: Express) {
+export function setupAuth(app: Express, storage: IStorage) {
   // Use environment variable SESSION_SECRET if available, otherwise use a hardcoded development secret
   const sessionSecret = process.env.SESSION_SECRET || "escool_development_secret_key_change_in_production";
 
@@ -35,7 +35,7 @@ export function setupAuth(app: Express) {
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    store: dynamoStorage.sessionStore, // Use the session store from dynamoStorage
+    store: storage.sessionStore, // Use the session store from the supplied storage
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
       secure: process.env.NODE_ENV === "production",
@@ -50,7 +50,7 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       try {
-        const user = await dynamoStorage.getUserByUsername(username);
+        const user = await storage.getUserByUsername(username);
         if (!user || !(await comparePasswords(password, user.password))) {
           return done(null, false);
         } else {
@@ -66,7 +66,7 @@ export function setupAuth(app: Express) {
   
   passport.deserializeUser(async (id: number, done) => {
     try {
-      const user = await dynamoStorage.getUser(id);
+      const user = await storage.getUser(id);
       done(null, user);
     } catch (error) {
       done(error);
@@ -75,13 +75,13 @@ export function setupAuth(app: Express) {
 
   app.post("/api/register", async (req, res, next) => {
     try {
-      const existingUser = await dynamoStorage.getUserByUsername(req.body.username);
+      const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
         return res.status(400).json({ message: "Username already exists" });
       }
 
       const hashedPassword = await hashPassword(req.body.password);
-      const user = await dynamoStorage.createUser({
+      const user = await storage.createUser({
         ...req.body,
         password: hashedPassword,
       });
