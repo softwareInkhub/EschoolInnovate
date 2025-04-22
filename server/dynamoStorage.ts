@@ -47,6 +47,9 @@ const TABLE_NAMES = {
 export class DynamoStorage implements IStorage {
   sessionStore: session.Store;
 
+  // Flag to track if tables have been initialized
+  private tablesInitialized = false;
+  
   constructor() {
     // Create DynamoDB client config
     let clientConfig: any = {
@@ -78,14 +81,21 @@ export class DynamoStorage implements IStorage {
   }
 
   private async initializeTables() {
+    // Only initialize tables once per instance
+    if (this.tablesInitialized) {
+      return;
+    }
+
     // Import and call the table creation function
     const createDynamoTables = (await import('./createDynamoTables')).default;
     try {
       await createDynamoTables();
       console.log('DynamoDB tables initialized successfully');
+      this.tablesInitialized = true;
     } catch (error) {
       console.error('Error initializing DynamoDB tables:', error);
       // Don't throw here to allow the application to start even if tables exist
+      this.tablesInitialized = true; // Still mark as initialized to prevent repeated attempts
     }
   }
 

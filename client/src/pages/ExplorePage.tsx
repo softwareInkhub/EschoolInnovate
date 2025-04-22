@@ -257,9 +257,11 @@ export default function ExplorePage() {
             
             <motion.h1 
               variants={fadeIn}
-              className="text-3xl md:text-5xl font-bold mb-6"
+              className="text-3xl md:text-5xl font-bold mb-6 max-w-full px-2 overflow-hidden"
             >
-              Discover Projects, Learning & <span className="text-primary">Funding</span>
+              <span className="inline-block">Discover Projects,</span>
+              <span className="inline-block"> Learning & </span>
+              <span className="inline-block text-primary">Funding</span>
             </motion.h1>
             
             <motion.p 
@@ -353,8 +355,8 @@ export default function ExplorePage() {
             variants={fadeIn}
             className="mb-10"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Projects & Startups</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+              <h2 className="text-2xl font-bold break-words">Projects & Startups</h2>
               <ContextualHelp
                 id="create-project-button"
                 text={[
@@ -368,7 +370,7 @@ export default function ExplorePage() {
               >
                 <Button 
                   onClick={openCreateModal}
-                  className="gap-2"
+                  className="gap-2 whitespace-nowrap"
                 >
                   <Plus className="h-4 w-4" />
                   Create Project
@@ -518,12 +520,12 @@ export default function ExplorePage() {
           
           {/* Featured Schools */}
           <div className="mb-16">
-            <div className="flex justify-between items-center mb-8">
-              <h3 className="text-xl font-bold">Featured Schools</h3>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-8">
+              <h3 className="text-xl font-bold break-words">Featured Schools</h3>
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="gap-1 text-primary"
+                className="gap-1 text-primary whitespace-nowrap"
                 onClick={() => navigate("/schools")}
               >
                 <span>View all schools</span>

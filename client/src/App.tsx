@@ -19,6 +19,7 @@ import SchoolsPage from "@/pages/SchoolsPage";
 import SchoolsPartnershipPage from "@/pages/SchoolsPartnershipPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import CompetitionPage from "@/pages/CompetitionPage";
+import CoursesPage from "@/pages/CoursesPage";
 
 // Lazy load less critical components
 const Home = lazy(() => import("@/pages/Home"));
@@ -114,6 +115,12 @@ function Router() {
         <Route path="/schools/:id">
           <PageLayout>
             <SchoolDetailPage />
+          </PageLayout>
+        </Route>
+        
+        <Route path="/courses">
+          <PageLayout>
+            <CoursesPage />
           </PageLayout>
         </Route>
         

@@ -230,9 +230,10 @@ export default function LandingPage() {
             
             <motion.h1 
               variants={fadeIn}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white leading-tight max-w-full overflow-hidden"
             >
-              Find your Team Members<br className="hidden sm:block" /> and<br className="sm:hidden" />
+              <span className="inline-block">Find your Team Members</span><br className="hidden sm:block" /> 
+              <span className="inline-block">and</span><br className="sm:hidden" />
               <motion.span 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

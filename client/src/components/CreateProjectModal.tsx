@@ -108,27 +108,27 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto w-[95vw] p-4 md:p-6" aria-describedby="project-form-description">
+        <DialogHeader className="mb-4">
           <DialogTitle>Create a New Project</DialogTitle>
-          <DialogDescription>
+          <DialogDescription id="project-form-description">
             Fill out the information below to create your project and start building your team.
           </DialogDescription>
         </DialogHeader>
         
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 pb-2">
             {/* Project name */}
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Project Name*</FormLabel>
+                  <FormLabel className="text-sm">Project Name*</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter project name..." {...field} />
+                    <Input placeholder="Enter project name..." {...field} className="h-9" />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-xs">
                     A clear, concise name for your project.
                   </FormDescription>
                   <FormMessage />
@@ -142,11 +142,11 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description*</FormLabel>
+                  <FormLabel className="text-sm">Description*</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Describe your project in detail..." 
-                      className="min-h-[120px]"
+                      className="min-h-[100px] text-sm"
                       {...field} 
                     />
                   </FormControl>
@@ -161,10 +161,10 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category*</FormLabel>
+                  <FormLabel className="text-sm">Category*</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-9 text-sm">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                     </FormControl>
@@ -190,10 +190,11 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="problem"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Problem Statement*</FormLabel>
+                  <FormLabel className="text-sm">Problem Statement*</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="What problem does your project solve?" 
+                      className="min-h-[80px] text-sm"
                       {...field} 
                     />
                   </FormControl>
@@ -208,15 +209,16 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="banner"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Banner Image URL (Optional)</FormLabel>
+                  <FormLabel className="text-sm">Banner Image URL (Optional)</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="URL to a banner image for your project" 
                       {...field} 
                       value={field.value || ''}
+                      className="h-9 text-sm"
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-xs">
                     Add a URL to an image that represents your project
                   </FormDescription>
                   <FormMessage />
@@ -230,10 +232,11 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="market"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Market</FormLabel>
+                  <FormLabel className="text-sm">Target Market</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Who are your target users/customers?" 
+                      className="min-h-[80px] text-sm"
                       {...field} 
                     />
                   </FormControl>
@@ -248,10 +251,11 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="competition"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Competition</FormLabel>
+                  <FormLabel className="text-sm">Competition</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Who are your main competitors?" 
+                      className="h-9 text-sm"
                       {...field} 
                     />
                   </FormControl>
@@ -266,10 +270,10 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="stage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Project Stage*</FormLabel>
+                  <FormLabel className="text-sm">Project Stage*</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-9 text-sm">
                         <SelectValue placeholder="Select project stage" />
                       </SelectTrigger>
                     </FormControl>
@@ -293,7 +297,7 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
               name="maxTeamSize"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Maximum Team Size*</FormLabel>
+                  <FormLabel className="text-sm">Maximum Team Size*</FormLabel>
                   <FormControl>
                     <Input 
                       type="number" 
@@ -301,9 +305,10 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
                       max={20} 
                       {...field} 
                       onChange={(e) => field.onChange(parseInt(e.target.value) || 1)}
+                      className="h-9 text-sm"
                     />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-xs">
                     The maximum number of team members you're looking for.
                   </FormDescription>
                   <FormMessage />
@@ -314,59 +319,63 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
             {/* Team Roles */}
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <FormLabel>Team Roles</FormLabel>
+                <FormLabel className="text-base font-medium">Team Roles</FormLabel>
                 <Button 
                   type="button" 
                   variant="outline" 
                   size="sm" 
                   onClick={addRole}
-                  className="gap-1"
+                  className="gap-1 px-2 py-1 h-auto"
                 >
-                  <Plus className="h-4 w-4" />
-                  Add Role
+                  <Plus className="h-3.5 w-3.5" />
+                  <span className="text-sm">Add Role</span>
                 </Button>
               </div>
               
               <div className="space-y-4">
                 {roles.map((role, index) => (
-                  <div key={index} className="border p-4 rounded-md space-y-3">
+                  <div key={index} className="border p-3 rounded-md space-y-2.5">
                     <div className="flex justify-between items-center">
-                      <h4 className="font-medium">Role {index + 1}</h4>
+                      <h4 className="font-medium text-sm">Role {index + 1}</h4>
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
                         onClick={() => removeRole(index)}
+                        className="h-7 w-7 p-0"
                       >
-                        <Trash className="h-4 w-4 text-destructive" />
+                        <Trash className="h-3.5 w-3.5 text-destructive" />
                       </Button>
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-2.5">
                       <div>
-                        <FormLabel>Role Title</FormLabel>
+                        <FormLabel className="text-xs">Role Title</FormLabel>
                         <Input
                           value={role.title}
                           onChange={(e) => updateRoleField(index, "title", e.target.value)}
                           placeholder="e.g., Frontend Developer"
+                          className="h-8 text-sm"
                         />
                       </div>
                       
                       <div>
-                        <FormLabel>Description</FormLabel>
+                        <FormLabel className="text-xs">Description</FormLabel>
                         <Textarea
                           value={role.description}
                           onChange={(e) => updateRoleField(index, "description", e.target.value)}
-                          placeholder="Describe the responsibilities and requirements"
+                          placeholder="Describe the responsibilities"
+                          className="min-h-[60px] text-sm"
                         />
                       </div>
                       
                       <div>
-                        <FormLabel>Required Skills</FormLabel>
+                        <FormLabel className="text-xs">Required Skills</FormLabel>
                         <Input
                           value={role.skills}
                           onChange={(e) => updateRoleField(index, "skills", e.target.value)}
-                          placeholder="e.g., JavaScript, React, UI/UX (comma separated)"
+                          placeholder="e.g., JavaScript, React (comma separated)"
+                          className="h-8 text-sm"
                         />
                       </div>
                     </div>
@@ -378,17 +387,19 @@ export default function CreateProjectModal({ isOpen, onClose }: CreateProjectMod
             {/* Hidden createdBy field */}
             <input type="hidden" {...form.register("createdBy")} value={user?.id} />
             
-            <DialogFooter>
+            <DialogFooter className="flex flex-col sm:flex-row gap-3 sm:gap-2 mt-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={onClose}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
               <Button 
                 type="submit" 
                 disabled={createProject.isPending}
+                className="w-full sm:w-auto"
               >
                 {createProject.isPending ? "Creating..." : "Create Project"}
               </Button>

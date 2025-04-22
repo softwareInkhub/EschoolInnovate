@@ -711,7 +711,7 @@ export default function SchoolsPartnershipPage() {
             animate={statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white break-words max-w-full">
               India's Leading Educational Partnership Platform
             </h2>
             <p className="text-gray-300 max-w-3xl mx-auto">
@@ -955,16 +955,16 @@ export default function SchoolsPartnershipPage() {
                 ))}
               </motion.div>
               
-              <div className="bg-gradient-to-r from-purple-900/30 via-[#f6c000]/30 to-purple-900/30 p-6 rounded-xl mt-12">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="bg-gradient-to-r from-purple-900/30 via-[#f6c000]/30 to-purple-900/30 p-4 sm:p-6 rounded-xl mt-12">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Customized Partnership Solutions</h3>
-                    <p className="text-gray-300">
+                    <h3 className="text-xl font-semibold text-white mb-2 break-words">Customized Partnership Solutions</h3>
+                    <p className="text-gray-300 text-sm sm:text-base">
                       Beyond these standard options, we offer tailored partnerships designed to address your institution's unique challenges and opportunities.
                     </p>
                   </div>
                   <Button 
-                    className="bg-[#f6c000] hover:bg-[#e6b000] text-black whitespace-nowrap"
+                    className="bg-[#f6c000] hover:bg-[#e6b000] text-black whitespace-nowrap w-full md:w-auto mt-2 md:mt-0"
                     onClick={() => setActiveTab("join")}
                   >
                     Discuss Custom Options
@@ -1085,7 +1085,7 @@ export default function SchoolsPartnershipPage() {
               <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
                 Our Difference
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white break-words max-w-full">
                 Why Partner with <span className="text-[#f6c000]">escool.ai</span>?
               </h2>
               <p className="text-gray-300 max-w-3xl mx-auto">
@@ -1198,7 +1198,7 @@ export default function SchoolsPartnershipPage() {
                 <Network className="mr-1 h-3 w-3" />
                 Networking Benefits
               </Badge>
-              <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-white">
+              <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-white break-words max-w-full">
                 Connect with India's Educational Ecosystem
               </h2>
               <p className="text-gray-300 max-w-3xl mx-auto text-sm md:text-base">
@@ -1240,7 +1240,7 @@ export default function SchoolsPartnershipPage() {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white break-words max-w-full">
               Frequently Asked Questions
             </h2>
             <p className="text-gray-300 max-w-3xl mx-auto text-sm md:text-base">
@@ -1296,7 +1296,7 @@ export default function SchoolsPartnershipPage() {
               <Rocket className="mr-1 h-3 w-3" />
               Limited Spots Available
             </Badge>
-            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white break-words max-w-full">
               Apply for Partnership
             </h2>
             <p className="text-gray-300 max-w-3xl mx-auto text-sm md:text-base">
