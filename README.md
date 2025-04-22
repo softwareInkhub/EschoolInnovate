@@ -9,26 +9,32 @@ A comprehensive entrepreneurial ecosystem platform empowering Indian innovators 
 - **School Partnership Program**: Educational institutions can join as platform partners
 - **User Authentication**: Secure login and registration system 
 - **Interactive UI**: Modern, responsive design optimized for all devices
-- **DynamoDB Integration**: Reliable AWS-powered data storage
+- **Flexible Storage System**: DynamoDB for production with automatic fallback to in-memory storage for development
+- **Robust Architecture**: Storage factory pattern for seamless database switching
 
 ## Tech Stack
 
 - **Frontend**: React.js with Wouter for routing, TailwindCSS for styling
 - **Backend**: Express.js server
-- **Database**: AWS DynamoDB
+- **Database**: 
+  - Primary: AWS DynamoDB for production environments
+  - Fallback: In-memory storage for development/testing
 - **Authentication**: Passport.js with session-based auth
 - **State Management**: React Query for server state
+- **Design Pattern**: Storage Factory Pattern for flexible data persistence
 - **Animations**: Framer Motion, React Parallax Tilt
 
 ## Deployment Requirements
 
 ### AWS Configuration
 
-The application uses AWS DynamoDB and requires the following environment variables:
+The application uses AWS DynamoDB in production environments with the following environment variables:
 
 - `AWS_ACCESS_KEY_ID`: Your AWS access key
 - `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key
 - `AWS_REGION`: AWS region (defaults to 'us-east-1' if not specified)
+
+> **Note**: These variables are **optional for development environments**. If AWS credentials are not provided, the application will automatically use in-memory storage instead of DynamoDB.
 
 ### Server Requirements
 
@@ -52,34 +58,33 @@ The application uses AWS DynamoDB and requires the following environment variabl
 
 3. **Set environment variables**:
    
-   Create a `.env` file in the root directory with the following **required** environment variables:
+   Create a `.env` file in the root directory with the following environment variables:
    
    ```
-   # Required AWS credentials
+   # For production (using DynamoDB)
    AWS_ACCESS_KEY_ID=your_access_key_id
    AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   AWS_REGION=your_preferred_region  # defaults to us-east-1 if not set
    
-   # Recommended for session security in production (optional in development)
+   # Recommended for session security in production
    SESSION_SECRET=random_string_for_session_security
-   
-   # Optional: AWS region (defaults to us-east-1 if not specified)
-   AWS_REGION=your_preferred_region
+   NODE_ENV=production  # enables secure cookies
    ```
 
    Alternatively, set them directly in your EC2 instance:
    
    ```
-   # Required environment variables
+   # For production (using DynamoDB)
    export AWS_ACCESS_KEY_ID=your_access_key_id
    export AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   export AWS_REGION=your_preferred_region  # defaults to us-east-1 if not set
    
    # Recommended for production environments
    export SESSION_SECRET=random_string_for_session_security
    export NODE_ENV=production  # enables secure cookies
-   
-   # Optional environment variables
-   export AWS_REGION=your_preferred_region  # defaults to us-east-1 if not set
    ```
+   
+   > **Note**: For local development, you don't need to set AWS credentials at all. The application will automatically use in-memory storage, which is ideal for development and testing.
 
 4. **Build the application**:
    ```
@@ -94,16 +99,16 @@ The application uses AWS DynamoDB and requires the following environment variabl
 6. **Configure firewall (if needed)**:
    - Make sure port 5000 is open in your EC2 security group
 
-### Common Deployment Issues
+### Additional Deployment Notes
 
-- **Local Development**: For local development, you can run the application without AWS credentials. It will use an in-memory mode for authentication and sessions.
+- **EC2 IAM Roles**: If deploying to EC2, you can configure an IAM role for the instance instead of providing explicit credentials
+  
+- **Database Testing**: Before deploying to production, test the database connection with:
+  ```
+  npm run check-db-connection
+  ```
 
-- **Production Deployment**: For production, you should provide AWS credentials with proper permissions:
-  ```
-  export AWS_ACCESS_KEY_ID=your_access_key_id
-  export AWS_SECRET_ACCESS_KEY=your_secret_access_key
-  export AWS_REGION=your_preferred_region
-  ```
+- **Database Initialization**: The application automatically creates required DynamoDB tables if they don't exist
 
 - **AWS Credentials Configuration**: 
   - The application will automatically detect if AWS credentials are provided
@@ -122,6 +127,8 @@ The application uses AWS DynamoDB and requires the following environment variabl
 
 ## Development
 
+### Local Development Setup
+
 To run the application in development mode:
 
 ```
@@ -129,6 +136,29 @@ npm run dev
 ```
 
 This starts the development server with hot reloading at http://localhost:5000.
+
+### Storage Architecture
+
+The application uses a Storage Factory Pattern which provides several benefits:
+
+1. **Environment Flexibility**: The application automatically detects the environment and selects the appropriate storage implementation:
+   - In production (with AWS credentials): Uses DynamoDB for reliable, scalable storage
+   - In development (without AWS credentials): Falls back to in-memory storage
+
+2. **Interface-Driven Design**: All storage operations are defined through a common `IStorage` interface. This ensures:
+   - Consistent behavior regardless of storage implementation
+   - Easy substitution of storage implementations
+   - No code changes needed when switching between environments
+
+3. **Automatic Connection Management**:
+   - Tests the connection to DynamoDB at startup
+   - Logs detailed error information when connection fails
+   - Gracefully falls back to in-memory storage without application failure
+
+4. **Simplified Local Development**:
+   - No need to set up AWS credentials for local development
+   - No dependency on external services during development
+   - Faster development cycles with in-memory storage
 
 ## Maintenance
 
