@@ -56,9 +56,9 @@ async function testDynamoConnection() {
     
     // DynamoDB will throw an error here if credentials are invalid
     // We're not doing anything with the result, just testing the connection
-    await docClient.send({
-      TableNames: []
-    });
+    // Use a proper ListTablesCommand to test the connection
+    const { ListTablesCommand } = await import('@aws-sdk/client-dynamodb');
+    await docClient.send(new ListTablesCommand({}));
     
     return true;
   } catch (error) {

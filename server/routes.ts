@@ -146,12 +146,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid project ID" });
       }
 
-      const teamMembers = await dynamoStorage.getTeamMembers(projectId);
+      const teamMembers = await storage.getTeamMembers(projectId);
       
       // Enrich team members with user data
       const enrichedTeamMembers = await Promise.all(
         teamMembers.map(async (member) => {
-          const user = await dynamoStorage.getUser(member.userId);
+          const user = await storage.getUser(member.userId);
           return {
             ...member,
             user: user ? {
@@ -178,13 +178,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid project ID" });
       }
 
-      const project = await dynamoStorage.getProject(projectId);
+      const project = await storage.getProject(projectId);
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
 
       const applicationData = applicationFormSchema.parse(req.body);
-      const application = await dynamoStorage.createApplication({
+      const application = await storage.createApplication({
         ...applicationData,
         projectId
       });
@@ -207,7 +207,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid project ID" });
       }
 
-      const project = await dynamoStorage.getProject(projectId);
+      const project = await storage.getProject(projectId);
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
@@ -225,7 +225,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       
       // Check if user is already a team member
-      const existingTeamMembers = await dynamoStorage.getTeamMembers(projectId);
+      const existingTeamMembers = await storage.getTeamMembers(projectId);
       const isAlreadyMember = existingTeamMembers.some(member => member.userId === userId);
       
       if (isAlreadyMember) {
@@ -235,7 +235,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create team member record
       const { roleId } = req.body;
       
-      const teamMember = await dynamoStorage.createTeamMember({
+      const teamMember = await storage.createTeamMember({
         projectId,
         userId,
         roleId: roleId || null,
@@ -243,7 +243,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
       // Update project team size
-      await dynamoStorage.updateProject(projectId, {
+      await storage.updateProject(projectId, {
         teamSize: project.teamSize + 1
       });
       
