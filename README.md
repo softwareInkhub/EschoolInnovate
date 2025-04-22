@@ -96,9 +96,19 @@ The application uses AWS DynamoDB and requires the following environment variabl
 
 ### Common Deployment Issues
 
-- **Region Missing Error**: If you encounter a "region is missing" error, ensure you've set the `AWS_REGION` environment variable. The application now defaults to 'us-east-1' if not specified.
-  
-- **AWS Credentials**: Ensure your AWS credentials have permissions to create and access DynamoDB tables.
+- **Local Development**: For local development, you can run the application without AWS credentials. It will use an in-memory mode for authentication and sessions.
+
+- **Production Deployment**: For production, you should provide AWS credentials with proper permissions:
+  ```
+  export AWS_ACCESS_KEY_ID=your_access_key_id
+  export AWS_SECRET_ACCESS_KEY=your_secret_access_key
+  export AWS_REGION=your_preferred_region
+  ```
+
+- **AWS Credentials Configuration**: 
+  - The application will automatically detect if AWS credentials are provided
+  - If no credentials are found, it will use the AWS SDK default credential provider chain
+  - This allows it to work with EC2 instance IAM roles or local AWS profiles
 
 - **IAM Policy Requirements**: Your AWS user needs the following permissions:
   - `dynamodb:CreateTable`
@@ -108,6 +118,7 @@ The application uses AWS DynamoDB and requires the following environment variabl
   - `dynamodb:DeleteItem`
   - `dynamodb:Query`
   - `dynamodb:Scan`
+  - `dynamodb:ListTables`
 
 ## Development
 

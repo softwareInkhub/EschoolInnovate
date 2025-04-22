@@ -48,16 +48,25 @@ export class DynamoStorage implements IStorage {
   sessionStore: session.Store;
 
   constructor() {
+    // Create DynamoDB client config
+    let clientConfig: any = {
+      region: process.env.AWS_REGION || 'us-east-1', // Default to us-east-1 if not specified
+    };
+
+    // Only add credentials if both AWS access keys are provided
+    if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+      clientConfig.credentials = {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      };
+    } else {
+      console.log("AWS credentials not found in environment. Using default credential provider chain for session store.");
+    }
+
     // Use DynamoDB for session storage
     this.sessionStore = new DynamoDBStore({
       // AWS SDK v3 client
-      client: new DynamoDB({
-        region: process.env.AWS_REGION || 'us-east-1',
-        credentials: {
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
-        }
-      }),
+      client: new DynamoDB(clientConfig),
       table: TABLE_NAMES.SESSIONS,
       hashKey: 'id', // The primary key attribute name
       readCapacityUnits: 5,

@@ -12,13 +12,23 @@ import {
 } from "@aws-sdk/client-dynamodb";
 
 async function createDynamoTables() {
-  const client = new DynamoDBClient({
+  // Create a DynamoDB client with conditional configuration
+  let clientConfig: any = {
     region: process.env.AWS_REGION || 'us-east-1', // Default to us-east-1 if not specified
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
-  });
+  };
+
+  // Only add credentials if both AWS access keys are provided
+  if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+    clientConfig.credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    };
+  } else {
+    console.log("AWS credentials not found in environment. Using default credential provider chain.");
+    // When no explicit credentials are provided, AWS SDK will use the default credential provider chain
+  }
+
+  const client = new DynamoDBClient(clientConfig);
 
   // Get existing tables to avoid recreating
   const { TableNames = [] } = await client.send(new ListTablesCommand({}));
