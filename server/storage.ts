@@ -4,9 +4,13 @@ import {
   School, InsertSchool, Course, InsertCourse, Module, InsertModule,
   Lesson, InsertLesson, Instructor, InsertInstructor
 } from "@shared/schema";
+import session from "express-session";
+import createMemoryStore from "memorystore";
 
 // Storage interface with CRUD operations
 export interface IStorage {
+  // Session store for authentication
+  sessionStore: session.Store;
   // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
@@ -71,6 +75,7 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
+  sessionStore: session.Store;
   private users: Map<number, User>;
   private projects: Map<number, Project>;
   private roles: Map<number, Role>;
@@ -94,6 +99,12 @@ export class MemStorage implements IStorage {
   private currentInstructorId: number;
   
   constructor() {
+    // Initialize memory-based session store
+    const MemoryStore = createMemoryStore(session);
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // 24 hours
+    });
+    
     this.users = new Map();
     this.projects = new Map();
     this.roles = new Map();
