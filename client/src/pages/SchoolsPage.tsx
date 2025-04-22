@@ -140,6 +140,7 @@ const SchoolCardSkeleton = () => (
 export default function SchoolsPage() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [, navigate] = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
