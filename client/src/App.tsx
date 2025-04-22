@@ -16,6 +16,7 @@ import AuthPage from "@/pages/auth-page";
 import NotFound from "@/pages/not-found";
 import ExplorePage from "@/pages/ExplorePage";
 import SchoolsPage from "@/pages/SchoolsPage";
+import SchoolsPartnershipPage from "@/pages/SchoolsPartnershipPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import CompetitionPage from "@/pages/CompetitionPage";
 
@@ -101,6 +102,12 @@ function Router() {
         <Route path="/schools">
           <PageLayout>
             <SchoolsPage />
+          </PageLayout>
+        </Route>
+
+        <Route path="/schools/partnership">
+          <PageLayout>
+            <SchoolsPartnershipPage />
           </PageLayout>
         </Route>
         
