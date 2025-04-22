@@ -1014,23 +1014,40 @@ export default function SchoolsPartnershipPage() {
                       }
                     ].map((step, index) => (
                       <div key={index} className="relative">
-                        <div className="flex items-start gap-4 md:gap-8">
+                        {/* Mobile timeline with text overlay */}
+                        <div className="flex md:hidden items-start">
+                          <div className="mr-4">
+                            <div className="w-12 h-12 rounded-full bg-[#f6c000] flex items-center justify-center shadow-lg">
+                              {step.icon}
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 flex-1">
+                            <h3 className="text-base font-semibold text-white mb-1">
+                              Step {index + 1}: {step.title}
+                            </h3>
+                            <p className="text-gray-300 text-sm">{step.description}</p>
+                          </div>
+                        </div>
+                        
+                        {/* Desktop timeline */}
+                        <div className="hidden md:flex items-start gap-8">
                           <div className="relative flex items-center justify-center z-10">
-                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#f6c000] flex items-center justify-center shadow-lg">
+                            <div className="w-16 h-16 rounded-full bg-[#f6c000] flex items-center justify-center shadow-lg">
                               {step.icon}
                             </div>
                           </div>
                           
                           <motion.div 
-                            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 md:p-6 flex-1"
+                            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 flex-1"
                             initial={{ opacity: 0, x: 20 }}
                             animate={formInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                           >
-                            <h3 className="text-lg md:text-xl font-semibold text-white mb-1 md:mb-2">
+                            <h3 className="text-xl font-semibold text-white mb-2">
                               Step {index + 1}: {step.title}
                             </h3>
-                            <p className="text-gray-300 text-sm md:text-base">{step.description}</p>
+                            <p className="text-gray-300">{step.description}</p>
                           </motion.div>
                         </div>
                       </div>
