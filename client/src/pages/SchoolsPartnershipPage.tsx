@@ -1093,18 +1093,18 @@ export default function SchoolsPartnershipPage() {
               </p>
             </motion.div>
             
-            <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div variants={fadeIn} className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
               {whyEscoolReasons.map((reason, index) => (
                 <motion.div 
                   key={index}
                   variants={fadeIn}
-                  className="bg-white/5 rounded-lg p-6 border border-white/10 hover:border-[#f6c000]/30 transition-all duration-300 hover:bg-gradient-to-br hover:from-[#0c0c18] hover:to-[#0f1025]"
+                  className="bg-white/5 rounded-lg p-3 md:p-6 border border-white/10 hover:border-[#f6c000]/30 transition-all duration-300 hover:bg-gradient-to-br hover:from-[#0c0c18] hover:to-[#0f1025]"
                 >
-                  <div className="bg-[#f6c000]/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                    {reason.icon}
+                  <div className="bg-[#f6c000]/10 w-8 h-8 md:w-12 md:h-12 rounded-lg flex items-center justify-center mb-2 md:mb-4">
+                    <div className="scale-75 md:scale-100">{reason.icon}</div>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{reason.title}</h3>
-                  <p className="text-gray-400">{reason.description}</p>
+                  <h3 className="text-base md:text-xl font-bold text-white mb-1 md:mb-2">{reason.title}</h3>
+                  <p className="text-gray-400 text-xs md:text-base">{reason.description}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -1144,33 +1144,33 @@ export default function SchoolsPartnershipPage() {
               </p>
             </motion.div>
             
-            <motion.div variants={fadeIn} className="flex flex-col gap-8">
+            <motion.div variants={fadeIn} className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {collaborationOptions.map((option, index) => (
                 <motion.div 
                   key={index}
                   variants={fadeIn}
                   className="relative"
                 >
-                  <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-5 hover:border-[#f6c000]/30 transition-all duration-300">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="bg-[#f6c000]/10 p-2 rounded-lg">
-                        {option.icon}
+                  <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3 md:p-5 hover:border-[#f6c000]/30 transition-all duration-300">
+                    <div className="flex items-center gap-2 md:gap-4 mb-2 md:mb-4">
+                      <div className="bg-[#f6c000]/10 p-1.5 md:p-2 rounded-lg">
+                        <div className="scale-75 md:scale-100">{option.icon}</div>
                       </div>
-                      <h3 className="text-lg md:text-xl font-bold text-white">{option.title}</h3>
+                      <h3 className="text-sm md:text-lg font-bold text-white">{option.title}</h3>
                     </div>
                     
-                    <p className="text-gray-400 mb-4 text-sm md:text-base">{option.description}</p>
+                    <p className="text-gray-400 mb-2 md:mb-4 text-xs md:text-sm">{option.description}</p>
                     
-                    <div className="space-y-2 mb-4">
+                    <div className="space-y-1 md:space-y-2 mb-2 md:mb-4">
                       {option.features.map((feature, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-[#f6c000] flex-shrink-0 mt-0.5" />
+                        <div key={i} className="flex items-start gap-1 md:gap-2">
+                          <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-[#f6c000] flex-shrink-0 mt-0.5" />
                           <span className="text-gray-300 text-xs md:text-sm">{feature}</span>
                         </div>
                       ))}
                     </div>
                     
-                    <Button variant="outline" size="sm" className="w-full border-white/20 text-white hover:bg-white/10 mt-2">
+                    <Button variant="outline" size="sm" className="w-full border-white/20 text-white hover:bg-white/10 mt-1 md:mt-2 text-xs md:text-sm h-8 md:h-10">
                       Learn More
                       <ChevronRight className="ml-1 h-3 w-3" />
                     </Button>
@@ -1178,54 +1178,13 @@ export default function SchoolsPartnershipPage() {
                 </motion.div>
               ))}
             </motion.div>
-
-            <div className="hidden md:block">
-              <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-                {collaborationOptions.map((option, index) => (
-                  <motion.div 
-                    key={`desktop-${index}`}
-                    variants={fadeIn}
-                    className="relative hidden md:block"
-                  >
-                    <Tilt
-                      tiltMaxAngleX={5}
-                      tiltMaxAngleY={5}
-                      perspective={1000}
-                      scale={1.02}
-                      transitionSpeed={1500}
-                      className="h-full"
-                    >
-                      <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:border-[#f6c000]/30 transition-all duration-300">
-                        <div className="mb-4">{option.icon}</div>
-                        <h3 className="text-xl font-bold text-white mb-2">{option.title}</h3>
-                        <p className="text-gray-400 mb-6">{option.description}</p>
-                        
-                        <div className="space-y-2 mb-6">
-                          {option.features.map((feature, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                              <CheckCircle className="h-5 w-5 text-[#f6c000] flex-shrink-0 mt-0.5" />
-                              <span className="text-gray-300 text-sm">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                        
-                        <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
-                          Learn More
-                          <ChevronRight className="ml-1 h-4 w-4" />
-                        </Button>
-                      </div>
-                    </Tilt>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
           </motion.div>
         </div>
         <WaveDivider className="text-[#0a0b15] mt-12 md:mt-16" />
       </section>
       
       {/* Networking Benefits Section */}
-      <section className="py-16 md:py-24 bg-[#0a0b15] relative overflow-hidden">
+      <section className="py-10 md:py-20 bg-[#0a0b15] relative overflow-hidden">
         <div className="container mx-auto px-4">
           <motion.div
             ref={networkingRef}
@@ -1234,138 +1193,43 @@ export default function SchoolsPartnershipPage() {
             variants={staggerChildren}
             className="max-w-7xl mx-auto"
           >
-            <motion.div variants={fadeIn} className="text-center mb-16">
-              <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
+            <motion.div variants={fadeIn} className="text-center mb-8 md:mb-12">
+              <Badge className="mb-3 bg-[#f6c000]/20 text-[#f6c000]">
                 <Network className="mr-1 h-3 w-3" />
                 Networking Benefits
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-white">
                 Connect with India's Educational Ecosystem
               </h2>
-              <p className="text-gray-300 max-w-3xl mx-auto">
+              <p className="text-gray-300 max-w-3xl mx-auto text-sm md:text-base">
                 Gain access to a powerful network of educational institutions, industry partners, and innovation leaders across India.
               </p>
             </motion.div>
             
-            <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+            <motion.div variants={fadeIn} className="grid grid-cols-2 md:grid-cols-2 gap-x-4 gap-y-6 md:gap-x-12 md:gap-y-16">
               {networkingBenefits.map((benefit, index) => (
                 <motion.div 
                   key={index}
                   variants={fadeIn}
-                  className="flex gap-6"
+                  className="flex gap-3 md:gap-6"
                 >
-                  <div className="bg-[#f6c000]/10 w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0">
-                    {benefit.icon}
+                  <div className="bg-[#f6c000]/10 w-10 h-10 md:w-16 md:h-16 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="scale-75 md:scale-100">{benefit.icon}</div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
-                    <p className="text-gray-400">{benefit.description}</p>
+                    <h3 className="text-sm md:text-xl font-bold text-white mb-1 md:mb-2">{benefit.title}</h3>
+                    <p className="text-gray-400 text-xs md:text-base">{benefit.description}</p>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
         </div>
-        <WaveDivider className="text-[#0c0c18] mt-16" />
-      </section>
-      
-      {/* Testimonials Section */}
-      <section className="py-16 md:py-24 bg-[#0c0c18] relative overflow-hidden">
-        <WaveDivider className="text-[#0a0b15] absolute top-0 left-0 right-0" />
-        
-        <motion.div
-          ref={testimonialRef}
-          className="container mx-auto px-4 max-w-6xl relative z-10"
-          initial={{ opacity: 0 }}
-          animate={testimonialInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="text-center mb-12">
-            <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000] hover:bg-[#f6c000]/30">
-              <Star className="mr-1 h-3 w-3" />
-              Success Stories
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Hear from Our Partners
-            </h2>
-            <p className="text-gray-300 max-w-3xl mx-auto">
-              Leading institutions across India have transformed their educational approach with escool.ai.
-            </p>
-          </div>
-          
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentTestimonial}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8"
-              >
-                <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#f6c000]">
-                    <img 
-                      src={testimonials[currentTestimonial].avatar} 
-                      alt={testimonials[currentTestimonial].name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-center gap-1 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#f6c000] text-[#f6c000]" />
-                      ))}
-                    </div>
-                    
-                    <blockquote className="text-xl italic text-gray-200 mb-6 relative">
-                      <span className="absolute -top-4 -left-2 text-4xl text-[#f6c000] opacity-50">"</span>
-                      {testimonials[currentTestimonial].quote}
-                      <span className="absolute -bottom-4 -right-2 text-4xl text-[#f6c000] opacity-50">"</span>
-                    </blockquote>
-                    
-                    <div>
-                      <p className="font-semibold text-white text-lg">{testimonials[currentTestimonial].name}</p>
-                      <p className="text-gray-400">{testimonials[currentTestimonial].position}</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-            
-            <div className="flex justify-center gap-2 mt-6">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    currentTestimonial === index ? "bg-[#f6c000]" : "bg-gray-600 hover:bg-gray-400"
-                  }`}
-                  aria-label={`View testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-          
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-6 gap-8 items-center justify-center">
-            {partnerLogos.map((partner, index) => (
-              <div key={index} className="flex justify-center">
-                <img 
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="h-12 md:h-16 w-auto object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all duration-300"
-                />
-              </div>
-            ))}
-          </div>
-        </motion.div>
-        
-        <WaveDivider className="text-[#0a0b15] absolute bottom-0 left-0 right-0 inverted" />
+        <WaveDivider className="text-[#0c0c18] mt-8 md:mt-16" />
       </section>
       
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 relative">
+      <section className="py-10 md:py-16 relative">
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.04] z-0"></div>
         
         <motion.div
@@ -1375,34 +1239,35 @@ export default function SchoolsPartnershipPage() {
           animate={faqInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white">
               Frequently Asked Questions
             </h2>
-            <p className="text-gray-300 max-w-3xl mx-auto">
+            <p className="text-gray-300 max-w-3xl mx-auto text-sm md:text-base">
               Get answers to common questions about partnering with escool.ai.
             </p>
           </div>
           
-          <Accordion type="single" collapsible className="w-full space-y-4">
+          <Accordion type="single" collapsible className="w-full space-y-3">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border border-white/10 rounded-lg overflow-hidden bg-white/5 backdrop-blur-sm">
-                <AccordionTrigger className="px-6 py-4 text-left text-lg font-medium text-white hover:text-[#f6c000]">
+                <AccordionTrigger className="px-4 py-3 text-left text-sm md:text-base font-medium text-white hover:text-[#f6c000]">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4 text-gray-300">
+                <AccordionContent className="px-4 pb-3 text-gray-300 text-xs md:text-sm">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
           
-          <div className="mt-12 text-center">
-            <p className="text-gray-300 mb-4">
+          <div className="mt-8 text-center">
+            <p className="text-gray-300 mb-3 text-sm">
               Don't see your question here?
             </p>
             <Button 
               variant="outline" 
+              size="sm"
               className="border-[#f6c000] text-[#f6c000] hover:bg-[#f6c000] hover:text-black"
             >
               Contact Our Team
@@ -1415,7 +1280,7 @@ export default function SchoolsPartnershipPage() {
       <section
         ref={partnersRef}
         id="become-partner"
-        className="py-16 md:py-24 bg-[#0c0c18] relative"
+        className="py-10 md:py-16 bg-[#0c0c18] relative"
       >
         <WaveDivider className="text-[#0a0b15] absolute top-0 left-0 right-0" />
         
@@ -1426,15 +1291,15 @@ export default function SchoolsPartnershipPage() {
           animate={formInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="text-center mb-12">
-            <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000] hover:bg-[#f6c000]/30">
+          <div className="text-center mb-8">
+            <Badge className="mb-3 bg-[#f6c000]/20 text-[#f6c000] hover:bg-[#f6c000]/30">
               <Rocket className="mr-1 h-3 w-3" />
               Limited Spots Available
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white">
               Apply for Partnership
             </h2>
-            <p className="text-gray-300 max-w-3xl mx-auto">
+            <p className="text-gray-300 max-w-3xl mx-auto text-sm md:text-base">
               Submit your institution's information to start the partnership process. Our team will contact you to discuss next steps.
             </p>
           </div>
