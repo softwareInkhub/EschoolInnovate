@@ -1065,7 +1065,7 @@ export default function SchoolsPartnershipPage() {
       </section>
       
       {/* Collaboration Opportunities Section */}
-      <section className="py-16 md:py-24 bg-[#0c0c18] relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-[#0c0c18] relative overflow-hidden">
         <div className="container mx-auto px-4">
           <motion.div
             ref={collaborationRef}
@@ -1074,60 +1074,94 @@ export default function SchoolsPartnershipPage() {
             variants={staggerChildren}
             className="max-w-7xl mx-auto"
           >
-            <motion.div variants={fadeIn} className="text-center mb-16">
+            <motion.div variants={fadeIn} className="text-center mb-12">
               <Badge className="mb-4 bg-[#f6c000]/20 text-[#f6c000]">
                 <Handshake className="mr-1 h-3 w-3" />
                 Collaborative Opportunities
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-                Innovate and Grow Together
-              </h2>
               <p className="text-gray-300 max-w-3xl mx-auto">
                 Join forces with escool.ai to create groundbreaking educational experiences and expand your institution's impact.
               </p>
             </motion.div>
             
-            <motion.div variants={fadeIn} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <motion.div variants={fadeIn} className="flex flex-col gap-8">
               {collaborationOptions.map((option, index) => (
                 <motion.div 
                   key={index}
                   variants={fadeIn}
                   className="relative"
                 >
-                  <Tilt
-                    tiltMaxAngleX={5}
-                    tiltMaxAngleY={5}
-                    perspective={1000}
-                    scale={1.02}
-                    transitionSpeed={1500}
-                    className="h-full"
-                  >
-                    <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:border-[#f6c000]/30 transition-all duration-300">
-                      <div className="mb-4">{option.icon}</div>
-                      <h3 className="text-xl font-bold text-white mb-2">{option.title}</h3>
-                      <p className="text-gray-400 mb-6">{option.description}</p>
-                      
-                      <div className="space-y-2 mb-6">
-                        {option.features.map((feature, i) => (
-                          <div key={i} className="flex items-start gap-2">
-                            <CheckCircle className="h-5 w-5 text-[#f6c000] flex-shrink-0 mt-0.5" />
-                            <span className="text-gray-300 text-sm">{feature}</span>
-                          </div>
-                        ))}
+                  <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-5 hover:border-[#f6c000]/30 transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="bg-[#f6c000]/10 p-2 rounded-lg">
+                        {option.icon}
                       </div>
-                      
-                      <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
-                        Learn More
-                        <ChevronRight className="ml-1 h-4 w-4" />
-                      </Button>
+                      <h3 className="text-lg md:text-xl font-bold text-white">{option.title}</h3>
                     </div>
-                  </Tilt>
+                    
+                    <p className="text-gray-400 mb-4 text-sm md:text-base">{option.description}</p>
+                    
+                    <div className="space-y-2 mb-4">
+                      {option.features.map((feature, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-[#f6c000] flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-300 text-xs md:text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <Button variant="outline" size="sm" className="w-full border-white/20 text-white hover:bg-white/10 mt-2">
+                      Learn More
+                      <ChevronRight className="ml-1 h-3 w-3" />
+                    </Button>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
+
+            <div className="hidden md:block">
+              <motion.div variants={fadeIn} className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                {collaborationOptions.map((option, index) => (
+                  <motion.div 
+                    key={`desktop-${index}`}
+                    variants={fadeIn}
+                    className="relative hidden md:block"
+                  >
+                    <Tilt
+                      tiltMaxAngleX={5}
+                      tiltMaxAngleY={5}
+                      perspective={1000}
+                      scale={1.02}
+                      transitionSpeed={1500}
+                      className="h-full"
+                    >
+                      <div className="h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 hover:border-[#f6c000]/30 transition-all duration-300">
+                        <div className="mb-4">{option.icon}</div>
+                        <h3 className="text-xl font-bold text-white mb-2">{option.title}</h3>
+                        <p className="text-gray-400 mb-6">{option.description}</p>
+                        
+                        <div className="space-y-2 mb-6">
+                          {option.features.map((feature, i) => (
+                            <div key={i} className="flex items-start gap-2">
+                              <CheckCircle className="h-5 w-5 text-[#f6c000] flex-shrink-0 mt-0.5" />
+                              <span className="text-gray-300 text-sm">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                          Learn More
+                          <ChevronRight className="ml-1 h-4 w-4" />
+                        </Button>
+                      </div>
+                    </Tilt>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </motion.div>
         </div>
-        <WaveDivider className="text-[#0a0b15] mt-16" />
+        <WaveDivider className="text-[#0a0b15] mt-12 md:mt-16" />
       </section>
       
       {/* Networking Benefits Section */}
