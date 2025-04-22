@@ -52,22 +52,31 @@ The application uses AWS DynamoDB and requires the following environment variabl
 
 3. **Set environment variables**:
    
-   Create a `.env` file in the root directory with the following:
+   Create a `.env` file in the root directory with the following **required** environment variables:
    
    ```
+   # Required AWS credentials
    AWS_ACCESS_KEY_ID=your_access_key_id
    AWS_SECRET_ACCESS_KEY=your_secret_access_key
-   AWS_REGION=your_preferred_region
+   
+   # Required for session security (generate a random string)
    SESSION_SECRET=random_string_for_session_security
+   
+   # Optional: AWS region (defaults to us-east-1 if not specified)
+   AWS_REGION=your_preferred_region
    ```
 
    Alternatively, set them directly in your EC2 instance:
    
    ```
+   # Required environment variables
    export AWS_ACCESS_KEY_ID=your_access_key_id
    export AWS_SECRET_ACCESS_KEY=your_secret_access_key
-   export AWS_REGION=your_preferred_region
    export SESSION_SECRET=random_string_for_session_security
+   
+   # Optional environment variables
+   export AWS_REGION=your_preferred_region  # defaults to us-east-1 if not set
+   export NODE_ENV=production  # set to production for secure cookies
    ```
 
 4. **Build the application**:

@@ -28,8 +28,14 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
+  // Ensure session secret is provided in environment
+  if (!process.env.SESSION_SECRET) {
+    console.error("SESSION_SECRET environment variable is required");
+    process.exit(1);
+  }
+
   const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || "eschooljwtauthtoken",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: dynamoStorage.sessionStore, // Use the session store from dynamoStorage
