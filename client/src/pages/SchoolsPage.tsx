@@ -222,12 +222,41 @@ export default function SchoolsPage() {
         </motion.p>
         
         <motion.div variants={headerVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <Button onClick={handleApplyClick} size="lg" variant="outline" className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black">
+          <Button 
+            onClick={handleApplyClick} 
+            size="lg" 
+            variant="outline" 
+            className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black"
+          >
             Become an Instructor
           </Button>
-          <Button onClick={() => document.getElementById('schools-grid')?.scrollIntoView({ behavior: 'smooth' })} size="lg">
+          <Button 
+            onClick={() => document.getElementById('schools-grid')?.scrollIntoView({ behavior: 'smooth' })} 
+            size="lg"
+          >
             Explore Schools
           </Button>
+        </motion.div>
+
+        <motion.div variants={headerVariants} className="mt-2 mb-8">
+          <div className="bg-gradient-to-r from-purple-900/30 via-amber-500/30 to-purple-900/30 rounded-lg p-6 max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-left">
+                <h3 className="text-xl font-bold text-white mb-2">For Educational Institutions</h3>
+                <p className="text-muted-foreground">
+                  Are you a school, college, or university looking to join escool.ai's innovative educational platform? Discover partnership opportunities.
+                </p>
+              </div>
+              <Button 
+                size="lg"
+                className="bg-[#f6c000] hover:bg-[#e6b000] text-black whitespace-nowrap"
+                onClick={() => navigate('/schools/partnership')}
+              >
+                Partner With Us
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
         </motion.div>
         
         <motion.div variants={headerVariants} className="p-4 bg-card rounded-lg shadow-md">

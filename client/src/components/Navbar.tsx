@@ -24,7 +24,8 @@ import {
   Code,
   BookOpen,
   GraduationCap,
-  TrendingUp
+  TrendingUp,
+  Building2
 } from 'lucide-react';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -106,6 +107,9 @@ export default function Navbar() {
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
+            <Link href="/schools/partnership" className="text-[#f6c000] hover:text-[#e6b000] px-3 py-2 rounded-md text-sm font-medium">
+              Partner With Us
+            </Link>
             <Link href="/faq" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium">
               FAQs & Feedback
             </Link>
@@ -264,6 +268,15 @@ export default function Navbar() {
                       >
                         <GraduationCap className="h-4 w-4 mr-2" />
                         Courses
+                      </AutoCollapseLink>
+
+                      <AutoCollapseLink 
+                        href="/schools/partnership" 
+                        className="flex items-center text-base font-medium text-[#f6c000]"
+                        setMobileMenuOpen={setIsMobileMenuOpen}
+                      >
+                        <Rocket className="h-4 w-4 mr-2" />
+                        Partner With Us
                       </AutoCollapseLink>
                     </div>
                   </div>
